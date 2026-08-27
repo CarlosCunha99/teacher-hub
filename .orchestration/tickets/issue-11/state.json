@@ -11,17 +11,18 @@
     "base": "main",
     "created_at": "2026-08-27T20:59:16Z"
   },
-  "stage": "01-enrich",
-  "next": "03-brainstorm",
+  "stage": "03-brainstorm",
+  "next": "04-impact",
   "started_at": "2026-08-27T20:58:28Z",
-  "updated_at": "2026-08-27T21:03:57Z",
+  "updated_at": "2026-08-27T21:05:34Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
       "at": "2026-08-27T21:03:56Z"
     },
     "gate_2_brainstorm": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:05:33Z"
     },
     "gate_3_scope": {
       "status": "pending"
@@ -46,7 +47,9 @@
   "artifacts": {
     "brief_md": ".orchestration/tickets/issue-11/BRIEF.md",
     "raw_context_md": ".orchestration/tickets/issue-11/raw-context.md",
-    "ticket_md": ".orchestration/tickets/issue-11/ticket.md"
+    "ticket_md": ".orchestration/tickets/issue-11/ticket.md",
+    "solution_md": ".orchestration/tickets/issue-11/solution.md",
+    "brainstorm_md": ".orchestration/tickets/issue-11/brainstorm.md"
   },
   "models_used": {
     "enricher": "claude-opus-4.7"
@@ -58,6 +61,12 @@
       "kind": "gate",
       "summary": "Autopilot resolved A1-A4: data layer absorbed, revalidation freshness, public download, public stats",
       "at": "2026-08-27T21:03:57Z"
+    },
+    {
+      "stage": "03-brainstorm",
+      "kind": "gate",
+      "summary": "Autopilot led brainstorm; agreed on Prisma+SQLite, query-time aggregates, Server Component profile, revalidatePath freshness",
+      "at": "2026-08-27T21:05:34Z"
     }
   ],
   "pr_url": null,
