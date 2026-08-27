@@ -84,9 +84,23 @@ cp .env.example .env.local
   contains **no secrets**.
 - `.env.local` — your local, git-ignored copy with real values.
 
-Real variables for the database and authentication arrive in issues #2 (auth) and #3
-(PostgreSQL schema). The health-check route is intentionally database-free so the app runs
-before those are provisioned.
+`DATABASE_URL` is required for terms-acceptance persistence and upload gating:
+
+```bash
+DATABASE_URL=postgres://user:password@localhost:5432/teacher_hub
+```
+
+Authentication wiring still arrives in issue #2. The health-check route remains
+database-free so infrastructure can be validated independently.
+
+## Terms acceptance flow (MVP)
+
+- `/terms` — displays the current terms text and active version.
+- `/upload` — blocks upload access until the signed-in teacher accepts the current terms.
+- `/settings` — shows whether terms are accepted and, when accepted, the version/timestamp.
+
+When `CURRENT_TERMS_VERSION` changes in code, teachers must accept the new version before
+their next upload attempt.
 
 ## License
 

@@ -14,7 +14,7 @@
   "stage": "06-contract",
   "next": "07-implement",
   "started_at": "2026-08-27T20:57:49Z",
-  "updated_at": "2026-08-27T21:18:29Z",
+  "updated_at": "2026-08-27T21:35:08Z",
   "gates": {
     "gate_1_enrich": {
       "status": "overridden",
@@ -39,11 +39,60 @@
     }
   },
   "implement": {
-    "round": 0,
+    "round": 1,
     "max_rounds": 5,
-    "spec_review_approved": false,
-    "last_diagnosis": null,
-    "escalated": false
+    "spec_review_approved": true,
+    "last_diagnosis": ".orchestration/tickets/issue-9/diagnosis/round-1.json",
+    "escalated": false,
+    "tester_slices": [
+      {
+        "slice_id": "unit",
+        "scope": "unit tests for terms, acceptance helpers, and UI components",
+        "status": "done"
+      },
+      {
+        "slice_id": "integration",
+        "scope": "integration tests for terms-acceptance and upload API routes plus page flows",
+        "status": "done"
+      }
+    ],
+    "rounds": [
+      {
+        "n": 1,
+        "changed_files_code": [
+          "src/lib/terms.ts",
+          "src/lib/db.ts",
+          "src/lib/auth.ts",
+          "src/lib/terms-acceptance.ts",
+          "src/app/api/terms-acceptance/route.ts",
+          "src/app/api/upload/route.ts",
+          "src/components/TermsAcceptanceModal.tsx",
+          "src/app/upload/page.tsx",
+          "src/app/settings/page.tsx",
+          "src/app/terms/page.tsx",
+          "migrations/001_create_terms_acceptances.sql",
+          "README.md",
+          "package.json",
+          "package-lock.json",
+          ".env.example"
+        ],
+        "changed_files_tests": [
+          "src/lib/__tests__/test-utils/mockSession.ts",
+          "src/lib/__tests__/terms.test.ts",
+          "src/lib/__tests__/terms-acceptance.test.ts",
+          "src/app/api/terms-acceptance/__tests__/route.test.ts",
+          "src/app/api/upload/__tests__/route.test.ts",
+          "src/components/__tests__/TermsAcceptanceModal.test.tsx",
+          "src/app/upload/__tests__/page.test.tsx",
+          "src/app/settings/__tests__/page.test.tsx",
+          "src/app/terms/__tests__/page.test.tsx"
+        ],
+        "failing_tests": [
+          "recordAcceptance > handles a duplicate-acceptance race without throwing an unhandled error"
+        ],
+        "diagnosis_json": ".orchestration/tickets/issue-9/diagnosis/round-1.json"
+      }
+    ]
   },
   "artifacts": {
     "brief_md": ".orchestration/tickets/issue-9/BRIEF.md",
@@ -56,7 +105,10 @@
     "impact_analyzer": "claude-sonnet-4.6",
     "planner": "gpt-5.4",
     "test_planner": "claude-sonnet-5",
-    "contract_writer": "claude-sonnet-5"
+    "contract_writer": "claude-sonnet-5",
+    "coder": "gpt-5.3-codex",
+    "tester": "claude-sonnet-5",
+    "spec_reviewer": "claude-opus-4.8"
   },
   "independence_violations": [],
   "human_interactions": [

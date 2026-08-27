@@ -1,0 +1,127 @@
+{
+  "scope": "full",
+  "verdict": "approve",
+  "confidence": "high",
+  "criteria_coverage": [
+    {
+      "criterion": "AC1: Terms-of-use text is stored in the application with an explicit, comparable version identifier.",
+      "covered_by": [
+        "src/lib/__tests__/terms.test.ts::exposes a non-empty CURRENT_TERMS_VERSION string",
+        "src/lib/__tests__/terms.test.ts::exposes a non-empty TERMS_TEXT string"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Confirms both required exports exist as non-empty strings (contract Interface 1). Comparability is exercised transitively by terms-acceptance and route tests that compare against CURRENT_TERMS_VERSION with ===; a direct equality assertion in this module is not present but is not required."
+    },
+    {
+      "criterion": "AC2: A teacher without acceptance is prevented from completing first upload and is presented with the current terms plus an explicit affirmative acceptance control (checkbox).",
+      "covered_by": [
+        "src/app/upload/__tests__/page.test.tsx::renders the terms acceptance modal when not accepted",
+        "src/components/__tests__/TermsAcceptanceModal.test.tsx::renders terms text, a checkbox, a link to /terms, and a disabled submit until checked"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Upload page renders the dialog (and omits it when accepted); modal asserts terms text present, a checkbox, and a submit that is disabled until the checkbox is checked — a genuine affirmative control gate with strong assertions on the disabled attribute toggling."
+    },
+    {
+      "criterion": "AC3: The server-side upload path rejects uploads from teachers with no acceptance record for the current version (cannot be bypassed via UI).",
+      "covered_by": [
+        "src/app/api/upload/__tests__/route.test.ts::returns 403 with terms_not_accepted when the teacher has no acceptance for the current version",
+        "src/app/api/upload/__tests__/route.test.ts::proceeds past the terms gate when the teacher has accepted the current version"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Directly invokes the route handler with mocked auth/acceptance and asserts 403 + {error:'terms_not_accepted'} on block and non-403 on pass. Enforcement is validated at the server boundary, satisfying the 'unbypassable via UI' requirement."
+    },
+    {
+      "criterion": "AC4: Each acceptance records at least teacher identity, accepted version, and a timestamp.",
+      "covered_by": [
+        "src/lib/__tests__/terms-acceptance.test.ts::recordAcceptance writes teacher id, version, and timestamp",
+        "src/app/api/terms-acceptance/__tests__/route.test.ts::POST records acceptance and returns 201"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Unit test asserts persisted params are exactly [TEACHER_ID, CURRENT_TERMS_VERSION] and the returned {acceptedAt} timestamp; route test asserts 201 with {acceptedAt} and that recordAcceptance is called with the resolved teacher id + current version. Identity, version, and timestamp are all pinned."
+    },
+    {
+      "criterion": "AC5: A teacher who has already accepted the current version is not re-prompted on subsequent uploads.",
+      "covered_by": [
+        "src/app/upload/__tests__/page.test.tsx::renders the upload form and omits the modal when accepted",
+        "src/app/api/upload/__tests__/route.test.ts::proceeds past the terms gate when the teacher has accepted the current version"
+      ],
+      "assessment": "adequately covered",
+      "notes": "queryByRole('dialog') is asserted null when accepted, encoding the no-re-prompt requirement; route pass-through confirms the gate lets accepted teachers through."
+    },
+    {
+      "criterion": "AC6: A teacher can view which terms version they accepted (and when) from account/settings.",
+      "covered_by": [
+        "src/app/settings/__tests__/page.test.tsx::displays the teacher's accepted terms version and acceptance timestamp",
+        "src/app/settings/__tests__/page.test.tsx::shows a not-yet-accepted status when the teacher has no current acceptance"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Accepted case asserts the version substring and a timestamp-derived substring are rendered; not-accepted case asserts a 'not' message. Version assertion is exact; the timestamp assertion (/2026/) is intentionally loose because contract Interface 10 permits either ISO or locale formatting — acceptable but weaker than an exact match (see SR finding on assertion strength)."
+    },
+    {
+      "criterion": "AC7: The terms content is reachable as a readable page linkable from the acceptance prompt.",
+      "covered_by": [
+        "src/app/terms/__tests__/page.test.tsx::renders the current terms text and version identifier",
+        "src/components/__tests__/TermsAcceptanceModal.test.tsx::renders terms text, a checkbox, a link to /terms, and a disabled submit until checked"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Terms page renders both TERMS_TEXT (first 40 chars) and CURRENT_TERMS_VERSION; modal asserts a concrete anchor with href='/terms', satisfying the linkable-from-prompt requirement."
+    },
+    {
+      "criterion": "AC8: On a terms version bump, previously-accepted teachers are required to act (forced re-acceptance) before their next upload.",
+      "covered_by": [
+        "src/lib/__tests__/terms-acceptance.test.ts::returns false when the teacher's latest acceptance is for an older version",
+        "src/app/api/upload/__tests__/route.test.ts::returns 403 when the teacher's only acceptance record is for a version older than CURRENT_TERMS_VERSION"
+      ],
+      "assessment": "adequately covered",
+      "notes": "The core mechanism (hasAcceptedCurrentTerms returns false for a stale version) is asserted at the unit level, which is the true version-axis coverage. The route-level 'older version' test re-establishes the block but mocks hasAcceptedCurrentTerms=false, so it is behaviorally identical to the no-record 403 case and adds documentation rather than independent version-axis coverage — see finding SR-04."
+    },
+    {
+      "criterion": "EDGE-race: Concurrent first-upload attempts from the same teacher must not create duplicate/conflicting acceptance records.",
+      "covered_by": [
+        "src/lib/__tests__/terms-acceptance.test.ts::handles a duplicate-acceptance race without throwing an unhandled error"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Simulates a Postgres unique-violation (code 23505) and asserts recordAcceptance resolves idempotently with an acceptedAt string rather than rethrowing — exactly the contract Interface 4 idempotency invariant. (Tester reports this test currently fails against the implementation; that is an implementation defect, not a spec-encoding defect.)"
+    }
+  ],
+  "test_findings": [
+    {
+      "test": "unauthenticated 401 branch (getCurrentTeacherId() === null) for terms-acceptance GET/POST and upload POST",
+      "file": "src/app/api/terms-acceptance/__tests__/route.test.ts, src/app/api/upload/__tests__/route.test.ts",
+      "issue": "missing edge case",
+      "detail": "The 401 unauthenticated branch is never exercised. createAuthModuleMock always resolves MOCK_TEACHER_ID, so no test drives teacherId=null. The 'unauthenticated -> 401 {error:'unauthenticated'}' contract behavior (Interface 5/6) is unverified. Recommend a per-route case overriding getCurrentTeacherId to resolve null, asserting 401 + {error:'unauthenticated'} and that recordAcceptance/hasAcceptedCurrentTerms are not called.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "TermsAcceptanceModal default success path (onAccepted omitted -> router.refresh() called)",
+      "file": "src/components/__tests__/TermsAcceptanceModal.test.tsx",
+      "issue": "missing edge case",
+      "detail": "The default success path (onAccepted omitted -> router.refresh()) is not positively asserted; the existing test only checks routerRefreshMock is NOT called when onAccepted is provided. The contract's fallback behavior for real Server-Component usage (Interface 8) is unverified. Recommend rendering the modal without onAccepted, stubbing fetch ok, clicking accept, and asserting routerRefreshMock was called once.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "renders terms text, a checkbox, a link to /terms, and a disabled submit until checked",
+      "file": "src/components/__tests__/TermsAcceptanceModal.test.tsx",
+      "issue": "weak assertion",
+      "detail": "The checkbox is selected via getByRole('checkbox') but the test never asserts the accessibility association the contract requires (associated <label> or aria-label, Interface 8). A checkbox without an accessible name would still pass. Recommend asserting an accessible name (e.g. getByLabelText, or checking for an associated label/aria-label).",
+      "severity": "suggestion"
+    },
+    {
+      "test": "returns 403 when the teacher's only acceptance record is for a version older than CURRENT_TERMS_VERSION",
+      "file": "src/app/api/upload/__tests__/route.test.ts",
+      "issue": "other",
+      "detail": "This route test mocks hasAcceptedCurrentTerms=false, identical to the no-record test, so at the route boundary it does not independently exercise the version-mismatch axis (the version distinction lives inside the mocked hasAcceptedCurrentTerms). No coverage loss — the version axis is covered by the terms-acceptance unit test — but this route test is effectively a duplicate rather than independent version coverage. Acceptable as documentation; optionally consolidate.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "getAcceptanceStatus direct unit test (no row / matching version / older version)",
+      "file": "src/lib/__tests__/terms-acceptance.test.ts",
+      "issue": "missing edge case",
+      "detail": "getAcceptanceStatus has no direct unit test; it is exercised only transitively via the terms-acceptance GET route and settings/upload page tests (all of which mock it). Its accepted/not-accepted branching against CURRENT_TERMS_VERSION (Interface 4) is not unit-tested in isolation. Observable contract shapes are asserted by consumers, so impact is low. Recommend a direct unit test mirroring the hasAcceptedCurrentTerms cases.",
+      "severity": "suggestion"
+    }
+  ],
+  "unmapped_tests": [],
+  "unmapped_criteria": [],
+  "one_line_summary": "Approve: all 8 acceptance criteria plus the concurrency and server-authoritative edge cases are adequately covered by implementation-independent tests with strong, contract-consistent assertions; five advisory (non-blocking) findings recorded."
+}
