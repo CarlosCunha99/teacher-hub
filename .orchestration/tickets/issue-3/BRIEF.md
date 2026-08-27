@@ -1,7 +1,7 @@
 # Branch Brief — issue-3
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:02:29Z at stage 00-intake (gate: gate_2_brainstorm → passed at 2026-08-27T21:02:29Z)._
+_Last rendered: 2026-08-27T21:08:04Z at stage 00-intake (gate: gate_2_brainstorm → passed at 2026-08-27T21:02:29Z)._
 
 ## The work
 ⚠️ **Inferred** (derived from issue #3 body plus the MVP issue set #4–#13; no data-model
@@ -30,6 +30,9 @@ No decisions recorded yet.
 | Product problem, ACs, edge cases | `.orchestration/tickets/issue-3/ticket.md` |
 | Raw intake context for enrichment | `.orchestration/tickets/issue-3/raw-context.md` |
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-3/solution.md` |
+| Technical plan | `.orchestration/tickets/issue-3/plan.md` |
+| Test plan | `.orchestration/tickets/issue-3/test-plan.md` |
+| Impact scan (files, blast radius) | `.orchestration/tickets/issue-3/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-3/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._

@@ -18,7 +18,7 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:57:20Z",
-  "updated_at": "2026-08-27T21:02:29Z",
+  "updated_at": "2026-08-27T21:08:04Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -53,7 +53,10 @@
     "raw_context_md": ".orchestration/tickets/issue-3/raw-context.md",
     "ticket_md": ".orchestration/tickets/issue-3/ticket.md"
   },
-  "models_used": {},
+  "models_used": {
+    "planner": "claude-opus-5",
+    "test-planner": "claude-sonnet-5"
+  },
   "independence_violations": [],
   "human_interactions": [],
   "pr_url": null,
