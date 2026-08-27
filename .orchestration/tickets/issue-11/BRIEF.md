@@ -1,7 +1,7 @@
 # Branch Brief — issue-11
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:04:38Z at stage 03-brainstorm (gate: gate_2_brainstorm → passed at 2026-08-27T21:04:38Z)._
+_Last rendered: 2026-08-27T21:11:28Z at stage 05-plan (gate: gate_3_scope → passed at 2026-08-27T21:11:28Z)._
 
 ## The work
 Teachers use Teacher Hub to share PDF classroom resources with other teachers. Today
@@ -12,15 +12,16 @@ counting downloads.
 Two product gaps flow from this: (1) resources are effectively "look but don't touch,"
 
 ## Where we are
-- **Stage:** 03-brainstorm  →  next: 04-impact
-- **Last gate:** gate_2_brainstorm → passed at 2026-08-27T21:04:38Z
-- **Next gate:** gate_2_brainstorm → close or continue brainstorm
+- **Stage:** 05-plan  →  next: 06-contract
+- **Last gate:** gate_3_scope → passed at 2026-08-27T21:11:28Z
+- **Next gate:** gate_3_scope → approve plan and test-plan scope
 - **Escalated:** no
 
 ## Open questions / ambiguities
 None open.
 
 ## Latest decisions
+- 2026-08-27T21:11:28Z — 05-plan — gate: User unavailable — autonomous approval of scope: 6 steps, 11 new files, 29 tests, no DB dependency
 - 2026-08-27T21:04:38Z — 03-brainstorm — gate: User unavailable — autonomous brainstorm closed, solution.md distilled
 - 2026-08-27T21:03:03Z — 01-enrich — gate: User unavailable — autonomous progression: enrichment captures all ACs, no blocking ambiguities
 
@@ -31,6 +32,9 @@ None open.
 | Product problem, ACs, edge cases | `.orchestration/tickets/issue-11/ticket.md` |
 | Raw intake context for enrichment | `.orchestration/tickets/issue-11/raw-context.md` |
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-11/solution.md` |
+| Technical plan | `.orchestration/tickets/issue-11/plan.md` |
+| Test plan | `.orchestration/tickets/issue-11/test-plan.md` |
+| Impact scan (files, blast radius) | `.orchestration/tickets/issue-11/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-11/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -38,7 +42,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/03-brainstorm.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/05-plan.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails
