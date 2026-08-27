@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Resource {
+  id         String        @id @default(cuid())
+  teacherId  String
+  title      String
+  createdAt  DateTime      @default(now())
+  resourceTags ResourceTag[]
+}
+
+model Tag {
+  id         String        @id @default(cuid())
+  name       String
+  slug       String
+  teacherId  String
+  createdAt  DateTime      @default(now())
+  resourceTags ResourceTag[]
+
+  @@unique([teacherId, slug])
+}
+
+model ResourceTag {
+  id         String   @id @default(cuid())
+  resourceId String
+  tagId      String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([resourceId, tagId])
+}
