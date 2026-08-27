@@ -10,8 +10,8 @@
     "name": "issue-8-mvp-build-teacher-profile-pages-with-co-254520",
     "base": "main"
   },
-  "stage": "04-impact",
-  "next": "05-plan",
+  "stage": "05-plan",
+  "next": "06-contract",
   "started_at": "2026-08-27T20:57:35Z",
   "updated_at": "2026-08-27T20:57:35Z",
   "gates": {
@@ -25,7 +25,9 @@
       "resolved_at": "2026-08-27T21:57:35Z"
     },
     "gate_3_scope": {
-      "status": "pending"
+      "status": "passed",
+      "resolved_at": "2026-08-27T21:57:35Z",
+      "user_decision": "autopilot: scope approved - DAL seam for independent testing"
     },
     "gate_4_handoff": {
       "status": "pending"
