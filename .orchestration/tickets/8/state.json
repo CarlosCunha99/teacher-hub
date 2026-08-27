@@ -10,8 +10,8 @@
     "name": "issue-8-mvp-build-teacher-profile-pages-with-co-254520",
     "base": "main"
   },
-  "stage": "00-intake",
-  "next": "01-enrich",
+  "stage": "03-brainstorm",
+  "next": "04-impact",
   "started_at": "2026-08-27T20:57:35Z",
   "updated_at": "2026-08-27T20:57:35Z",
   "gates": {
@@ -21,7 +21,8 @@
       "user_decision": "autopilot: resolved blocking questions with reasonable MVP defaults"
     },
     "gate_2_brainstorm": {
-      "status": "pending"
+      "status": "passed",
+      "resolved_at": "2026-08-27T21:57:35Z"
     },
     "gate_3_scope": {
       "status": "pending"
