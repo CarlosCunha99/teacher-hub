@@ -11,17 +11,18 @@
     "base": "main",
     "created_at": "2026-08-27T21:00:23Z"
   },
-  "stage": "00-intake",
-  "next": "01-enrich",
+  "stage": "03-brainstorm",
+  "next": "04-impact",
   "started_at": "2026-08-27T20:59:03Z",
-  "updated_at": "2026-08-27T21:04:49Z",
+  "updated_at": "2026-08-27T21:06:34Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
       "at": "2026-08-27T21:04:49Z"
     },
     "gate_2_brainstorm": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:06:34Z"
     },
     "gate_3_scope": {
       "status": "pending"
@@ -67,6 +68,12 @@
       "kind": "other",
       "summary": "Enricher identified blocking ambiguity: GH issue #17 is taxonomy, not commenting. Autopilot resolution: create new GH issue for commenting.",
       "at": "2026-08-27T21:04:09Z"
+    },
+    {
+      "stage": "03-brainstorm",
+      "kind": "gate",
+      "summary": "Autopilot: closed brainstorm with Drizzle ORM + cursor-based pagination + auth-stub + soft-delete direction",
+      "at": "2026-08-27T21:06:34Z"
     }
   ],
   "pr_url": null,
