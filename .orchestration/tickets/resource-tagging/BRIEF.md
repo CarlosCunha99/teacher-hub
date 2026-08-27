@@ -1,19 +1,19 @@
 # Branch Brief — resource-tagging
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:01:34Z at stage 00-intake (gate: none → pending)._
+_Last rendered: 2026-08-27T21:04:10Z at stage 00-intake (gate: gate_1_enrich → passed at 2026-08-27T21:04:10Z)._
 
 ## The work
-Teachers use the platform to share and discover classroom resources. The standard
-subject/year-level taxonomy (issue #5) covers common filtering needs, but teachers
-working on niche interdisciplinary topics, institutional curricula, or highly
-specialised subject areas cannot adequately describe their resources with the
-pre-defined subject/year tags alone.
-Phase 2 expands the tagging model so teachers can attach free-form custom tags
+Teachers use Teacher Hub to share and discover classroom resources. The standard
+subject/year-level taxonomy planned in issue #5 covers the most common filtering
+needs, but teachers who work on niche interdisciplinary topics, follow a specific
+institutional/exam-board curriculum, or teach highly specialised subjects cannot
+adequately describe their resources with the fixed subject/year vocabulary alone.
+As a result, valuable resources are either mis-tagged into the nearest standard
 
 ## Where we are
 - **Stage:** 00-intake  →  next: 01-enrich
-- **Last gate:** none → pending
+- **Last gate:** gate_1_enrich → passed at 2026-08-27T21:04:10Z
 - **Next gate:** gate_1_enrich → approve enriched ticket / changes / Q&A
 - **Escalated:** no
 
@@ -21,7 +21,7 @@ Phase 2 expands the tagging model so teachers can attach free-form custom tags
 None open.
 
 ## Latest decisions
-No decisions recorded yet.
+- 2026-08-27T21:04:10Z — 01-enrich — gate: Autopilot: enrichment auto-approved (user unavailable). ticket.md has 12 ACs and rich edge cases.
 
 ## Sources of truth (read these, not this file)
 
