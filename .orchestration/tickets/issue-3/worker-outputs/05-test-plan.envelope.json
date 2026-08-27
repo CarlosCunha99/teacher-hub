@@ -1,9 +1,0 @@
-{
-  "role": "test-planner",
-  "ticket": "issue-3",
-  "status": "done",
-  "confidence": "high",
-  "deliverable_path": ".orchestration/tickets/issue-3/test-plan.md",
-  "summary": "Test plan: 22 unit tests (schema structure/constraints), 15 integration tests (migrations/FK/concurrency/cascades/seeding). All ACs mapped to tests.",
-  "verification": ["Mapped all acceptance criteria to tests", "Covered edge cases from ticket", "Integrated + unit test split clear"]
-}

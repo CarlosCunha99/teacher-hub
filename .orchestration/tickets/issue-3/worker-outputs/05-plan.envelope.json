@@ -1,9 +1,0 @@
-{
-  "role": "planner",
-  "ticket": "issue-3",
-  "status": "done",
-  "confidence": "high",
-  "deliverable_path": ".orchestration/tickets/issue-3/plan.md",
-  "summary": "12-step implementation plan: tooling/env, schema.prisma with entities/indexes/deletes, Prisma client singleton, migrations, DB-free build checkpoint, taxonomy/seeding, docs, README, verification.",
-  "verification": ["Mapped all impact.md files to plan steps", "Ordered steps with dependencies", "Confirmed DB-free checkpoint before seed"]
-}
