@@ -18,7 +18,7 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:57:20Z",
-  "updated_at": "2026-08-27T21:13:23Z",
+  "updated_at": "2026-08-27T21:35:12Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -33,7 +33,8 @@
       "at": "2026-08-27T21:08:17Z"
     },
     "gate_4_handoff": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:35:12Z"
     },
     "gate_4b_review": {
       "status": "pending"

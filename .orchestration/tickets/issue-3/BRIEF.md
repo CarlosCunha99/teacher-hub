@@ -1,7 +1,7 @@
 # Branch Brief — issue-3
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:13:23Z at stage 00-intake (gate: gate_3_scope → passed at 2026-08-27T21:08:17Z)._
+_Last rendered: 2026-08-27T21:35:13Z at stage 00-intake (gate: gate_4_handoff → passed at 2026-08-27T21:35:12Z)._
 
 ## The work
 ⚠️ **Inferred** (derived from issue #3 body plus the MVP issue set #4–#13; no data-model
@@ -13,7 +13,7 @@ deliberately database-free `/api/health` route). `.env.example` documents `DATAB
 
 ## Where we are
 - **Stage:** 00-intake  →  next: 01-enrich
-- **Last gate:** gate_3_scope → passed at 2026-08-27T21:08:17Z
+- **Last gate:** gate_4_handoff → passed at 2026-08-27T21:35:12Z
 - **Next gate:** gate_1_enrich → approve enriched ticket / changes / Q&A
 - **Escalated:** no
 
@@ -35,6 +35,7 @@ No decisions recorded yet.
 | Interface lock (parallel-work contract) | `.orchestration/tickets/issue-3/contract.md` |
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-3/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-3/impact.md` |
+| Code review verdict | `.orchestration/tickets/issue-3/code-review.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-3/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
