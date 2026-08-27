@@ -11,13 +11,14 @@
     "base": "main",
     "created_at": "2026-08-27T20:13:59Z"
   },
-  "stage": "00-intake",
-  "next": "01-enrich",
+  "stage": "03-brainstorm",
+  "next": "04-impact",
   "started_at": "2026-08-27T20:13:10Z",
-  "updated_at": "2026-08-27T20:13:59Z",
+  "updated_at": "2026-08-27T20:16:19Z",
   "gates": {
     "gate_1_enrich": {
-      "status": "pending"
+      "status": "overridden",
+      "at": "2026-08-27T20:16:19Z"
     },
     "gate_2_brainstorm": {
       "status": "pending"
@@ -47,9 +48,24 @@
     "raw_context_md": ".orchestration/tickets/issue-2/raw-context.md",
     "ticket_md": ".orchestration/tickets/issue-2/ticket.md"
   },
-  "models_used": {},
+  "models_used": {
+    "enricher": "claude-opus-4.8"
+  },
   "independence_violations": [],
-  "human_interactions": [],
+  "human_interactions": [
+    {
+      "stage": "01-enrich",
+      "kind": "question",
+      "summary": "Gate 1 enrichment approval requested",
+      "at": "2026-08-27T20:15:53Z"
+    },
+    {
+      "stage": "01-enrich",
+      "kind": "answer",
+      "summary": "Autonomous mode: proceed with documented defaults",
+      "at": "2026-08-27T20:16:19Z"
+    }
+  ],
   "pr_url": null,
   "completed_at": null
 }
