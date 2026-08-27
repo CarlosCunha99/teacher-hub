@@ -65,8 +65,7 @@ describe("GET /api/taxonomy", () => {
   });
 
   it("POST is not exported from the route module or returns 405", async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const routeModule = await import("@/app/api/taxonomy/route") as any;
+    const routeModule = (await import("@/app/api/taxonomy/route")) as any;
     if (typeof routeModule.POST === "function") {
       const response = await routeModule.POST(
         new Request("http://localhost/api/taxonomy", { method: "POST" })

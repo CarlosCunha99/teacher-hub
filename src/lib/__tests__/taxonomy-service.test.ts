@@ -74,9 +74,9 @@ describe("validateSubjectIds", () => {
   });
 
   it("rejects a mix of one valid and one unknown subject ID (no partial acceptance)", () => {
-    expect(() =>
-      validateSubjectIds([SUBJECTS[0].id, "unknown-id"])
-    ).toThrow(TaxonomyValidationError);
+    expect(() => validateSubjectIds([SUBJECTS[0].id, "unknown-id"])).toThrow(
+      TaxonomyValidationError
+    );
     try {
       validateSubjectIds([SUBJECTS[0].id, "unknown-id"]);
     } catch (err) {
@@ -88,10 +88,8 @@ describe("validateSubjectIds", () => {
   });
 
   it("rejects a year-level ID passed as a subject ID", () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(() => validateSubjectIds([YEAR_LEVELS[0].id] as any)).toThrow(TaxonomyValidationError);
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       validateSubjectIds([YEAR_LEVELS[0].id] as any);
     } catch (err) {
       expect(err).toBeInstanceOf(TaxonomyValidationError);
@@ -143,9 +141,9 @@ describe("validateYearLevelIds", () => {
   });
 
   it("rejects a mix of one valid and one unknown year-level ID (no partial acceptance)", () => {
-    expect(() =>
-      validateYearLevelIds([YEAR_LEVELS[0].id, "unknown-id"])
-    ).toThrow(TaxonomyValidationError);
+    expect(() => validateYearLevelIds([YEAR_LEVELS[0].id, "unknown-id"])).toThrow(
+      TaxonomyValidationError
+    );
     try {
       validateYearLevelIds([YEAR_LEVELS[0].id, "unknown-id"]);
     } catch (err) {
@@ -157,10 +155,8 @@ describe("validateYearLevelIds", () => {
   });
 
   it("rejects a subject ID passed as a year-level ID", () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(() => validateYearLevelIds([SUBJECTS[0].id] as any)).toThrow(TaxonomyValidationError);
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       validateYearLevelIds([SUBJECTS[0].id] as any);
     } catch (err) {
       expect(err).toBeInstanceOf(TaxonomyValidationError);

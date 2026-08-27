@@ -73,7 +73,7 @@ describe("taxonomy constants — YEAR_LEVELS", () => {
 
 describe("taxonomy constants — ID namespace disjointness", () => {
   it("subject IDs and year-level IDs are disjoint (no shared ID)", () => {
-    const subjectIds = new Set(SUBJECTS.map((s) => s.id));
+    const subjectIds = new Set<string>(SUBJECTS.map((s) => s.id));
     const yearLevelIds = YEAR_LEVELS.map((y) => y.id);
     const intersection = yearLevelIds.filter((id) => subjectIds.has(id));
     expect(intersection).toHaveLength(0);
