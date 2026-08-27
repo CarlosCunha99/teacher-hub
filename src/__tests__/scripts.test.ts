@@ -50,4 +50,23 @@ describe("npm scripts", () => {
     expect(result.status).toBe(0);
     expect(fs.existsSync(path.join(repoRoot, ".next"))).toBe(true);
   }, 120_000);
+
+  it("npm run prisma:generate exits 0 without a live database", () => {
+    const env = { ...process.env };
+    delete env.DATABASE_URL;
+
+    const result = spawnSync("npm", ["run", "prisma:generate"], {
+      cwd: repoRoot,
+      encoding: "utf-8",
+      env,
+      timeout: 60_000,
+    });
+
+    if (result.status !== 0) {
+      console.error(result.stdout);
+      console.error(result.stderr);
+    }
+
+    expect(result.status).toBe(0);
+  }, 60_000);
 });

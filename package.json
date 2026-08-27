@@ -13,9 +13,16 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prisma:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -30,8 +37,13 @@
     "eslint-config-next": "^15.1.6",
     "eslint-config-prettier": "^10.0.1",
     "prettier": "^3.4.2",
+    "prisma": "^5.22.0",
     "typescript": "^5.7.3",
+    "tsx": "^4.19.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.4"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
