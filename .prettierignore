@@ -9,3 +9,5 @@ next-env.d.ts
 .orchestration/
 prisma/migrations/
 src/generated/
+verify.md
+diagnosis/
