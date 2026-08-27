@@ -9,8 +9,8 @@
     "name": "issue-5-mvp-implement-subject-and-year-level-ta-509c1c",
     "base": "main"
   },
-  "stage": "03-brainstorm",
-  "next": "04-impact",
+  "stage": "04-impact",
+  "next": "05-plan",
   "started_at": "2026-08-27T20:57:29Z",
   "updated_at": "2026-08-27T21:57:09Z",
   "gates": {
@@ -33,11 +33,13 @@
     "raw_context_md": ".orchestration/tickets/5/raw-context.md",
     "ticket_md": ".orchestration/tickets/5/ticket.md",
     "brainstorm_md": ".orchestration/tickets/5/brainstorm.md",
-    "solution_md": ".orchestration/tickets/5/solution.md"
+    "solution_md": ".orchestration/tickets/5/solution.md",
+    "impact_md": ".orchestration/tickets/5/impact.md"
   },
   "models_used": {
     "01-enrich": "claude-opus-4.8",
-    "03-distill": "claude-sonnet-4.6"
+    "03-distill": "claude-sonnet-4.6",
+    "04-impact": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
