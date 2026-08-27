@@ -1,0 +1,36 @@
+{
+  "ticket": "5",
+  "round": 2,
+  "command": "npm test",
+  "exit_code": 1,
+  "test_count": { "total": 49, "passed": 45, "failed": 4, "skipped": 0 },
+  "failures": [
+    {
+      "test_name": "TypeScript compilation > tsc --noEmit exits 0",
+      "failure_message": "src/lib/__tests__/taxonomy.test.ts(78,69): error TS2345: Argument of type '\"elementary\" | \"middle-school\" | \"high-school\"' is not assignable to parameter of type '\"mathematics\" | \"english\" | \"science\" | \"social-studies\" | \"arts\" | \"physical-education\"'. (expected exit 0, got 2)",
+      "classification": "test_bug",
+      "detail": "The failure originates entirely inside a test file (src/lib/__tests__/taxonomy.test.ts line 78). In the 'ID namespace disjointness' test, `subjectIds` is a Set typed with the subject-id union, and the test calls `subjectIds.has(id)` where `id` is a year-level id. Set.has() is typed to the element (subject-id) union, so tsc rejects the year-level id. The implementation types are correct and intentionally disjoint; the test needs to widen/cast the id (e.g. compare over `string`) rather than the code changing. No implementation file is implicated."
+    },
+    {
+      "test_name": "npm scripts > npm run lint exits 0",
+      "failure_message": "route.test.ts:68 and taxonomy-service.test.ts:91,94,160,163 -> Error: Definition for rule '@typescript-eslint/no-explicit-any' was not found. @typescript-eslint/no-explicit-any (lint exited 1)",
+      "classification": "test_bug",
+      "detail": "The only lint errors are `eslint-disable-next-line @typescript-eslint/no-explicit-any` directives placed in two TEST files (route.test.ts, taxonomy-service.test.ts). The project's eslint.config.mjs only extends 'next/core-web-vitals' + 'prettier', which does not register the @typescript-eslint plugin, so referencing that rule name in a disable comment is itself flagged as an undefined rule. The fix belongs in the test files (remove the disable comments / restructure the `as any` casts) or in lint config — not in implementation code. No implementation file produced a lint error."
+    },
+    {
+      "test_name": "npm scripts > npm run format:check exits 0",
+      "failure_message": "[warn] src/app/api/taxonomy/__tests__/route.test.ts\n[warn] src/lib/__tests__/taxonomy-service.test.ts\nCode style issues found in 2 files. (prettier --check exited 1)",
+      "classification": "test_bug",
+      "detail": "Prettier reports formatting issues only in the two test files (route.test.ts, taxonomy-service.test.ts). No implementation source file is unformatted. Running `prettier --write` on those test files, owned by the tester, resolves it."
+    },
+    {
+      "test_name": "npm scripts > npm run build exits 0 and produces .next/",
+      "failure_message": "next build: 'Compiled successfully' then 'Failed to compile' during lint step with the same @typescript-eslint/no-explicit-any 'Definition for rule not found' errors in route.test.ts and taxonomy-service.test.ts (build exited 1)",
+      "classification": "test_bug",
+      "detail": "Build compiles the application successfully ('Compiled successfully in 1535ms'); it only fails at the integrated ESLint step for the exact same reason as the lint failure — undefined-rule directives in the two test files. This is a downstream duplicate of the lint test_bug and not an implementation defect. Application code builds cleanly."
+    }
+  ],
+  "test_output_summary": "RUN v3.2.7 ... 7 test files pass immediately (taxonomy.test.ts 11, readme 5, gitignore 4, taxonomy-service 15, env-config 3, taxonomy route 5, health route 2). 2 test files fail: typescript.test.ts (tsc --noEmit exits 2 due to type error in taxonomy.test.ts line 78) and scripts.test.ts (lint/format:check/build all exit 1). Test Files 2 failed | 7 passed (9); Tests 4 failed | 45 passed (49).",
+  "verdict": "test_bugs",
+  "confidence": "high"
+}

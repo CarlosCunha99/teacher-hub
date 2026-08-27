@@ -43,6 +43,18 @@ The app runs at [http://localhost:3000](http://localhost:3000). The health-check
 is available at [http://localhost:3000/api/health](http://localhost:3000/api/health) and
 returns `{ "status": "ok" }` with HTTP 200.
 
+## API endpoints
+
+| Method & path       | Description                                | Response                                                                                                         |
+| ------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `GET /api/health`   | Health check.                              | `{ "status": "ok" }`                                                                                             |
+| `GET /api/taxonomy` | Read-only subject and year-level taxonomy. | `{ "subjects": [{ "id": "string", "label": "string" }], "yearLevels": [{ "id": "string", "label": "string" }] }` |
+
+`GET /api/taxonomy` returns the approved controlled vocabulary — 6 subjects and 3 year
+levels — that resources are tagged with. It is read-only (no mutation methods); the
+service-layer helpers `validateSubjectIds` / `validateYearLevelIds` in
+`src/lib/taxonomy-service.ts` reject ids outside this vocabulary.
+
 ## Available scripts
 
 These scripts run identically locally and in CI (install → lint → test → build):
