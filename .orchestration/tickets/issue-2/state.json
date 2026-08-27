@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T20:13:59Z"
   },
-  "stage": "04-impact",
-  "next": "05-plan",
+  "stage": "05-plan",
+  "next": "06-contract",
   "started_at": "2026-08-27T20:13:10Z",
-  "updated_at": "2026-08-27T20:17:26Z",
+  "updated_at": "2026-08-27T20:19:38Z",
   "gates": {
     "gate_1_enrich": {
       "status": "overridden",
@@ -48,11 +48,13 @@
     "brief_md": ".orchestration/tickets/issue-2/BRIEF.md",
     "raw_context_md": ".orchestration/tickets/issue-2/raw-context.md",
     "ticket_md": ".orchestration/tickets/issue-2/ticket.md",
-    "solution_md": ".orchestration/tickets/issue-2/solution.md"
+    "solution_md": ".orchestration/tickets/issue-2/solution.md",
+    "impact_md": ".orchestration/tickets/issue-2/impact.md"
   },
   "models_used": {
     "enricher": "claude-opus-4.8",
-    "distiller": "claude-sonnet-4.6"
+    "distiller": "claude-sonnet-4.6",
+    "impact_analyzer": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [

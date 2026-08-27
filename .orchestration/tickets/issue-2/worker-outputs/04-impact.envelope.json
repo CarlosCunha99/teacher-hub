@@ -1,0 +1,25 @@
+{
+  "todo_id": "issue-2-04-impact-r1",
+  "status": "done",
+  "summary": "Mapped direct and indirect auth-related changes, test impact, and configuration risks for issue-2.",
+  "deliverable_path": ".orchestration/tickets/issue-2/impact.md",
+  "changed_files": [
+    {
+      "path": ".orchestration/tickets/issue-2/impact.md",
+      "action": "added",
+      "lines_added": 90,
+      "lines_removed": 0
+    }
+  ],
+  "verification": {
+    "commands_run": [],
+    "all_passed": null,
+    "notes": "Impact analysis artifact."
+  },
+  "follow_ups": [
+    "Keep middleware matcher from protecting /api/health and /api/auth/* routes.",
+    "Use a clearly fake NEXTAUTH_SECRET placeholder to satisfy existing env tests."
+  ],
+  "open_questions": [],
+  "confidence": "medium"
+}
