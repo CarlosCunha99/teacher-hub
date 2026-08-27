@@ -1,14 +1,14 @@
 # Branch Brief — issue-11
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:07:59Z at stage 04-impact (gate: gate_2_brainstorm → passed at 2026-08-27T21:05:33Z)._
+_Last rendered: 2026-08-27T21:11:47Z at stage 05-plan (gate: gate_3_scope → passed at 2026-08-27T21:11:46Z)._
 
 ## The work
 Problem statement not captured yet. Read `.orchestration/tickets/issue-11/ticket.md` once available.
 
 ## Where we are
-- **Stage:** 04-impact  →  next: 05-plan
-- **Last gate:** gate_2_brainstorm → passed at 2026-08-27T21:05:33Z
+- **Stage:** 05-plan  →  next: 06-contract
+- **Last gate:** gate_3_scope → passed at 2026-08-27T21:11:46Z
 - **Next gate:** gate_3_scope → approve plan and test-plan scope
 - **Escalated:** no
 
@@ -16,6 +16,7 @@ Problem statement not captured yet. Read `.orchestration/tickets/issue-11/ticket
 None open.
 
 ## Latest decisions
+- 2026-08-27T21:11:47Z — 05-plan — gate: Autopilot: scope approved — 11 steps, 6 new files, 6 modified, 14 tests
 - 2026-08-27T21:05:34Z — 03-brainstorm — gate: Autopilot led brainstorm; agreed on Prisma+SQLite, query-time aggregates, Server Component profile, revalidatePath freshness
 - 2026-08-27T21:03:57Z — 01-enrich — gate: Autopilot resolved A1-A4: data layer absorbed, revalidation freshness, public download, public stats
 
@@ -26,6 +27,8 @@ None open.
 | Product problem, ACs, edge cases | `.orchestration/tickets/issue-11/ticket.md` |
 | Raw intake context for enrichment | `.orchestration/tickets/issue-11/raw-context.md` |
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-11/solution.md` |
+| Technical plan | `.orchestration/tickets/issue-11/plan.md` |
+| Test plan | `.orchestration/tickets/issue-11/test-plan.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-11/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-11/state.json` |
 
@@ -34,7 +37,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/04-impact.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/05-plan.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails
