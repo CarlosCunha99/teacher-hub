@@ -1,0 +1,18 @@
+{
+  "role": "contract-writer",
+  "ticket": "5",
+  "deliverable_path": ".orchestration/tickets/5/contract.md",
+  "status": "done",
+  "confidence": "high",
+  "summary": "Locked 4 interfaces (taxonomy.ts constants+types, taxonomy-service.ts with getTaxonomy/validateSubjectIds/validateYearLevelIds + TaxonomyValidationError, GET /api/taxonomy route, README addition); wrote impl-context.md for A/B parallel workers.",
+  "changed_files": [
+    { "path": ".orchestration/tickets/5/contract.md",     "action": "added" },
+    { "path": ".orchestration/tickets/5/impl-context.md", "action": "added" }
+  ],
+  "disambiguation_resolutions": [
+    "Error shape: throw TaxonomyValidationError (not discriminated union) — cleanest for #4 resource handler 422 conversion",
+    "Subject/year-level ID slugs: locked to plan.md proposed values (mathematics, english, science, social-studies, arts, physical-education, elementary, middle-school, high-school)",
+    "Taxonomy source: in-memory constants, no DB (impact.md unblock path; no ORM in repo)",
+    "GET handler parameter name: _request (prefixed underscore, mirroring existing health route)"
+  ]
+}

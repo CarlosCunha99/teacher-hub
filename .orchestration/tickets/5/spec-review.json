@@ -1,0 +1,120 @@
+{
+  "scope": "full",
+  "verdict": "request_changes",
+  "confidence": "high",
+  "criteria_coverage": [
+    {
+      "criterion": "An approved taxonomy of subjects and an approved taxonomy of year levels exist as reference data, each entry having a stable identifier and a human-readable display label.",
+      "covered_by": [
+        "exports exactly six entries",
+        "every subject has a non-empty string id and label",
+        "contains exactly the approved MVP subject labels (any order)",
+        "subject IDs are unique",
+        "subject IDs are stable non-numeric slugs",
+        "exports exactly three entries",
+        "every year level has a non-empty string id and label",
+        "contains exactly the approved MVP year-level labels (any order)",
+        "year-level IDs are unique",
+        "year-level IDs are stable non-numeric slugs",
+        "subject IDs and year-level IDs are disjoint (no shared ID)"
+      ],
+      "assessment": "adequately covered",
+      "notes": "All contract invariants for Interface 1 are thoroughly tested: lengths, label membership, unique IDs, non-numeric slugs, and ID namespace disjointness."
+    },
+    {
+      "criterion": "The taxonomy reference data is retrievable by the application (e.g. so creation and filter UIs can present the approved options).",
+      "covered_by": [
+        "returns an object with subjects equal to SUBJECTS and yearLevels equal to YEAR_LEVELS",
+        "returned object has exactly the keys subjects and yearLevels",
+        "returns 200 with application/json content-type and correct top-level shape",
+        "response contains all six subjects with correct shape and approved labels",
+        "response contains all three year levels with correct shape and approved labels"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Both the service function and the HTTP endpoint are tested for correct shape, content, and status."
+    },
+    {
+      "criterion": "Creating a resource requires a subject selection and a year-level selection; a submission missing either is rejected.",
+      "covered_by": [
+        "rejects an empty array with TaxonomyValidationError reason 'empty' (validateSubjectIds)",
+        "rejects an empty array with TaxonomyValidationError reason 'empty' (validateYearLevelIds)"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Empty-array rejection for both validators encodes the 'at least one required' invariant. The actual resource creation flow is owned by #4, not this ticket."
+    },
+    {
+      "criterion": "The API rejects any resource create/update whose subject or year-level value is not part of the approved taxonomy, returning a clear validation error rather than silently accepting or dropping it.",
+      "covered_by": [
+        "rejects an array with one unknown subject ID with TaxonomyValidationError reason 'unknown-ids'",
+        "rejects a mix of one valid and one unknown subject ID (no partial acceptance)",
+        "rejects a year-level ID passed as a subject ID",
+        "rejects an array with one unknown year-level ID with TaxonomyValidationError reason 'unknown-ids'",
+        "rejects a mix of one valid and one unknown year-level ID (no partial acceptance)",
+        "rejects a subject ID passed as a year-level ID"
+      ],
+      "assessment": "partially covered",
+      "notes": "The rejection paths are well-tested for correct error class and reason. However, the unknownIds property is NOT asserted in the 'unknown-ids' cases — the contract requires unknownIds to be populated with the offending strings. A buggy implementation that throws with reason 'unknown-ids' but an empty unknownIds array would pass all these tests. See finding F1."
+    },
+    {
+      "criterion": "Editing an existing resource re-validates subject and year level against the same taxonomy, so tags stay within the approved set after edits.",
+      "covered_by": [],
+      "assessment": "partially covered",
+      "notes": "The validation functions themselves are well-tested and would be called during edits. However, the edit flow is owned by #4/#5. No test explicitly exercises an 'edit revalidation' scenario, but the contract doesn't define an edit-specific interface either — the same validateSubjectIds/validateYearLevelIds are reused. Acceptable given scope."
+    },
+    {
+      "criterion": "Resource cards and resource detail views display the resource's subject and year-level tags in a clearly readable way.",
+      "covered_by": [],
+      "assessment": "missing",
+      "notes": "Out of scope for this ticket — depends on #4 resource UI. The contract explicitly excludes UI display. No finding raised."
+    },
+    {
+      "criterion": "Filtering a resource listing by a subject and/or a year level returns only resources tagged with the selected value(s), and clearing the filter restores the full set.",
+      "covered_by": [],
+      "assessment": "missing",
+      "notes": "Out of scope for this ticket — depends on #6 search/browse. The contract defines no filtering interface. No finding raised."
+    },
+    {
+      "criterion": "Seed/reference data for the MVP taxonomy is available for local development and QA.",
+      "covered_by": [
+        "contains exactly the approved MVP subject labels (any order)",
+        "contains exactly the approved MVP year-level labels (any order)",
+        "response contains all six subjects with correct shape and approved labels",
+        "response contains all three year levels with correct shape and approved labels"
+      ],
+      "assessment": "adequately covered",
+      "notes": "The in-memory constants ARE the seed data for MVP. Tests verify the exact approved labels are present."
+    }
+  ],
+  "findings": [
+    {
+      "type": "blocking",
+      "location": "src/lib/__tests__/taxonomy-service.test.ts",
+      "summary": "unknownIds property is never asserted in 'unknown-ids' rejection tests",
+      "detail": "In all six tests that check for reason 'unknown-ids' (three for validateSubjectIds, three for validateYearLevelIds), none asserts the value of error.unknownIds. The contract requires: 'throws TaxonomyValidationError with reason: \"unknown-ids\" and unknownIds populated with the offending strings.' A buggy implementation could throw with reason 'unknown-ids' but unknownIds: [] (or undefined) and all tests would pass. At minimum, the single-unknown-ID test for each validator should assert that unknownIds contains the offending string (e.g. expect(err.unknownIds).toContain('not-a-real-subject')). The mixed valid+invalid test should assert that only the unknown ID appears in unknownIds (not the valid one)."
+    },
+    {
+      "type": "major",
+      "location": "src/lib/__tests__/taxonomy-service.test.ts",
+      "summary": "Return value of validate*Ids on success path is never asserted",
+      "detail": "The contract states: 'Returns the input cast to SubjectId[]' on success. Tests only assert .not.toThrow() but never check the return value. A buggy implementation that returns undefined, an empty array, or a different array on the success path would not be caught. Add: const result = validateSubjectIds([SUBJECTS[0].id]); expect(result).toEqual([SUBJECTS[0].id]); — and similarly for validateYearLevelIds."
+    },
+    {
+      "type": "major",
+      "location": "src/lib/__tests__/taxonomy-service.test.ts",
+      "summary": "TaxonomyValidationError 'extends Error' invariant is not tested",
+      "detail": "The contract states: 'Extends Error — instanceof Error is true.' No test checks that a thrown TaxonomyValidationError is also instanceof Error. This matters because incorrect class extension (e.g. a plain object with matching properties) would slip through. Add: expect(err).toBeInstanceOf(Error) in at least one catch block."
+    },
+    {
+      "type": "minor",
+      "location": "src/lib/__tests__/taxonomy-service.test.ts",
+      "summary": "error.message non-empty invariant is not tested",
+      "detail": "Contract states: 'The message property is a non-empty human-readable string suitable for a 422 response body.' No test asserts that error.message is a non-empty string. A thrown TaxonomyValidationError with message '' would pass. Add: expect((err as TaxonomyValidationError).message.length).toBeGreaterThan(0) in at least one catch block."
+    },
+    {
+      "type": "minor",
+      "location": "src/app/api/taxonomy/__tests__/route.test.ts",
+      "summary": "No-extra-keys check only validates first item in each array",
+      "detail": "The test 'each subject and year-level item contains exactly the keys id and label (no extra fields)' only checks body.subjects[0] and body.yearLevels[0]. If the implementation added extra fields to items at index 1+ but not index 0, the test would pass. Should iterate all items with forEach, or at minimum spot-check the last item too."
+    }
+  ]
+}
