@@ -1,9 +1,5 @@
 import { GET } from "@/app/api/resources/metrics/route";
-import {
-  createTestDataDir,
-  seedStore,
-  cleanupTestDataDir,
-} from "@/lib/store/__tests__/helpers";
+import { createTestDataDir, seedStore, cleanupTestDataDir } from "@/lib/store/__tests__/helpers";
 
 describe("GET /api/resources/metrics", () => {
   let dataDir: string;
@@ -37,9 +33,7 @@ describe("GET /api/resources/metrics", () => {
       { id: "r3", ownerId: "owner-2", downloadCount: 9 },
     ]);
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/metrics"),
-    );
+    const response = await GET(new Request("http://localhost/api/resources/metrics"));
 
     expect(response.status).toBe(200);
 
@@ -62,9 +56,7 @@ describe("GET /api/resources/metrics", () => {
       { id: "r1", ownerId: "owner-1", filePath: "secret.pdf", downloadCount: 1 },
     ]);
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/metrics"),
-    );
+    const response = await GET(new Request("http://localhost/api/resources/metrics"));
 
     const body = await response.json();
     expect(Array.isArray(body)).toBe(true);
@@ -75,9 +67,7 @@ describe("GET /api/resources/metrics", () => {
   it("returns 401 with JSON error body for unauthenticated request", async () => {
     delete process.env.TEST_USER_ID;
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/metrics"),
-    );
+    const response = await GET(new Request("http://localhost/api/resources/metrics"));
 
     expect(response.status).toBe(401);
     expect(response.headers.get("content-type")).toContain("application/json");

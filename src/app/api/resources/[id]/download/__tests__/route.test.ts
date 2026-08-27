@@ -55,10 +55,9 @@ describe("GET /api/resources/:id/download", () => {
     ]);
     await writeFakePdf(uploadsDir, "r1.pdf");
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/r1/download"),
-      { params: Promise.resolve({ id: "r1" }) },
-    );
+    const response = await GET(new Request("http://localhost/api/resources/r1/download"), {
+      params: Promise.resolve({ id: "r1" }),
+    });
 
     expect(response.status).toBe(200);
     expect(response.headers.get("content-type")).toContain("application/pdf");
@@ -66,6 +65,7 @@ describe("GET /api/resources/:id/download", () => {
     const contentDisposition = response.headers.get("content-disposition");
     expect(contentDisposition).toContain("attachment");
     expect(contentDisposition).toContain("Lesson Plan");
+    expect(contentDisposition).toMatch(/\.pdf/i);
 
     const body = await response.arrayBuffer();
     expect(body.byteLength).toBeGreaterThan(0);
@@ -78,10 +78,9 @@ describe("GET /api/resources/:id/download", () => {
     ]);
     await writeFakePdf(uploadsDir, "r1.pdf");
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/r1/download"),
-      { params: Promise.resolve({ id: "r1" }) },
-    );
+    const response = await GET(new Request("http://localhost/api/resources/r1/download"), {
+      params: Promise.resolve({ id: "r1" }),
+    });
 
     expect(response.status).toBe(401);
     expect(response.headers.get("content-type")).toContain("application/json");
@@ -92,14 +91,11 @@ describe("GET /api/resources/:id/download", () => {
 
   it("does not increment download count on 401", async () => {
     delete process.env.TEST_USER_ID;
-    await seedStore(dataDir, [
-      { id: "r1", filePath: "r1.pdf", downloadCount: 0 },
-    ]);
+    await seedStore(dataDir, [{ id: "r1", filePath: "r1.pdf", downloadCount: 0 }]);
 
-    await GET(
-      new Request("http://localhost/api/resources/r1/download"),
-      { params: Promise.resolve({ id: "r1" }) },
-    );
+    await GET(new Request("http://localhost/api/resources/r1/download"), {
+      params: Promise.resolve({ id: "r1" }),
+    });
 
     const resource = await getResourceById("r1");
     expect(resource?.downloadCount).toBe(0);
@@ -109,10 +105,9 @@ describe("GET /api/resources/:id/download", () => {
     process.env.TEST_USER_ID = "test-user-001";
     await seedStore(dataDir, []);
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/unknown/download"),
-      { params: Promise.resolve({ id: "unknown" }) },
-    );
+    const response = await GET(new Request("http://localhost/api/resources/unknown/download"), {
+      params: Promise.resolve({ id: "unknown" }),
+    });
 
     expect(response.status).toBe(404);
     expect(response.headers.get("content-type")).toContain("application/json");
@@ -134,10 +129,9 @@ describe("GET /api/resources/:id/download", () => {
     ]);
     // Deliberately do NOT write missing.pdf to uploadsDir
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/r2/download"),
-      { params: Promise.resolve({ id: "r2" }) },
-    );
+    const response = await GET(new Request("http://localhost/api/resources/r2/download"), {
+      params: Promise.resolve({ id: "r2" }),
+    });
 
     expect(response.status).toBeGreaterThanOrEqual(500);
     expect(response.headers.get("content-type")).toContain("application/json");
@@ -156,10 +150,9 @@ describe("GET /api/resources/:id/download", () => {
       },
     ]);
 
-    await GET(
-      new Request("http://localhost/api/resources/r2/download"),
-      { params: Promise.resolve({ id: "r2" }) },
-    );
+    await GET(new Request("http://localhost/api/resources/r2/download"), {
+      params: Promise.resolve({ id: "r2" }),
+    });
 
     const resource = await getResourceById("r2");
     expect(resource?.downloadCount).toBe(0);

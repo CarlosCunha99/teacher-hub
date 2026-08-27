@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { render, screen } from "@testing-library/react";
-import ResourceCard from "@/components/ResourceCard";
+import { ResourceCard } from "@/components/ResourceCard";
 
 describe("ResourceCard", () => {
   const resource = {
@@ -12,17 +12,17 @@ describe("ResourceCard", () => {
   };
 
   it("renders the resource name", () => {
-    render(<ResourceCard {...resource} />);
+    render(<ResourceCard resource={resource} />);
     expect(screen.getByText("Test Sheet")).toBeTruthy();
   });
 
   it("renders the download count", () => {
-    render(<ResourceCard {...resource} />);
+    render(<ResourceCard resource={resource} />);
     expect(screen.getByText(/42/)).toBeTruthy();
   });
 
   it("renders both name and count without error", () => {
-    const { container } = render(<ResourceCard {...resource} />);
+    const { container } = render(<ResourceCard resource={resource} />);
     expect(container).toBeTruthy();
     expect(container.textContent).toContain("Test Sheet");
     expect(container.textContent).toContain("42");

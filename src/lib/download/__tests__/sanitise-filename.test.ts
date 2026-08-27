@@ -1,7 +1,7 @@
 import { sanitiseFilename } from "@/lib/download/sanitise-filename";
 
 describe("sanitiseFilename", () => {
-  it("strips header-injection characters: \", ;, \\r, \\n", () => {
+  it('strips header-injection characters: ", ;, \\r, \\n', () => {
     const input = 'file"name;bad\r\n';
     const result = sanitiseFilename(input);
     expect(result).not.toContain('"');

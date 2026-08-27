@@ -1,7 +1,7 @@
 # Branch Brief — issue-11
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:27:03Z at stage 06-contract (gate: gate_3_scope → passed at 2026-08-27T21:11:28Z)._
+_Last rendered: 2026-08-27T21:34:54Z at stage 07-implement (gate: gate_3_scope → passed at 2026-08-27T21:11:28Z)._
 
 ## The work
 Teachers use Teacher Hub to share PDF classroom resources with other teachers. Today
@@ -12,10 +12,10 @@ counting downloads.
 Two product gaps flow from this: (1) resources are effectively "look but don't touch,"
 
 ## Where we are
-- **Stage:** 06-contract  →  next: 07-implement
-- **Round:** 1 / 5
+- **Stage:** 07-implement  →  next: 08-verify
+- **Round:** 2 / 5
 - **Last gate:** gate_3_scope → passed at 2026-08-27T21:11:28Z
-- **Next gate:** gate_3_scope → approve plan and test-plan scope
+- **Next gate:** none scheduled
 - **Escalated:** no
 
 ## Open questions / ambiguities
@@ -38,7 +38,6 @@ None open.
 | Interface lock (parallel-work contract) | `.orchestration/tickets/issue-11/contract.md` |
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-11/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-11/impact.md` |
-| Current diagnostics (if in fix loop) | `.orchestration/tickets/issue-11/diagnosis/round-1.json` |
 | Full state / audit trail | `.orchestration/tickets/issue-11/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -46,7 +45,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/06-contract.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/07-implement.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails

@@ -24,4 +24,13 @@ describe("getSessionUser", () => {
     const user = await getSessionUser(request);
     expect(user).toBeNull();
   });
+
+  it("returns user object from __session cookie when TEST_USER_ID is absent", async () => {
+    delete process.env.TEST_USER_ID;
+    const request = new Request("http://localhost/", {
+      headers: { cookie: "__session=cookie-user-456" },
+    });
+    const user = await getSessionUser(request);
+    expect(user).toEqual({ id: "cookie-user-456" });
+  });
 });

@@ -3,17 +3,22 @@ import { stat } from "node:fs/promises";
 import path from "node:path";
 import { Readable } from "node:stream";
 
-const DATA_DIR = process.env.DATA_DIR ?? "data";
-const DEFAULT_UPLOADS_DIR = path.join(DATA_DIR, "uploads");
-const UPLOADS_DIR = path.resolve(process.env.UPLOADS_DIR ?? DEFAULT_UPLOADS_DIR);
+function getUploadsDir(): string {
+  const dataDir = process.env.DATA_DIR ?? "data";
+  const defaultUploadsDir = path.join(dataDir, "uploads");
+
+  return path.resolve(process.env.UPLOADS_DIR ?? defaultUploadsDir);
+}
 
 export function resolveUploadPath(filePath: string): string {
+  const uploadsDir = getUploadsDir();
+
   if (path.isAbsolute(filePath)) {
     throw new Error("invalid file path");
   }
 
-  const absolutePath = path.resolve(UPLOADS_DIR, filePath);
-  const relativePath = path.relative(UPLOADS_DIR, absolutePath);
+  const absolutePath = path.resolve(uploadsDir, filePath);
+  const relativePath = path.relative(uploadsDir, absolutePath);
 
   if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
     throw new Error("invalid file path");

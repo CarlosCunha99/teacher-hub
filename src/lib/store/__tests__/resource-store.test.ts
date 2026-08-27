@@ -5,11 +5,7 @@ import {
   getResourcesByOwner,
   incrementDownload,
 } from "@/lib/store/resource-store";
-import {
-  createTestDataDir,
-  seedStore,
-  cleanupTestDataDir,
-} from "./helpers";
+import { createTestDataDir, seedStore, cleanupTestDataDir } from "./helpers";
 
 describe("resource-store", () => {
   let dataDir: string;
@@ -102,10 +98,7 @@ describe("resource-store", () => {
 
     it("two concurrent increments both apply — final count === 2", async () => {
       await seedStore(dataDir, [{ id: "r1", downloadCount: 0 }]);
-      await Promise.all([
-        incrementDownload("r1", "user-1"),
-        incrementDownload("r1", "user-2"),
-      ]);
+      await Promise.all([incrementDownload("r1", "user-1"), incrementDownload("r1", "user-2")]);
       const resource = await getResourceById("r1");
       expect(resource?.downloadCount).toBe(2);
     });
@@ -113,10 +106,7 @@ describe("resource-store", () => {
     it("writes an audit record with matching resourceId, userId, and timestamp", async () => {
       await seedStore(dataDir, [{ id: "r1", downloadCount: 0 }]);
       await incrementDownload("r1", "user-audit");
-      const auditRaw = await fs.readFile(
-        path.join(dataDir, "audit.json"),
-        "utf-8",
-      );
+      const auditRaw = await fs.readFile(path.join(dataDir, "audit.json"), "utf-8");
       const audit = JSON.parse(auditRaw);
       expect(audit).toHaveLength(1);
       expect(audit[0].resourceId).toBe("r1");

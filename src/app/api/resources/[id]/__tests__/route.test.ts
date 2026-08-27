@@ -1,9 +1,5 @@
 import { GET } from "@/app/api/resources/[id]/route";
-import {
-  createTestDataDir,
-  seedStore,
-  cleanupTestDataDir,
-} from "@/lib/store/__tests__/helpers";
+import { createTestDataDir, seedStore, cleanupTestDataDir } from "@/lib/store/__tests__/helpers";
 
 describe("GET /api/resources/:id (metadata)", () => {
   let dataDir: string;
@@ -34,10 +30,9 @@ describe("GET /api/resources/:id (metadata)", () => {
       },
     ]);
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/r1"),
-      { params: Promise.resolve({ id: "r1" }) },
-    );
+    const response = await GET(new Request("http://localhost/api/resources/r1"), {
+      params: Promise.resolve({ id: "r1" }),
+    });
 
     expect(response.status).toBe(200);
 
@@ -58,10 +53,9 @@ describe("GET /api/resources/:id (metadata)", () => {
       },
     ]);
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/r1"),
-      { params: Promise.resolve({ id: "r1" }) },
-    );
+    const response = await GET(new Request("http://localhost/api/resources/r1"), {
+      params: Promise.resolve({ id: "r1" }),
+    });
 
     const body = await response.json();
     expect(body.filePath).toBeUndefined();
@@ -71,10 +65,9 @@ describe("GET /api/resources/:id (metadata)", () => {
   it("returns 404 with JSON error body for unknown resource", async () => {
     await seedStore(dataDir, []);
 
-    const response = await GET(
-      new Request("http://localhost/api/resources/nope"),
-      { params: Promise.resolve({ id: "nope" }) },
-    );
+    const response = await GET(new Request("http://localhost/api/resources/nope"), {
+      params: Promise.resolve({ id: "nope" }),
+    });
 
     expect(response.status).toBe(404);
     expect(response.headers.get("content-type")).toContain("application/json");

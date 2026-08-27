@@ -6,7 +6,7 @@ import { getResourceById, incrementDownload } from "@/lib/store/resource-store";
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<Response> {
   const user = await getSessionUser(request);
 

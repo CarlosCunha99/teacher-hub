@@ -2,24 +2,31 @@ import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { DownloadRecord, Resource, StoreData } from "@/lib/types";
 
-const DATA_DIR = process.env.DATA_DIR ?? "data";
-const RESOURCES_FILE_PATH = path.resolve(DATA_DIR, "resources.json");
-const AUDIT_FILE_PATH = path.resolve(DATA_DIR, "audit.json");
-
 let writeQueue: Promise<void> = Promise.resolve();
+
+function getStorePaths(): { resourcesFilePath: string; auditFilePath: string } {
+  const dataDir = process.env.DATA_DIR ?? "data";
+
+  return {
+    resourcesFilePath: path.resolve(dataDir, "resources.json"),
+    auditFilePath: path.resolve(dataDir, "audit.json"),
+  };
+}
 
 function withWriteLock<T>(task: () => Promise<T>): Promise<T> {
   const next = writeQueue.then(task, task);
   writeQueue = next.then(
     () => undefined,
-    () => undefined,
+    () => undefined
   );
   return next;
 }
 
 async function readStoreFile(): Promise<StoreData> {
+  const { resourcesFilePath } = getStorePaths();
+
   try {
-    const raw = await readFile(RESOURCES_FILE_PATH, "utf8");
+    const raw = await readFile(resourcesFilePath, "utf8");
     return JSON.parse(raw) as StoreData;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") {
@@ -30,8 +37,10 @@ async function readStoreFile(): Promise<StoreData> {
 }
 
 async function readAuditFile(): Promise<DownloadRecord[]> {
+  const { auditFilePath } = getStorePaths();
+
   try {
-    const raw = await readFile(AUDIT_FILE_PATH, "utf8");
+    const raw = await readFile(auditFilePath, "utf8");
     return JSON.parse(raw) as DownloadRecord[];
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") {
@@ -64,6 +73,7 @@ export async function getResourcesByOwner(ownerId: string): Promise<Resource[]> 
 
 export async function incrementDownload(resourceId: string, userId: string): Promise<void> {
   await withWriteLock(async () => {
+    const { resourcesFilePath, auditFilePath } = getStorePaths();
     const store = await readStoreFile();
     const resource = store.resources.find((item) => item.id === resourceId);
 
@@ -80,7 +90,7 @@ export async function incrementDownload(resourceId: string, userId: string): Pro
       timestamp: new Date().toISOString(),
     });
 
-    await writeJsonAtomic(RESOURCES_FILE_PATH, `${JSON.stringify(store, null, 2)}\n`);
-    await writeJsonAtomic(AUDIT_FILE_PATH, `${JSON.stringify(audit, null, 2)}\n`);
+    await writeJsonAtomic(resourcesFilePath, `${JSON.stringify(store, null, 2)}\n`);
+    await writeJsonAtomic(auditFilePath, `${JSON.stringify(audit, null, 2)}\n`);
   });
 }
