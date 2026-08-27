@@ -1,0 +1,36 @@
+{
+  "round": 1,
+  "verdict": "fixable",
+  "summary": "16/18 pass; 2 code_bugs (coder-owned): tsconfig missing vitest/globals types, format:check fails on unformatted src/app/layout.tsx + README.md + unignored .orchestration/",
+  "test_results": {
+    "passed": 16,
+    "failed": 2,
+    "skipped": 0,
+    "total": 18
+  },
+  "failures": [
+    {
+      "test": "TypeScript compilation clean",
+      "file": "src/__tests__/typescript.test.ts",
+      "category": "code_bug",
+      "error": "TS2582/TS2304: Cannot find name 'describe'/'it'/'expect' / TS2304: Cannot find name 'describe'",
+      "diagnosis": "vitest.config.ts uses globals: true (contract-locked), but tsconfig.json has no 'types' entry for 'vitest/globals', so tsc cannot resolve test globals even though Vitest injects them at runtime.",
+      "suggested_fix": "coder: Add \"types\": [\"vitest/globals\", \"node\"] to tsconfig.json compilerOptions"
+    },
+    {
+      "test": "npm run format:check exits 0",
+      "file": "src/__tests__/scripts.test.ts",
+      "category": "code_bug",
+      "error": "prettier --check . exited with code 1; 13 files need formatting",
+      "diagnosis": "README.md and src/app/layout.tsx were created without auto-formatting. Also, .orchestration/ artifacts are not in .prettierignore, so Prettier flags them as unformatted.",
+      "suggested_fix": "coder: (1) Run 'prettier --write .' to format all source files; (2) Add '.orchestration/' to .prettierignore so generated files are excluded"
+    }
+  ],
+  "next_step": "fix_code",
+  "categories_summary": {
+    "test_bug": 0,
+    "code_bug": 2,
+    "spec_bug": 0,
+    "env_bug": 0
+  }
+}

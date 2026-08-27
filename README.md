@@ -47,26 +47,26 @@ returns `{ "status": "ok" }` with HTTP 200.
 
 These scripts run identically locally and in CI (install → lint → test → build):
 
-| Script                 | Command             | Description                                      |
-| ---------------------- | ------------------- | ------------------------------------------------ |
-| `npm run dev`          | `next dev`          | Start the development server with hot reload.    |
-| `npm run build`        | `next build`        | Produce a production build in `.next/`.          |
-| `npm start`            | `next start`        | Serve the production build.                      |
-| `npm run lint`         | `next lint`         | Run ESLint over the codebase.                    |
-| `npm run format`       | `prettier --write .`| Format all files in place.                       |
-| `npm run format:check` | `prettier --check .`| Verify formatting without writing changes.       |
-| `npm test`             | `vitest run`        | Run the test suite once.                         |
+| Script                 | Command              | Description                                   |
+| ---------------------- | -------------------- | --------------------------------------------- |
+| `npm run dev`          | `next dev`           | Start the development server with hot reload. |
+| `npm run build`        | `next build`         | Produce a production build in `.next/`.       |
+| `npm start`            | `next start`         | Serve the production build.                   |
+| `npm run lint`         | `next lint`          | Run ESLint over the codebase.                 |
+| `npm run format`       | `prettier --write .` | Format all files in place.                    |
+| `npm run format:check` | `prettier --check .` | Verify formatting without writing changes.    |
+| `npm test`             | `vitest run`         | Run the test suite once.                      |
 
 ## Folder structure
 
 The source is organized to keep UI, API routes, and shared utilities clearly separated:
 
-| Path                | Purpose                                                             |
-| ------------------- | ------------------------------------------------------------------- |
-| `src/app/`          | App Router pages and layouts (UI). `layout.tsx` is the root shell.  |
-| `src/app/api/`      | API route handlers. Each `route.ts` exports HTTP method handlers.   |
-| `src/lib/`          | Shared utilities, constants, and types reused across the app.       |
-| `src/**/__tests__/` | Colocated test files run by Vitest.                                 |
+| Path                | Purpose                                                            |
+| ------------------- | ------------------------------------------------------------------ |
+| `src/app/`          | App Router pages and layouts (UI). `layout.tsx` is the root shell. |
+| `src/app/api/`      | API route handlers. Each `route.ts` exports HTTP method handlers.  |
+| `src/lib/`          | Shared utilities, constants, and types reused across the app.      |
+| `src/**/__tests__/` | Colocated test files run by Vitest.                                |
 
 The `@/*` path alias maps to `./src/*`, so import shared code with
 `import { HEALTH_STATUS } from "@/lib/health"`.
