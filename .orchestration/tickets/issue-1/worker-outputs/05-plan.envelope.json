@@ -1,0 +1,14 @@
+{
+  "role": "planner",
+  "ticket": "issue-1",
+  "deliverable_path": ".orchestration/tickets/issue-1/plan.md",
+  "status": "done",
+  "confidence": "high",
+  "summary": "12-step, dependency-ordered plan: gitignore/Node pin first (before install), then manifest+scripts, install, TS/Next/ESLint/Prettier config, root UI shell, GET /api/health endpoint, src/lib utility, test runner + 1 passing test, .env.example, green-pipeline checkpoint, README. ~16 files to create; 0 modify/delete. No data/migrations. Rollout: no flags; only constraint is .gitignore before npm install.",
+  "assumptions": [
+    "TypeScript + App Router + npm per solution.md",
+    "Node 20.x LTS via .nvmrc + engines (coder may choose 22.x)",
+    "Vitest recommended, Jest acceptable",
+    "ESLint flat config (eslint.config.mjs) for current Next.js"
+  ]
+}

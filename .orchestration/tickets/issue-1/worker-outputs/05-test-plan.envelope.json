@@ -1,0 +1,8 @@
+{
+  "role": "test-planner",
+  "ticket": "issue-1",
+  "deliverable_path": ".orchestration/tickets/issue-1/test-plan.md",
+  "status": "done",
+  "confidence": "high",
+  "summary": "9-test plan (4 unit + 5 functional) covering all 6 AC + 4 edge cases. Framework: Vitest (ESM native + App Router compatible). Tests cover: health endpoint (200 + JSON), no DB dependency, TS compilation, .env.example validation, lint/format/build scripts, .gitignore patterns, README documentation. 6 new test files under src/__tests__/ + src/app/api/health/__tests__/."
+}
