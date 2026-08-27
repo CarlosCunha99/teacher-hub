@@ -1,0 +1,32 @@
+{
+  "status": "done",
+  "role": "spec-reviewer",
+  "round": 2,
+  "scope": "delta",
+  "verdict": "approve",
+  "confidence": "high",
+  "one_line_summary": "All 3 blocking findings resolved with concrete, non-vacuous assertions; 37/37 tests pass. Residual gaps are minor, not blocking.",
+  "analysis": {
+    "F1": "RESOLVED. A describe('listComments') block now exists with 5 tests. Nesting: asserts items.length===1, items[0].id===parentId, replies.length===1, replies[0].id===replyId — proves the reply is nested and absent from top level. Soft-delete redaction (the 'most serious' prior gap): asserts body==='This comment has been deleted' AND authorId===null AND authorName===null against a row whose original body was 'Original body that should be hidden' — a leaking impl fails. Cursor: limit=2 with 3 rows asserts nextCursor not null AND items sliced to 2; last-page case asserts nextCursor===null with 2 rows. Default limit: expect(mockSelectLimit).toHaveBeenCalledWith(21) — exactly the non-vacuous form requested. Residual (minor, non-blocking): no assertion on orderBy args (created_at ASC / id ASC), no cursor round-trip (decoded cursor fed back into a second call), no 'replies of a soft-deleted parent are still returned' case.",
+    "F2": "RESOLVED. Each notification function now has a matched negative/positive pair. Positive tests assert mockDbInsert was called AND mockInsertValues received expect.objectContaining({ recipientId, type, resourceId, commentId }) with distinct actor/recipient ids (AUTHOR_ID vs RESOURCE_OWNER_ID), and the reply case uses a distinct REPLY_ID so commentId cannot be confused with the parent id. The prior kill-shot — a no-op `createNotificationFor*(){ return; }` — now fails both positive tests. Residual (minor): readAt: null not asserted; toHaveBeenCalled() rather than toHaveBeenCalledTimes(1), so a double-insert would pass.",
+    "F3": "RESOLVED. comments/route.test.ts:257-264 now asserts expect.objectContaining({ resourceId, resourceOwnerId: OWNER_ID, commentId: 'new-comment-id', actorId: USER_ID }) — OWNER_ID is supplied only by the mocked DB owner lookup and differs from USER_ID, so passing undefined or the actor's own id fails. replies/route.test.ts:172-179 upgraded from a bare toHaveBeenCalled() to expect.objectContaining({ resourceId, parentCommentAuthorId: PARENT_AUTHOR_ID, replyCommentId: 'reply-id-1', actorId: USER_ID }); PARENT_AUTHOR_ID comes from the mocked parent-comment select and is distinct from USER_ID. All ID args verified. Residual (minor): no route-level self-notification case (current user === OWNER_ID / PARENT_AUTHOR_ID still returning 201) — acceptable, since suppression is a service-level branch and is covered there."
+  },
+  "verification": {
+    "command": "npx vitest run src/lib/comments/__tests__/service.test.ts src/app/api/resources/[resourceId]/comments/__tests__/route.test.ts src/app/api/resources/[resourceId]/comments/[commentId]/replies/__tests__/route.test.ts",
+    "result": "3 files passed, 37 tests passed, 0 failed"
+  },
+  "blocking_gaps": [],
+  "non_blocking_followups": [
+    "F1a: assert listComments orderBy receives asc(createdAt)/asc(id) — ordering is currently unverified because the db is fully mocked.",
+    "F1b: add a cursor round-trip test (feed the returned nextCursor into a second listComments call and assert the encoded value reaches the query).",
+    "F1c: add 'replies of a soft-deleted parent are still returned'.",
+    "F2a: tighten positive notification tests to toHaveBeenCalledTimes(1) and include readAt: null in the matcher.",
+    "F3a: add route-level self-notification cases (actor === owner / === parent author) still asserting 201.",
+    "Carried over from round 1 (minor/info, still open): F10 duplicate 404 reply tests, F11 no 500 / notification-failure-does-not-fail-201 coverage, F12 auth.ts malformed-JSON code bug, F14 no component/UI tests for AC-E2 / AC-SEC1 / AC-A11Y."
+  ],
+  "changed_files": [
+    "src/lib/comments/__tests__/service.test.ts",
+    "src/app/api/resources/[resourceId]/comments/__tests__/route.test.ts",
+    "src/app/api/resources/[resourceId]/comments/[commentId]/replies/__tests__/route.test.ts"
+  ]
+}

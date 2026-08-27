@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T21:00:23Z"
   },
-  "stage": "06-contract",
-  "next": "07-implement",
+  "stage": "07-implement",
+  "next": "08-verify",
   "started_at": "2026-08-27T20:59:03Z",
-  "updated_at": "2026-08-27T21:16:43Z",
+  "updated_at": "2026-08-27T21:44:10Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -39,11 +39,23 @@
     }
   },
   "implement": {
-    "round": 0,
+    "round": 2,
     "max_rounds": 5,
     "spec_review_approved": false,
     "last_diagnosis": null,
-    "escalated": false
+    "escalated": false,
+    "tester_slices": [
+      {
+        "slice_id": "unit",
+        "scope": "Unit tests: service + auth",
+        "status": "done"
+      },
+      {
+        "slice_id": "integration",
+        "scope": "Integration/API tests: route handlers + notifications",
+        "status": "done"
+      }
+    ]
   },
   "artifacts": {
     "brief_md": ".orchestration/tickets/issue-17/BRIEF.md",
@@ -63,7 +75,9 @@
     "enricher": "claude-opus-4.7",
     "planner": "claude-opus-4.7",
     "test_planner": "claude-sonnet-5",
-    "contract_writer": "claude-sonnet-4.6"
+    "contract_writer": "claude-sonnet-4.6",
+    "tester": "claude-sonnet-4.6",
+    "spec_reviewer": "claude-opus-5"
   },
   "independence_violations": [],
   "human_interactions": [

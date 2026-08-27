@@ -8,7 +8,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {/* TODO(auth): mount <NotificationBadge> once issue #2 lands */}
+        {children}
+      </body>
     </html>
   );
 }

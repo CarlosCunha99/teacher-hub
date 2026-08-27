@@ -11,6 +11,7 @@ contains the foundational Next.js application skeleton that all downstream MVP f
 - **[TypeScript](https://www.typescriptlang.org/)** — static typing in `strict` mode.
 - **[ESLint](https://eslint.org/)** + **[Prettier](https://prettier.io/)** — linting and formatting.
 - **[Vitest](https://vitest.dev/)** — test runner.
+- **[Drizzle ORM](https://orm.drizzle.team/)** + **[PostgreSQL](https://www.postgresql.org/)** — data layer for comments and notifications.
 - **Node.js 20 LTS** — pinned via `.nvmrc` and enforced through `engines`.
 
 ## Prerequisites
@@ -18,6 +19,7 @@ contains the foundational Next.js application skeleton that all downstream MVP f
 - **Node.js 20.x** (the version pinned in [`.nvmrc`](./.nvmrc)). If you use `nvm`, run
   `nvm use`; if you use `fnm`, run `fnm use`.
 - **npm** (bundled with Node.js).
+- **PostgreSQL** for the commenting and notification APIs.
 
 ## Getting started
 
@@ -35,7 +37,11 @@ cp .env.example .env.local
 # 4. Install dependencies
 npm install
 
-# 5. Start the development server
+# 5. Generate and apply database migrations once PostgreSQL is available
+npm run db:generate
+npm run db:migrate
+
+# 6. Start the development server
 npm run dev
 ```
 
@@ -47,15 +53,17 @@ returns `{ "status": "ok" }` with HTTP 200.
 
 These scripts run identically locally and in CI (install → lint → test → build):
 
-| Script                 | Command              | Description                                   |
-| ---------------------- | -------------------- | --------------------------------------------- |
-| `npm run dev`          | `next dev`           | Start the development server with hot reload. |
-| `npm run build`        | `next build`         | Produce a production build in `.next/`.       |
-| `npm start`            | `next start`         | Serve the production build.                   |
-| `npm run lint`         | `next lint`          | Run ESLint over the codebase.                 |
-| `npm run format`       | `prettier --write .` | Format all files in place.                    |
-| `npm run format:check` | `prettier --check .` | Verify formatting without writing changes.    |
-| `npm test`             | `vitest run`         | Run the test suite once.                      |
+| Script                 | Command                | Description                                      |
+| ---------------------- | ---------------------- | ------------------------------------------------ |
+| `npm run dev`          | `next dev`             | Start the development server with hot reload.    |
+| `npm run build`        | `next build`           | Produce a production build in `.next/`.          |
+| `npm start`            | `next start`           | Serve the production build.                      |
+| `npm run lint`         | `next lint`            | Run ESLint over the codebase.                    |
+| `npm run format`       | `prettier --write .`   | Format all files in place.                       |
+| `npm run format:check` | `prettier --check .`   | Verify formatting without writing changes.       |
+| `npm test`             | `vitest run`           | Run the test suite once.                         |
+| `npm run db:generate`  | `drizzle-kit generate` | Generate SQL migrations from the Drizzle schema. |
+| `npm run db:migrate`   | `drizzle-kit migrate`  | Apply generated migrations to PostgreSQL.        |
 
 ## Folder structure
 
@@ -84,9 +92,22 @@ cp .env.example .env.local
   contains **no secrets**.
 - `.env.local` — your local, git-ignored copy with real values.
 
-Real variables for the database and authentication arrive in issues #2 (auth) and #3
-(PostgreSQL schema). The health-check route is intentionally database-free so the app runs
-before those are provisioned.
+Required variables for the commenting system:
+
+- `DATABASE_URL` — PostgreSQL connection string, for example `postgresql://localhost:5432/teacher_hub`.
+- `DEV_USER_ID` — optional UUID override for the hardcoded development user returned by the auth stub.
+
+## Commenting system
+
+Phase 2 introduces a resource discussion feature under `/resources/[resourceId]`:
+
+- top-level comments with one-level replies
+- author-only edits
+- soft delete with reply preservation
+- unread in-app notifications for resource owners and parent-comment authors
+
+Before using the routes or page shell, make sure PostgreSQL is reachable and generated
+migrations have been applied.
 
 ## License
 
