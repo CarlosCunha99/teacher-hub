@@ -1,7 +1,7 @@
 # Branch Brief — issue-16
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:12:50Z at stage 05-plan (gate: gate_3_scope → passed at 2026-08-27T21:12:49Z)._
+_Last rendered: 2026-08-27T21:16:17Z at stage 06-contract (gate: gate_3_scope → passed at 2026-08-27T21:12:49Z)._
 
 ## The work
 Free-tier teachers on Teacher Hub currently have unlimited downloads of shared
@@ -12,7 +12,7 @@ limit, there is no product-level incentive to purchase premium, and Teacher Hub
 cannot monetize its most active users.
 
 ## Where we are
-- **Stage:** 05-plan  →  next: 06-contract
+- **Stage:** 06-contract  →  next: 07-implement
 - **Last gate:** gate_3_scope → passed at 2026-08-27T21:12:49Z
 - **Next gate:** gate_3_scope → approve plan and test-plan scope
 - **Escalated:** no
@@ -34,6 +34,8 @@ None open.
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-16/solution.md` |
 | Technical plan | `.orchestration/tickets/issue-16/plan.md` |
 | Test plan | `.orchestration/tickets/issue-16/test-plan.md` |
+| Interface lock (parallel-work contract) | `.orchestration/tickets/issue-16/contract.md` |
+| Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-16/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-16/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-16/state.json` |
 
@@ -42,7 +44,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/05-plan.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/06-contract.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails
