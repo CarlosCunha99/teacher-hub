@@ -61,12 +61,13 @@ These scripts run identically locally and in CI (install → lint → test → b
 
 The source is organized to keep UI, API routes, and shared utilities clearly separated:
 
-| Path                | Purpose                                                            |
-| ------------------- | ------------------------------------------------------------------ |
-| `src/app/`          | App Router pages and layouts (UI). `layout.tsx` is the root shell. |
-| `src/app/api/`      | API route handlers. Each `route.ts` exports HTTP method handlers.  |
-| `src/lib/`          | Shared utilities, constants, and types reused across the app.      |
-| `src/**/__tests__/` | Colocated test files run by Vitest.                                |
+| Path                | Purpose                                                                                                                                |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/app/`          | App Router pages and layouts (UI). `layout.tsx` is the root shell.                                                                     |
+| `src/app/teachers/` | Public teacher profile pages (`/teachers/[username]`). Server-rendered; requires `DATABASE_URL` once the real data-access layer lands. |
+| `src/app/api/`      | API route handlers. Each `route.ts` exports HTTP method handlers.                                                                      |
+| `src/lib/`          | Shared utilities, constants, and types reused across the app.                                                                          |
+| `src/**/__tests__/` | Colocated test files run by Vitest.                                                                                                    |
 
 The `@/*` path alias maps to `./src/*`, so import shared code with
 `import { HEALTH_STATUS } from "@/lib/health"`.
