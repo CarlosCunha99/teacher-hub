@@ -3,8 +3,8 @@
   "type": "feature",
   "source": {
     "kind": "text",
-    "ref": "user-provided",
-    "issue_number": 17
+    "ref": "https://github.com/CarlosCunha99/teacher-hub/issues/20",
+    "issue_number": 20
   },
   "branch": {
     "name": "issue-17-phase-2-implement-resource-commenting-a-e40573",
@@ -14,10 +14,11 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:59:03Z",
-  "updated_at": "2026-08-27T21:00:23Z",
+  "updated_at": "2026-08-27T21:04:49Z",
   "gates": {
     "gate_1_enrich": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:04:49Z"
     },
     "gate_2_brainstorm": {
       "status": "pending"
@@ -56,9 +57,18 @@
     "verify_md": ".orchestration/tickets/issue-17/verify.md",
     "pr_body_md": ".orchestration/tickets/issue-17/pr-body.md"
   },
-  "models_used": {},
+  "models_used": {
+    "enricher": "claude-opus-4.7"
+  },
   "independence_violations": [],
-  "human_interactions": [],
+  "human_interactions": [
+    {
+      "stage": "01-enrich",
+      "kind": "other",
+      "summary": "Enricher identified blocking ambiguity: GH issue #17 is taxonomy, not commenting. Autopilot resolution: create new GH issue for commenting.",
+      "at": "2026-08-27T21:04:09Z"
+    }
+  ],
   "pr_url": null,
   "completed_at": null
 }

@@ -1,15 +1,16 @@
 # Branch Brief — issue-17
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:00:23Z at stage 00-intake (gate: none → pending)._
+_Last rendered: 2026-08-27T21:04:49Z at stage 00-intake (gate: gate_1_enrich → passed at 2026-08-27T21:04:49Z)._
 
 ## The work
-Teachers currently have no way to leave feedback, ask questions, or engage in discussion directly on resources within Teacher Hub. When a teacher discovers a useful resource, they cannot communicate with the author or community about it — they can only download or save it. This limits the platform's value as a collaborative professional community.
-A resource commenting system would allow educators to share their experience using a resource, suggest improvements, ask the author for clarification, and build a richer signal around resource quality — beyond simple download counts or likes.
+✅ **Verified** (from user session brief and product framing in README.md L1–L4)
+Teachers using Teacher Hub can currently only discover and (per the Phase 2 roadmap) like/save resources. They have no way to leave feedback, ask the author a question, share how they used a resource in class, or discuss it with peers. When a resource is helpful — or has an issue (broken link, outdated content, wrong year level) — teachers have no channel to say so on the resource itself.
+This is a gap in Teacher Hub's identity as a *collaborative teacher community* rather than a static file library. Without comments, resource quality signal is limited to download and like counts, and authors receive no textual feedback that would help them improve their materials.
 
 ## Where we are
 - **Stage:** 00-intake  →  next: 01-enrich
-- **Last gate:** none → pending
+- **Last gate:** gate_1_enrich → passed at 2026-08-27T21:04:49Z
 - **Next gate:** gate_1_enrich → approve enriched ticket / changes / Q&A
 - **Escalated:** no
 
