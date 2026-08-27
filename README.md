@@ -100,6 +100,28 @@ Real variables for the database and authentication arrive in issues #2 (auth) an
 (PostgreSQL schema). The health-check route is intentionally database-free so the app runs
 before those are provisioned.
 
+### Billing (Stripe)
+
+Premium membership (issue #15) is powered by [Stripe](https://stripe.com/) Checkout and the
+Customer Portal, so no card data ever touches this app. Configure the following variables in
+`.env.local`:
+
+| Variable                | Purpose                                                       |
+| ----------------------- | ------------------------------------------------------------- |
+| `STRIPE_SECRET_KEY`     | Secret API key used for all server-side Stripe calls.         |
+| `STRIPE_WEBHOOK_SECRET` | Signing secret used to verify incoming Stripe webhook events. |
+| `STRIPE_PRICE_ID`       | Price ID of the premium monthly plan passed to Checkout.      |
+| `NEXT_PUBLIC_APP_URL`   | Base URL used to build Stripe success/cancel redirect URLs.   |
+
+For local webhook testing, install the [Stripe CLI](https://docs.stripe.com/stripe-cli) and
+forward events to the webhook route:
+
+```bash
+stripe listen --forward-to localhost:3000/api/billing/webhook
+```
+
+The CLI prints a webhook signing secret (`whsec_…`) — copy it into `STRIPE_WEBHOOK_SECRET`.
+
 ## License
 
 Private — internal MVP foundation.
