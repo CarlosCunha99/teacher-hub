@@ -1,7 +1,7 @@
 # Branch Brief — issue-17
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:12:11Z at stage 06-contract (gate: gate_3_scope → passed at 2026-08-27T21:12:11Z)._
+_Last rendered: 2026-08-27T21:16:43Z at stage 06-contract (gate: gate_3_scope → passed at 2026-08-27T21:12:11Z)._
 
 ## The work
 ✅ **Verified** (from user session brief and product framing in README.md L1–L4)
@@ -29,6 +29,8 @@ None open.
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-17/solution.md` |
 | Technical plan | `.orchestration/tickets/issue-17/plan.md` |
 | Test plan | `.orchestration/tickets/issue-17/test-plan.md` |
+| Interface lock (parallel-work contract) | `.orchestration/tickets/issue-17/contract.md` |
+| Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-17/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-17/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-17/state.json` |
 

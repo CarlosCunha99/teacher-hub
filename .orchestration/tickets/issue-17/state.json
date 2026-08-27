@@ -14,7 +14,7 @@
   "stage": "06-contract",
   "next": "07-implement",
   "started_at": "2026-08-27T20:59:03Z",
-  "updated_at": "2026-08-27T21:12:11Z",
+  "updated_at": "2026-08-27T21:16:43Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -62,7 +62,8 @@
   "models_used": {
     "enricher": "claude-opus-4.7",
     "planner": "claude-opus-4.7",
-    "test_planner": "claude-sonnet-5"
+    "test_planner": "claude-sonnet-5",
+    "contract_writer": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
