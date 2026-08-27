@@ -1,7 +1,7 @@
 # Branch Brief — resource-tagging
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:35:27Z at stage 08-verify (gate: gate_3_scope → passed at 2026-08-27T21:11:58Z)._
+_Last rendered: 2026-08-27T21:38:55Z at stage 09-agent-review (gate: gate_4_handoff → passed at 2026-08-27T21:38:54Z)._
 
 ## The work
 Teachers use Teacher Hub to share and discover classroom resources. The standard
@@ -12,9 +12,9 @@ adequately describe their resources with the fixed subject/year vocabulary alone
 As a result, valuable resources are either mis-tagged into the nearest standard
 
 ## Where we are
-- **Stage:** 08-verify  →  next: 09-agent-review
+- **Stage:** 09-agent-review  →  next: 10-human-review
 - **Round:** 1 / 5
-- **Last gate:** gate_3_scope → passed at 2026-08-27T21:11:58Z
+- **Last gate:** gate_4_handoff → passed at 2026-08-27T21:38:54Z
 - **Next gate:** gate_4_handoff → hand off to human review
 - **Escalated:** no
 
@@ -22,6 +22,7 @@ As a result, valuable resources are either mis-tagged into the nearest standard
 None open.
 
 ## Latest decisions
+- 2026-08-27T21:38:55Z — 09-agent-review — gate: Autopilot: gate_4 auto-passed (user unavailable). Verdict=approve. Skip markers, just hand off.
 - 2026-08-27T21:11:59Z — 05-plan — gate: Autopilot: scope approved. plan.md + test-plan.md (43 functional + 10 unit tests). Prisma+SQLite, CRUD+filter routes.
 - 2026-08-27T21:05:50Z — 03-brainstorm — gate: Autopilot: brainstorm closed. Direction: teacher-scoped tags, Prisma+SQLite, minimal Resource stub, API-only.
 - 2026-08-27T21:04:10Z — 01-enrich — gate: Autopilot: enrichment auto-approved (user unavailable). ticket.md has 12 ACs and rich edge cases.
@@ -38,6 +39,7 @@ None open.
 | Interface lock (parallel-work contract) | `.orchestration/tickets/resource-tagging/contract.md` |
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/resource-tagging/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/resource-tagging/impact.md` |
+| Code review verdict | `.orchestration/tickets/resource-tagging/code-review.md` |
 | Full state / audit trail | `.orchestration/tickets/resource-tagging/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -45,7 +47,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/08-verify.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/09-agent-review.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails
