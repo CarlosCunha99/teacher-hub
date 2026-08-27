@@ -1,7 +1,7 @@
 # Branch Brief — issue-2
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:46:40Z at stage 06-contract (gate: gate_3_scope → overridden at 2026-08-27T20:25:15Z)._
+_Last rendered: 2026-08-27T22:11:49Z at stage 07-implement (gate: gate_3_scope → overridden at 2026-08-27T20:25:15Z)._
 
 ## The work
 ✅ **Verified** (repo has no auth surface: `src/app/page.tsx` renders a static "Teacher Hub" main, the only API route is the database-free health check in `src/app/api/health/route.ts`, and `.env.example` notes auth variables "arrive in issues #2 and #3").
@@ -9,9 +9,10 @@ Teacher Hub is a platform for teachers to share and discover classroom resources
 This ticket establishes the first identity boundary for the product: letting a teacher create an account, prove who they are on return visits, stay recognized across a session, and deliberately end that session. It is the prerequisite for every downstream MVP capability (uploads, saves/boards, profiles) that must be attributed to a specific teacher.
 
 ## Where we are
-- **Stage:** 06-contract  →  next: 07-implement
+- **Stage:** 07-implement  →  next: 08-verify
+- **Round:** 1 / 5
 - **Last gate:** gate_3_scope → overridden at 2026-08-27T20:25:15Z
-- **Next gate:** gate_3_scope → approve plan and test-plan scope
+- **Next gate:** none scheduled
 - **Escalated:** no
 
 ## Open questions / ambiguities
@@ -34,6 +35,7 @@ None open.
 | Interface lock (parallel-work contract) | `.orchestration/tickets/issue-2/contract.md` |
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-2/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-2/impact.md` |
+| Current diagnostics (if in fix loop) | `.orchestration/tickets/issue-2/diagnosis/round-1.json` |
 | Full state / audit trail | `.orchestration/tickets/issue-2/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -41,7 +43,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/06-contract.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/07-implement.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails

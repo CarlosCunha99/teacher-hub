@@ -1,0 +1,124 @@
+{
+  "scope": "full",
+  "delta_of": null,
+  "verdict": "approve",
+  "confidence": "high",
+  "criteria_coverage": [
+    {
+      "id": "AC1",
+      "criterion": "A teacher can register by providing name, email, and password, and a new account is created for them.",
+      "coverage": "adequate",
+      "tests": [
+        "src/app/(auth)/register/__tests__/page.test.ts :: Registration success flow"
+      ],
+      "notes": "The registration flow test now shares the action's repository via vi.mock('@/auth') and the testRepo getter, so persistence assertions observe the same instance used by registerAction."
+    },
+    {
+      "id": "AC2",
+      "criterion": "Registration rejects an email that is already associated with an existing account, and the teacher is told the email is already in use.",
+      "coverage": "adequate",
+      "tests": [
+        "src/lib/repositories/__tests__/user-repository.test.ts :: duplicate email tests",
+        "src/app/(auth)/register/__tests__/page.test.ts :: Registration duplicate-email error"
+      ],
+      "notes": "The registration duplicate-email test now seeds the shared repository instance and asserts AUTH_ERRORS.EMAIL_IN_USE."
+    },
+    {
+      "id": "AC3",
+      "criterion": "A teacher's password is never retained in a readable form; it is stored only in a securely hashed form.",
+      "coverage": "adequate",
+      "tests": [
+        "src/lib/auth/__tests__/password.test.ts",
+        "src/app/(auth)/register/__tests__/page.test.ts :: Registration success flow"
+      ],
+      "notes": "The suite verifies bcrypt hashing behavior and now checks the stored registration value on the action's actual repository instance."
+    },
+    {
+      "id": "AC4",
+      "criterion": "A registered teacher can sign in with the correct email and password and becomes a recognized, signed-in user.",
+      "coverage": "adequate",
+      "tests": [
+        "src/auth.__tests__/credentials.test.ts :: returns user object (no passwordHash) for correct credentials",
+        "src/app/(auth)/sign-in/__tests__/page.test.ts :: Sign-in success flow — components verify correctly"
+      ],
+      "notes": "The credentials test now exercises the real normalizeEmail → userRepository.findByEmail → verifyPassword chain and asserts the returned user shape excludes passwordHash."
+    },
+    {
+      "id": "AC5",
+      "criterion": "Signing in with an unknown email or an incorrect password is rejected with a user-friendly invalid-credentials message that does not reveal which part was wrong.",
+      "coverage": "adequate",
+      "tests": [
+        "src/auth.__tests__/credentials.test.ts :: returns null for wrong password / unknown email / enumeration resistance",
+        "src/app/(auth)/sign-in/__tests__/page.test.ts :: invalid-credentials component tests"
+      ],
+      "notes": "The credentials suite now proves both failure paths return the same null outcome and anchors AUTH_ERRORS.INVALID_CREDENTIALS to the locked string literal."
+    },
+    {
+      "id": "AC6",
+      "criterion": "A signed-in teacher remains recognized across subsequent page views/requests within the same session.",
+      "coverage": "manual_only_acknowledged",
+      "tests": [],
+      "notes": "Accepted as manual/e2e-only per dispatch note."
+    },
+    {
+      "id": "AC7",
+      "criterion": "A teacher can sign out, and after signing out they are treated as unauthenticated.",
+      "coverage": "manual_only_acknowledged",
+      "tests": [],
+      "notes": "Accepted as manual/e2e-only per dispatch note."
+    },
+    {
+      "id": "AC8",
+      "criterion": "After sign-out, the previously issued session can no longer be used to access protected areas.",
+      "coverage": "manual_only_acknowledged",
+      "tests": [],
+      "notes": "Accepted as manual/e2e-only per dispatch note."
+    },
+    {
+      "id": "AC9",
+      "criterion": "A request from an unauthenticated visitor to a protected route or protected API endpoint is rejected (not served the protected content).",
+      "coverage": "adequate",
+      "tests": [
+        "src/middleware.__tests__/middleware.test.ts :: Middleware blocks unauthenticated request to protected route",
+        "src/middleware.__tests__/middleware.test.ts :: Middleware matcher pattern excludes public paths"
+      ],
+      "notes": "The known next-auth ESM import issue is an env_bug and not treated as a spec/design blocker."
+    },
+    {
+      "id": "AC10",
+      "criterion": "Authentication-related errors (invalid credentials, duplicate email, missing/invalid fields) are surfaced as friendly, understandable messages.",
+      "coverage": "adequate",
+      "tests": [
+        "src/app/(auth)/register/__tests__/page.test.ts :: Registration duplicate-email error / validation-error display",
+        "src/app/(auth)/register/__tests__/actions.test.ts",
+        "src/auth.__tests__/credentials.test.ts :: enumeration resistance literal check",
+        "src/app/(auth)/sign-in/__tests__/page.test.ts :: validation tests"
+      ],
+      "notes": "Friendly duplicate-email and validation paths are covered, and the invalid-credentials message constant is now locked to the expected literal."
+    },
+    {
+      "id": "AC11",
+      "criterion": "Submitting registration or sign-in with missing or malformed fields is rejected with a clear validation message.",
+      "coverage": "adequate",
+      "tests": [
+        "src/app/(auth)/register/__tests__/actions.test.ts",
+        "src/app/(auth)/register/__tests__/page.test.ts :: Registration validation-error display",
+        "src/app/(auth)/sign-in/__tests__/page.test.ts :: sign-in validation — empty email / empty password / invalid email format"
+      ],
+      "notes": "The missing sign-in validation coverage has been added for empty email, empty password, and malformed email format."
+    }
+  ],
+  "test_findings": [
+    {
+      "severity": "non_blocking",
+      "files": [
+        "src/app/(auth)/sign-in/__tests__/page.test.ts"
+      ],
+      "summary": "One older constant-self-comparison remains redundant but is no longer coverage-critical.",
+      "details": "The page-level sign-in suite still contains a lightweight AUTH_ERRORS.INVALID_CREDENTIALS self-comparison, but the blocking tautology concern is resolved because src/auth.__tests__/credentials.test.ts now anchors the constant to the locked string literal and covers the shared failure outcome."
+    }
+  ],
+  "unmapped_tests": [],
+  "unmapped_criteria": [],
+  "one_line_summary": "All four prior blockers are resolved; the revised test suite is sufficient for approval, with AC6/AC7/AC8 remaining intentionally manual/e2e-only."
+}

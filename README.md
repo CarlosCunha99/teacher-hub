@@ -88,6 +88,15 @@ Real variables for the database and authentication arrive in issues #2 (auth) an
 (PostgreSQL schema). The health-check route is intentionally database-free so the app runs
 before those are provisioned.
 
+### Authentication environment (issue #2)
+
+Set the following in `.env.local` for local auth flows:
+
+- `NEXTAUTH_SECRET` — required by NextAuth JWT signing (use a strong value locally; `.env.example` keeps a safe placeholder).
+- `NEXTAUTH_URL` — set to `http://localhost:3000` for local development.
+
+Current MVP authentication uses an in-memory user repository for teacher accounts, so accounts reset whenever the server restarts.
+
 ## License
 
 Private — internal MVP foundation.
