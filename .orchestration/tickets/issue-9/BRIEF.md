@@ -1,7 +1,7 @@
 # Branch Brief — issue-9
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:03:30Z at stage 03-brainstorm (gate: gate_2_brainstorm → overridden at 2026-08-27T21:03:29Z)._
+_Last rendered: 2026-08-27T21:06:28Z at stage 04-impact (gate: gate_2_brainstorm → overridden at 2026-08-27T21:03:29Z)._
 
 ## The work
 Teachers on Teacher Hub can share classroom resources, but the platform has no mechanism to make them acknowledge the legal terms governing ownership and permitted use of the content they upload. Without a recorded acceptance, the platform cannot demonstrate that a contributing teacher agreed to the current terms of use at the time they published, which is a legal/compliance exposure for user-generated content.
@@ -9,9 +9,9 @@ This ticket introduces a compliance gate: before a teacher publishes their **fir
 > ❓ **Foundational dependency (Unverified):** The repository is currently only the Next.js skeleton (see `src/` — only a health-check route and home page exist). Authentication (#2), the PostgreSQL data model (#3), and the PDF upload workflow (#4) are all **open and unbuilt**. This feature cannot function end-to-end until at least those exist. Whether this ticket should (a) wait for them, (b) ship behind stubs, or (c) define only the terms-acceptance slice is a scoping decision for the human — see "Needs clarification".
 
 ## Where we are
-- **Stage:** 03-brainstorm  →  next: 04-impact
+- **Stage:** 04-impact  →  next: 05-plan
 - **Last gate:** gate_2_brainstorm → overridden at 2026-08-27T21:03:29Z
-- **Next gate:** gate_2_brainstorm → close or continue brainstorm
+- **Next gate:** gate_3_scope → approve plan and test-plan scope
 - **Escalated:** no
 
 ## Open questions / ambiguities
@@ -29,6 +29,7 @@ This ticket introduces a compliance gate: before a teacher publishes their **fir
 | Product problem, ACs, edge cases | `.orchestration/tickets/issue-9/ticket.md` |
 | Raw intake context for enrichment | `.orchestration/tickets/issue-9/raw-context.md` |
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-9/solution.md` |
+| Impact scan (files, blast radius) | `.orchestration/tickets/issue-9/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-9/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -36,7 +37,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/03-brainstorm.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/04-impact.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails

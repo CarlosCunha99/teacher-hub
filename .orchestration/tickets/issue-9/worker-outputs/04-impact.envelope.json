@@ -1,0 +1,33 @@
+{
+  "todo_id": "issue-9-04-impact-r0",
+  "status": "done",
+  "summary": "Impact analysis for issue-9 is complete: ~19 files across 8 new source files, 5 new test files, 1 migration, README, and .env.example; key risks are unbuilt auth (#2), DB (#3), and upload (#4) dependencies plus a new PostgreSQL infrastructure requirement.",
+  "deliverable_path": ".orchestration/tickets/issue-9/impact.md",
+  "changed_files": [
+    {"path": ".orchestration/tickets/issue-9/impact.md", "action": "modified", "lines_added": 0, "lines_removed": 0},
+    {"path": ".orchestration/tickets/issue-9/worker-outputs/04-impact.envelope.json", "action": "modified", "lines_added": 18, "lines_removed": 22}
+  ],
+  "verification": {
+    "commands_run": ["cat .orchestration/tickets/issue-9/impact.md", "cat .orchestration/tickets/issue-9/worker-outputs/04-impact.envelope.json"],
+    "all_passed": true,
+    "notes": "impact.md exists and is unchanged; envelope rewritten to required schema shape"
+  },
+  "follow_ups": [
+    "Choose and add a PostgreSQL client dependency (pg, Prisma, or Drizzle) to package.json before implementation begins",
+    "Coordinate with auth ticket (#2) to agree on session identity interface before wiring terms-acceptance and upload routes",
+    "Agree on stub upload route shape with #4 owner to minimise merge-conflict surface"
+  ],
+  "open_questions": [
+    {
+      "q": "Which PostgreSQL client library will be used (pg, Prisma, Drizzle)?",
+      "proposed_answer": "Drizzle or Prisma for type-safety; pg for minimal overhead — decision affects migration tooling and DB helper shape",
+      "blocking": true
+    },
+    {
+      "q": "How will authenticated teacher identity be represented in the session before auth (#2) ships?",
+      "proposed_answer": "Use a stub/mock session returning a fixed teacherId in dev/test; replace when #2 is merged",
+      "blocking": false
+    }
+  ],
+  "confidence": "medium"
+}
