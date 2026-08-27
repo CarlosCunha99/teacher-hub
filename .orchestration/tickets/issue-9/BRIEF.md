@@ -1,7 +1,7 @@
 # Branch Brief — issue-9
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:47:43Z at stage 09-agent-review (gate: gate_4_handoff → overridden at 2026-08-27T21:47:42Z)._
+_Last rendered: 2026-08-27T21:47:57Z at stage 10-human-review (gate: gate_4_handoff → overridden at 2026-08-27T21:47:42Z)._
 
 ## The work
 Teachers on Teacher Hub can share classroom resources, but the platform has no mechanism to make them acknowledge the legal terms governing ownership and permitted use of the content they upload. Without a recorded acceptance, the platform cannot demonstrate that a contributing teacher agreed to the current terms of use at the time they published, which is a legal/compliance exposure for user-generated content.
@@ -9,10 +9,10 @@ This ticket introduces a compliance gate: before a teacher publishes their **fir
 > ❓ **Foundational dependency (Unverified):** The repository is currently only the Next.js skeleton (see `src/` — only a health-check route and home page exist). Authentication (#2), the PostgreSQL data model (#3), and the PDF upload workflow (#4) are all **open and unbuilt**. This feature cannot function end-to-end until at least those exist. Whether this ticket should (a) wait for them, (b) ship behind stubs, or (c) define only the terms-acceptance slice is a scoping decision for the human — see "Needs clarification".
 
 ## Where we are
-- **Stage:** 09-agent-review  →  next: 10-human-review
+- **Stage:** 10-human-review  →  next: 12-open-pr
 - **Round:** 2 / 5
 - **Last gate:** gate_4_handoff → overridden at 2026-08-27T21:47:42Z
-- **Next gate:** gate_4_handoff → hand off to human review
+- **Next gate:** gate_5_pr → approve PR body and open PR
 - **Escalated:** no
 
 ## Open questions / ambiguities
@@ -41,6 +41,7 @@ This ticket introduces a compliance gate: before a teacher publishes their **fir
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-9/impact.md` |
 | Current diagnostics (if in fix loop) | `.orchestration/tickets/issue-9/diagnosis/round-2.json` |
 | Code review verdict | `.orchestration/tickets/issue-9/code-review.md` |
+| Human review marker scan | `.orchestration/tickets/issue-9/review-summary.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-9/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -48,7 +49,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/09-agent-review.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/10-human-review.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails
