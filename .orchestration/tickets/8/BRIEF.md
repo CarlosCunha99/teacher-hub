@@ -1,10 +1,10 @@
 # Branch Brief — 8
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T20:57:35Z at stage 00-intake (gate: none → pending)._
+_Last rendered: 2026-08-27T20:57:57Z at stage 00-intake (gate: none → pending)._
 
 ## The work
-Not captured yet. See `ticket.md` once stage 00/01 has populated it.
+Problem statement not captured yet. Read `.orchestration/tickets/8/ticket.md` once available.
 
 ## Where we are
 - **Stage:** 00-intake  →  next: 01-enrich
@@ -22,6 +22,7 @@ No decisions recorded yet.
 
 | What you need | File |
 |---|---|
+| Product problem, ACs, edge cases | `.orchestration/tickets/8/ticket.md` |
 | Raw intake context for enrichment | `.orchestration/tickets/8/raw-context.md` |
 | Full state / audit trail | `.orchestration/tickets/8/state.json` |
 

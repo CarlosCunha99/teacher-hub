@@ -16,7 +16,9 @@
   "updated_at": "2026-08-27T20:57:35Z",
   "gates": {
     "gate_1_enrich": {
-      "status": "pending"
+      "status": "passed",
+      "resolved_at": "2026-08-27T21:57:35Z",
+      "user_decision": "autopilot: resolved blocking questions with reasonable MVP defaults"
     },
     "gate_2_brainstorm": {
       "status": "pending"
