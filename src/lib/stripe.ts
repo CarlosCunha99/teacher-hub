@@ -36,6 +36,7 @@ export async function createCheckoutSession(params: {
     cancel_url: params.cancelUrl,
     client_reference_id: params.userId,
     metadata: { userId: params.userId },
+    subscription_data: { metadata: { userId: params.userId } },
     ...(params.customerId ? { customer: params.customerId } : {}),
   });
 

@@ -124,26 +124,32 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const rawBody = await request.text();
-  const signature = request.headers.get("stripe-signature");
-  const secret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  if (!signature || !secret) {
-    return NextResponse.json({ error: "missing signature or webhook secret" }, { status: 400 });
-  }
-
-  let event: Stripe.Event;
   try {
-    event = constructWebhookEvent(rawBody, signature, secret);
-  } catch {
-    return NextResponse.json({ error: "invalid signature" }, { status: 400 });
-  }
+    const rawBody = await request.text();
+    const signature = request.headers.get("stripe-signature");
+    const secret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  try {
+    if (!signature || !secret) {
+      return NextResponse.json({ error: "missing signature or webhook secret" }, { status: 400 });
+    }
+
+    let event: Stripe.Event;
+    try {
+      event = constructWebhookEvent(rawBody, signature, secret);
+    } catch {
+      // Signature verification failures (StripeSignatureVerificationError) are
+      // client errors and must return 400.
+      return NextResponse.json({ error: "invalid signature" }, { status: 400 });
+    }
+
     if (await subscriptionsRepo.isEventProcessed(event.id)) {
       return NextResponse.json({ received: true }, { status: 200 });
     }
 
+    // NOTE: Webhook events are applied in delivery order. Stripe does not guarantee
+    // order. Out-of-order events (e.g. a delayed 'active' update arriving after a
+    // 'canceled' update) could incorrectly re-grant access. Full fix requires
+    // event timestamp comparison or Stripe API reconciliation — deferred.
     await handleEvent(event);
     await subscriptionsRepo.markEventProcessed(event.id);
 

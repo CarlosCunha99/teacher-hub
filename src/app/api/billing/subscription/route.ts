@@ -18,26 +18,30 @@ export async function GET(request: Request): Promise<Response> {
     return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
   }
 
-  const subscription = await subscriptionsRepo.getSubscriptionByUserId(userId);
+  try {
+    const subscription = await subscriptionsRepo.getSubscriptionByUserId(userId);
 
-  if (!subscription) {
+    if (!subscription) {
+      const body: SubscriptionResponse = {
+        status: "none",
+        currentPeriodEnd: null,
+        priceId: null,
+        isPremium: false,
+      };
+      return NextResponse.json(body, { status: 200 });
+    }
+
     const body: SubscriptionResponse = {
-      status: "none",
-      currentPeriodEnd: null,
-      priceId: null,
-      isPremium: false,
+      status: subscription.status,
+      currentPeriodEnd: subscription.currentPeriodEnd
+        ? subscription.currentPeriodEnd.toISOString()
+        : null,
+      priceId: subscription.stripePriceId,
+      isPremium: await isUserPremium(userId),
     };
+
     return NextResponse.json(body, { status: 200 });
+  } catch {
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-
-  const body: SubscriptionResponse = {
-    status: subscription.status,
-    currentPeriodEnd: subscription.currentPeriodEnd
-      ? subscription.currentPeriodEnd.toISOString()
-      : null,
-    priceId: subscription.stripePriceId,
-    isPremium: await isUserPremium(userId),
-  };
-
-  return NextResponse.json(body, { status: 200 });
 }

@@ -15,12 +15,12 @@ export async function POST(request: Request): Promise<Response> {
     return NextResponse.json({ error: "billing is not configured" }, { status: 500 });
   }
 
-  const subscription = await subscriptionsRepo.getSubscriptionByUserId(userId);
-  if (!subscription?.stripeCustomerId) {
-    return NextResponse.json({ error: "no billing customer for this user" }, { status: 400 });
-  }
-
   try {
+    const subscription = await subscriptionsRepo.getSubscriptionByUserId(userId);
+    if (!subscription?.stripeCustomerId) {
+      return NextResponse.json({ error: "no billing customer for this user" }, { status: 400 });
+    }
+
     const { url } = await createPortalSession({
       customerId: subscription.stripeCustomerId,
       returnUrl: `${appUrl}/settings`,
@@ -28,6 +28,6 @@ export async function POST(request: Request): Promise<Response> {
 
     return NextResponse.json({ url }, { status: 200 });
   } catch {
-    return NextResponse.json({ error: "failed to create portal session" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

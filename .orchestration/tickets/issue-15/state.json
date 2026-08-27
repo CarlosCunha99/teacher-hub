@@ -14,7 +14,7 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:58:17Z",
-  "updated_at": "2026-08-27T21:30:29Z",
+  "updated_at": "2026-08-27T21:36:17Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -60,7 +60,8 @@
     "coder": "claude-opus-4.8",
     "tester": "gpt-5.4",
     "spec-reviewer": "claude-sonnet-5",
-    "diagnoser": "claude-opus-4.7"
+    "diagnoser": "claude-opus-4.7",
+    "code-reviewer": "gpt-5.6-sol"
   },
   "independence_violations": [],
   "human_interactions": [],

@@ -1,7 +1,7 @@
 # Branch Brief — issue-15
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:30:30Z at stage 00-intake (gate: gate_3_scope → passed at 2026-08-27T21:09:38Z)._
+_Last rendered: 2026-08-27T21:36:17Z at stage 00-intake (gate: gate_3_scope → passed at 2026-08-27T21:09:38Z)._
 
 ## The work
 *(❓ Unverified — no user, download, or billing code exists in the repo yet; problem framing is derived from the ticket text and sibling roadmap issues #16/#11, not from implemented behavior.)*
@@ -33,6 +33,7 @@ No decisions recorded yet.
 | Interface lock (parallel-work contract) | `.orchestration/tickets/issue-15/contract.md` |
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-15/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-15/impact.md` |
+| Code review verdict | `.orchestration/tickets/issue-15/code-review.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-15/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._

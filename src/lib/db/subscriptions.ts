@@ -1,3 +1,6 @@
+// NOTE: In-memory implementation — intentional for this ticket (issue #15).
+// Replace with Postgres implementation in issue #3. In-memory state does not
+// persist across restarts or serverless invocations. See migrations/20260827_add_subscriptions.sql.
 import { type Subscription, type SubscriptionStatus } from "@/lib/db/subscriptions.types";
 
 export interface UpsertSubscriptionData {
@@ -40,9 +43,6 @@ class InMemorySubscriptionsRepository implements SubscriptionsRepository {
       existing = this.subscriptions.find(
         (s) => s.stripeSubscriptionId === data.stripeSubscriptionId
       );
-    }
-    if (!existing) {
-      existing = this.subscriptions.find((s) => s.userId === data.userId);
     }
 
     if (existing) {
