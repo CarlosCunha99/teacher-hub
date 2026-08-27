@@ -1,0 +1,44 @@
+{
+  "ticket_id": "issue-3",
+  "type": "feature",
+  "source": {
+    "type": "github_issue",
+    "repo": "CarlosCunha99/teacher-hub",
+    "issue_number": 3,
+    "title": "[MVP] Design PostgreSQL schema for users, resources, tags, boards, and interactions",
+    "labels": ["enhancement", "mvp"]
+  },
+  "branch": {
+    "name": "issue-3-mvp-design-postgresql-schema-for-users-625b86",
+    "base": "main"
+  },
+  "stage": "00-intake",
+  "next": "01-enrich",
+  "started_at": "2026-08-27T20:57:20Z",
+  "updated_at": "2026-08-27T20:57:20Z",
+  "gates": {
+    "gate_1_enrich": { "status": "pending" },
+    "gate_2_brainstorm": { "status": "pending" },
+    "gate_3_scope": { "status": "pending" },
+    "gate_4_handoff": { "status": "pending" },
+    "gate_4b_review": { "status": "pending" },
+    "gate_5_pr": { "status": "pending" }
+  },
+  "implement": {
+    "round": 0,
+    "max_rounds": 5,
+    "spec_review_approved": false,
+    "last_diagnosis": null,
+    "escalated": false
+  },
+  "artifacts": {
+    "brief_md": ".orchestration/tickets/issue-3/BRIEF.md",
+    "raw_context_md": ".orchestration/tickets/issue-3/raw-context.md",
+    "ticket_md": ".orchestration/tickets/issue-3/ticket.md"
+  },
+  "models_used": {},
+  "independence_violations": [],
+  "human_interactions": [],
+  "pr_url": null,
+  "completed_at": null
+}
