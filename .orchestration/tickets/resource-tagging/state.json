@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T21:01:28Z"
   },
-  "stage": "07-implement",
-  "next": "08-verify",
+  "stage": "08-verify",
+  "next": "09-agent-review",
   "started_at": "2026-08-27T20:59:58Z",
-  "updated_at": "2026-08-27T21:32:27Z",
+  "updated_at": "2026-08-27T21:35:27Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -79,7 +79,8 @@
     "planner": "gpt-5.4",
     "test_planner": "claude-sonnet-4.6",
     "contract_writer": "claude-sonnet-4.6",
-    "spec_reviewer": "claude-opus-4.7"
+    "spec_reviewer": "claude-opus-4.7",
+    "pre_pr_checker": "claude-sonnet-4.6"
   },
   "independence_violations": [
     {

@@ -88,6 +88,57 @@ Real variables for the database and authentication arrive in issues #2 (auth) an
 (PostgreSQL schema). The health-check route is intentionally database-free so the app runs
 before those are provisioned.
 
+## Database
+
+Teacher Hub uses [Prisma](https://www.prisma.io/) as the ORM. The schema lives at
+`prisma/schema.prisma`.
+
+### Local development
+
+SQLite is used locally — no Postgres container required:
+
+```bash
+# Copy the env template (already includes DATABASE_URL for SQLite)
+cp .env.example .env.local
+
+# Apply migrations and generate the Prisma client
+npx prisma migrate dev
+
+# Or, to only push the schema without creating a migration file:
+npx prisma db push
+```
+
+The Prisma client is auto-generated on `npm install` (via the `postinstall` hook). If
+you ever need to regenerate it manually:
+
+```bash
+npx prisma generate
+```
+
+### Production
+
+Swap `DATABASE_URL` in your deployment environment to a PostgreSQL connection string:
+
+```
+DATABASE_URL="postgresql://user:password@host:5432/teacher_hub?schema=public"
+```
+
+No code changes are required — Prisma reads `DATABASE_URL` at runtime and the same
+migrations apply to PostgreSQL.
+
+### Custom tags API (Phase 2)
+
+The custom tagging feature adds three models to the schema:
+
+| Model         | Purpose                                                   |
+| ------------- | --------------------------------------------------------- |
+| `Resource`    | Minimal resource stub (id, teacherId, title, createdAt)   |
+| `Tag`         | Teacher-scoped custom tag (name, slug unique per teacher) |
+| `ResourceTag` | Many-to-many join between resources and tags              |
+
+Authentication is stubbed via the `X-Teacher-Id` request header for Phase 2. Real
+session-based auth will replace this when issue #2 (social auth) is integrated.
+
 ## License
 
 Private — internal MVP foundation.
