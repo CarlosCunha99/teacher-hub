@@ -1,0 +1,18 @@
+{
+  "status": "done",
+  "deliverable_path": ".orchestration/tickets/issue-1/ticket.md",
+  "summary": "Enriched greenfield scaffolding ticket: added Problem/Impact/Success sections, made all 6 acceptance criteria testable, added 5 edge cases and explicit out-of-scope (auth #2, DB schema #3), flagged 4 non-blocking ambiguities.",
+  "confidence": "medium-high",
+  "follow_ups": [
+    "Confirm language: TypeScript vs JavaScript (affects tooling + tests).",
+    "Confirm whether CI 'test' script must include a real passing example test or build-only is acceptable.",
+    "Confirm whether an actual CI pipeline (e.g. GitHub Actions workflow) is expected, or only CI-ready scripts."
+  ],
+  "open_questions": [
+    { "q": "TypeScript or JavaScript for the Next.js project?", "proposed_answer": "TypeScript (modern Next.js default; benefits the multi-issue MVP).", "blocking": false },
+    { "q": "App Router or Pages Router?", "proposed_answer": "App Router (current Next.js default).", "blocking": false },
+    { "q": "Does the 'test/build' CI script require a real passing example test, or is build-only acceptable?", "proposed_answer": "Include at least one trivial passing test so the CI test step is meaningful.", "blocking": false },
+    { "q": "Which package manager and is a Node version pinned?", "proposed_answer": "npm; document/pin a current LTS Node version.", "blocking": false },
+    { "q": "Is wiring an actual CI pipeline expected in this ticket, or only CI-ready scripts?", "proposed_answer": "Only CI-ready scripts; actual pipeline treated as out of scope unless clarified.", "blocking": false }
+  ]
+}
