@@ -11,17 +11,18 @@
     "base": "main",
     "created_at": "2026-08-27T21:01:28Z"
   },
-  "stage": "00-intake",
-  "next": "01-enrich",
+  "stage": "03-brainstorm",
+  "next": "04-impact",
   "started_at": "2026-08-27T20:59:58Z",
-  "updated_at": "2026-08-27T21:04:10Z",
+  "updated_at": "2026-08-27T21:05:50Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
       "at": "2026-08-27T21:04:10Z"
     },
     "gate_2_brainstorm": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:05:49Z"
     },
     "gate_3_scope": {
       "status": "pending"
@@ -49,7 +50,8 @@
     "ticket_md": ".orchestration/tickets/resource-tagging/ticket.md"
   },
   "models_used": {
-    "enricher": "claude-opus-4.7"
+    "enricher": "claude-opus-4.7",
+    "distiller": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
@@ -58,6 +60,12 @@
       "kind": "gate",
       "summary": "Autopilot: enrichment auto-approved (user unavailable). ticket.md has 12 ACs and rich edge cases.",
       "at": "2026-08-27T21:04:10Z"
+    },
+    {
+      "stage": "03-brainstorm",
+      "kind": "gate",
+      "summary": "Autopilot: brainstorm closed. Direction: teacher-scoped tags, Prisma+SQLite, minimal Resource stub, API-only.",
+      "at": "2026-08-27T21:05:50Z"
     }
   ],
   "pr_url": null,
