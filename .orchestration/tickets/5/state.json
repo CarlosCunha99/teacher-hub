@@ -9,14 +9,14 @@
     "name": "issue-5-mvp-implement-subject-and-year-level-ta-509c1c",
     "base": "main"
   },
-  "stage": "04-impact",
-  "next": "05-plan",
+  "stage": "05-plan",
+  "next": "06-contract",
   "started_at": "2026-08-27T20:57:29Z",
   "updated_at": "2026-08-27T21:57:09Z",
   "gates": {
     "gate_1_enrich": { "status": "passed", "resolved_at": "2026-08-27T21:57:09Z" },
     "gate_2_brainstorm": { "status": "passed", "resolved_at": "2026-08-27T21:57:09Z" },
-    "gate_3_scope": { "status": "pending" },
+    "gate_3_scope": { "status": "passed", "resolved_at": "2026-08-27T21:57:09Z" },
     "gate_4_handoff": { "status": "pending" },
     "gate_4b_review": { "status": "pending" },
     "gate_5_pr": { "status": "pending" }
@@ -34,12 +34,16 @@
     "ticket_md": ".orchestration/tickets/5/ticket.md",
     "brainstorm_md": ".orchestration/tickets/5/brainstorm.md",
     "solution_md": ".orchestration/tickets/5/solution.md",
-    "impact_md": ".orchestration/tickets/5/impact.md"
+    "impact_md": ".orchestration/tickets/5/impact.md",
+    "plan_md": ".orchestration/tickets/5/plan.md",
+    "test_plan_md": ".orchestration/tickets/5/test-plan.md"
   },
   "models_used": {
     "01-enrich": "claude-opus-4.8",
     "03-distill": "claude-sonnet-4.6",
-    "04-impact": "claude-sonnet-4.6"
+    "04-impact": "claude-sonnet-4.6",
+    "05-plan": "claude-opus-4.8",
+    "05-test-plan": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
@@ -54,6 +58,12 @@
       "decision": "autonomously_approved",
       "timestamp": "2026-08-27T21:57:09Z",
       "rationale": "Brainstorm resolved all 3 ambiguities with clear, defensible direction: seeded taxonomy, many-to-many tagging, service-layer validation, read-only API, OR/AND filtering."
+    },
+    {
+      "gate": "gate_3_scope",
+      "decision": "autonomously_approved",
+      "timestamp": "2026-08-27T21:57:09Z",
+      "rationale": "Plan covers 4 ordered steps (constants → service → API route → README); test plan covers 25 tests across 3 files (7 unit + 13 service + 5 functional); clear ownership boundaries; scope is tight and MVP-appropriate. No schema/migrations/DB work (owned by #3); no resource UI/filtering (owned by #4/#6)."
     }
   ],
   "pr_url": null,
