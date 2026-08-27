@@ -14,7 +14,7 @@
   "stage": "09-agent-review",
   "next": "10-human-review",
   "started_at": "2026-08-27T20:13:10Z",
-  "updated_at": "2026-08-27T22:17:52Z",
+  "updated_at": "2026-08-27T22:18:35Z",
   "gates": {
     "gate_1_enrich": {
       "status": "overridden",
@@ -29,7 +29,8 @@
       "at": "2026-08-27T20:25:15Z"
     },
     "gate_4_handoff": {
-      "status": "pending"
+      "status": "overridden",
+      "at": "2026-08-27T22:18:35Z"
     },
     "gate_4b_review": {
       "status": "pending"
