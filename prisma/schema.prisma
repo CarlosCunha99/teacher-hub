@@ -1,0 +1,139 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Provider {
+  GOOGLE
+  MICROSOFT
+}
+
+enum ResourceStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum BoardVisibility {
+  PRIVATE
+  PUBLIC
+}
+
+model Teacher {
+  id          String     @id @default(cuid())
+  email       String     @unique
+  displayName String
+  bio         String?
+  avatarUrl   String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  identities  Identity[]
+  resources   Resource[]
+  boards      Board[]
+  likes       Like[]
+}
+
+model Identity {
+  id                String   @id @default(cuid())
+  provider          Provider
+  providerAccountId String
+  teacherId         String
+  teacher           Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Resource {
+  id          String            @id @default(cuid())
+  title       String
+  description String
+  fileUrl     String
+  ownerId     String
+  owner       Teacher           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  status      ResourceStatus    @default(DRAFT)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  deletedAt   DateTime?
+  subjects    ResourceSubject[]
+  yearLevels  ResourceYearLevel[]
+  boardItems  BoardItem[]
+  likes       Like[]
+
+  @@index([ownerId, createdAt])
+  @@index([status, createdAt])
+  @@index([deletedAt])
+}
+
+model Subject {
+  id        String            @id @default(cuid())
+  slug      String            @unique
+  name      String
+  sortOrder Int
+  resources ResourceSubject[]
+}
+
+model YearLevel {
+  id        String              @id @default(cuid())
+  slug      String              @unique
+  name      String
+  sortOrder Int
+  resources ResourceYearLevel[]
+}
+
+model ResourceSubject {
+  resourceId String
+  subjectId  String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  subject    Subject  @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+
+  @@id([resourceId, subjectId])
+  @@index([subjectId])
+}
+
+model ResourceYearLevel {
+  resourceId  String
+  yearLevelId String
+  resource    Resource  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  yearLevel   YearLevel @relation(fields: [yearLevelId], references: [id], onDelete: Restrict)
+
+  @@id([resourceId, yearLevelId])
+  @@index([yearLevelId])
+}
+
+model Board {
+  id          String          @id @default(cuid())
+  ownerId     String
+  owner       Teacher         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  visibility  BoardVisibility @default(PRIVATE)
+  createdAt   DateTime        @default(now())
+  items       BoardItem[]
+
+  @@index([ownerId])
+}
+
+model BoardItem {
+  boardId    String
+  resourceId String
+  board      Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@id([boardId, resourceId])
+  @@index([boardId, createdAt])
+}
+
+model Like {
+  teacherId  String
+  resourceId String
+  teacher    Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@id([teacherId, resourceId])
+  @@index([resourceId])
+}
