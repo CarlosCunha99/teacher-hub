@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum ResourceStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  resources Resource[]
+  likes     Like[]
+  downloads Download[]
+}
+
+model Resource {
+  id        String         @id @default(cuid())
+  title     String
+  status    ResourceStatus @default(DRAFT)
+  fileUrl   String?
+  authorId  String
+  author    User           @relation(fields: [authorId], references: [id])
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  likes     Like[]
+  downloads Download[]
+}
+
+model Like {
+  id         String   @id @default(cuid())
+  resourceId String
+  userId     String
+  resource   Resource @relation(fields: [resourceId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@unique([resourceId, userId])
+  @@index([resourceId])
+}
+
+model Download {
+  id         String    @id @default(cuid())
+  resourceId String
+  userId     String?
+  resource   Resource  @relation(fields: [resourceId], references: [id])
+  user       User?     @relation(fields: [userId], references: [id])
+  createdAt  DateTime  @default(now())
+
+  @@index([resourceId])
+}

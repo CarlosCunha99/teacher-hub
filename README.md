@@ -55,7 +55,17 @@ These scripts run identically locally and in CI (install → lint → test → b
 | `npm run lint`         | `next lint`          | Run ESLint over the codebase.                 |
 | `npm run format`       | `prettier --write .` | Format all files in place.                    |
 | `npm run format:check` | `prettier --check .` | Verify formatting without writing changes.    |
+| `npm run db:generate`  | `prisma generate`    | Generate the Prisma client.                   |
+| `npm run db:push`      | `prisma db push`     | Sync the schema to the local SQLite database. |
 | `npm test`             | `vitest run`         | Run the test suite once.                      |
+
+## Database setup
+
+```bash
+cp .env.example .env.local
+npm run db:generate
+npm run db:push
+```
 
 ## Folder structure
 
