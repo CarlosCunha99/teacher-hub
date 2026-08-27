@@ -1,7 +1,7 @@
 # Branch Brief — issue-15
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:06:34Z at stage 00-intake (gate: gate_2_brainstorm → passed at 2026-08-27T21:04:10Z)._
+_Last rendered: 2026-08-27T21:09:25Z at stage 00-intake (gate: gate_2_brainstorm → passed at 2026-08-27T21:04:10Z)._
 
 ## The work
 *(❓ Unverified — no user, download, or billing code exists in the repo yet; problem framing is derived from the ticket text and sibling roadmap issues #16/#11, not from implemented behavior.)*
@@ -28,6 +28,8 @@ No decisions recorded yet.
 | Product problem, ACs, edge cases | `.orchestration/tickets/issue-15/ticket.md` |
 | Raw intake context for enrichment | `.orchestration/tickets/issue-15/raw-context.md` |
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-15/solution.md` |
+| Technical plan | `.orchestration/tickets/issue-15/plan.md` |
+| Test plan | `.orchestration/tickets/issue-15/test-plan.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-15/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-15/state.json` |
 
