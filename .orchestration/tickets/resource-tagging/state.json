@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T21:01:28Z"
   },
-  "stage": "04-impact",
-  "next": "05-plan",
+  "stage": "05-plan",
+  "next": "06-contract",
   "started_at": "2026-08-27T20:59:58Z",
-  "updated_at": "2026-08-27T21:08:22Z",
+  "updated_at": "2026-08-27T21:11:59Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -25,7 +25,8 @@
       "at": "2026-08-27T21:05:49Z"
     },
     "gate_3_scope": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:11:58Z"
     },
     "gate_4_handoff": {
       "status": "pending"
@@ -52,7 +53,9 @@
   "models_used": {
     "enricher": "claude-opus-4.7",
     "distiller": "claude-sonnet-4.6",
-    "impact_analyzer": "claude-sonnet-4.6"
+    "impact_analyzer": "claude-sonnet-4.6",
+    "planner": "gpt-5.4",
+    "test_planner": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
@@ -67,6 +70,12 @@
       "kind": "gate",
       "summary": "Autopilot: brainstorm closed. Direction: teacher-scoped tags, Prisma+SQLite, minimal Resource stub, API-only.",
       "at": "2026-08-27T21:05:50Z"
+    },
+    {
+      "stage": "05-plan",
+      "kind": "gate",
+      "summary": "Autopilot: scope approved. plan.md + test-plan.md (43 functional + 10 unit tests). Prisma+SQLite, CRUD+filter routes.",
+      "at": "2026-08-27T21:11:59Z"
     }
   ],
   "pr_url": null,
