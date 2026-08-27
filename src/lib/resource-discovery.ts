@@ -4,6 +4,7 @@ import {
   YEAR_LEVEL_OPTIONS,
   type Resource,
 } from "@/lib/resources";
+import { getUploadedResources } from "@/lib/uploaded-resources";
 
 export const SORT_OPTIONS = ["newest", "most-liked-saved"] as const;
 
@@ -37,6 +38,11 @@ const validSubjects = new Set<string>(SUBJECT_OPTIONS);
 const validYearLevels = new Set<string>(YEAR_LEVEL_OPTIONS);
 const validSorts = new Set<SortOption>(SORT_OPTIONS);
 
+function getAllResources(): Resource[] {
+  const uploaded = getUploadedResources();
+  return [...RESOURCE_CATALOG, ...uploaded];
+}
+
 function readSingleValue(value: SearchParamValue): string | undefined {
   if (Array.isArray(value)) {
     return value[0];
@@ -67,9 +73,12 @@ export function parseDiscoveryQuery(searchParams: SearchParams | undefined): Dis
 
   return {
     keyword,
-    subject: requestedSubject && validSubjects.has(requestedSubject) ? requestedSubject : ALL_OPTION,
+    subject:
+      requestedSubject && validSubjects.has(requestedSubject) ? requestedSubject : ALL_OPTION,
     yearLevel:
-      requestedYearLevel && validYearLevels.has(requestedYearLevel) ? requestedYearLevel : ALL_OPTION,
+      requestedYearLevel && validYearLevels.has(requestedYearLevel)
+        ? requestedYearLevel
+        : ALL_OPTION,
     sort: requestedSort && validSorts.has(requestedSort) ? requestedSort : "newest",
     page,
   };
@@ -98,8 +107,9 @@ function sortResources(resources: Resource[], sort: SortOption): Resource[] {
 
 export function getDiscoveryResult(query: DiscoveryQuery): DiscoveryResult {
   const keyword = query.keyword.toLowerCase();
+  const allResources = getAllResources();
 
-  const filtered = RESOURCE_CATALOG.filter((resource) => {
+  const filtered = allResources.filter((resource) => {
     if (!resource.isPublished) {
       return false;
     }
@@ -139,12 +149,13 @@ export function getDiscoveryResult(query: DiscoveryQuery): DiscoveryResult {
 }
 
 export function getPublishedResourcesCount(): number {
-  return RESOURCE_CATALOG.filter((resource) => resource.isPublished).length;
+  const allResources = getAllResources();
+  return allResources.filter((resource) => resource.isPublished).length;
 }
 
 export function buildDiscoveryUrl(
   query: DiscoveryQuery,
-  overrides: Partial<DiscoveryQuery> = {},
+  overrides: Partial<DiscoveryQuery> = {}
 ): string {
   const merged = { ...query, ...overrides };
   const params = new URLSearchParams();

@@ -11,7 +11,7 @@ import {
 import { SUBJECT_OPTIONS, YEAR_LEVEL_OPTIONS } from "@/lib/resources";
 
 type HomePageProps = {
-  searchParams?: SearchParams;
+  searchParams?: Promise<SearchParams>;
 };
 
 function formatDate(isoDate: string): string {
@@ -22,8 +22,10 @@ function formatDate(isoDate: string): string {
   });
 }
 
-export default function HomePage({ searchParams }: HomePageProps) {
-  const query = parseDiscoveryQuery(searchParams);
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const params = await searchParams;
+  const query = parseDiscoveryQuery(params);
+  const resourceCreated = (params?.resourceCreated as string) || "";
   const publishedResourcesCount = getPublishedResourcesCount();
 
   if (publishedResourcesCount === 0) {
@@ -31,20 +33,44 @@ export default function HomePage({ searchParams }: HomePageProps) {
       <main>
         <h1>Discover teaching resources</h1>
         <p>No published resources are available yet.</p>
-        <p>Check back shortly or publish the first classroom resource to start the feed.</p>
+        <p>
+          Check back shortly or{" "}
+          <Link href="/resources/upload">publish the first classroom resource</Link> to start the
+          feed.
+        </p>
       </main>
     );
   }
 
   const result = getDiscoveryResult(query);
   const hasAppliedFilters =
-    query.keyword.length > 0 || query.subject !== "all" || query.yearLevel !== "all" || query.sort !== "newest";
+    query.keyword.length > 0 ||
+    query.subject !== "all" ||
+    query.yearLevel !== "all" ||
+    query.sort !== "newest";
   const isNoResults = result.totalMatches === 0;
 
   return (
     <main>
       <h1>Discover teaching resources</h1>
       <p>Browse published classroom resources and quickly refine what you need.</p>
+      <p>
+        <Link href="/resources/upload">+ Publish a new resource</Link>
+      </p>
+
+      {resourceCreated && (
+        <div
+          role="status"
+          style={{
+            backgroundColor: "#e8f5e9",
+            padding: "1rem",
+            marginBottom: "1rem",
+            border: "1px solid #4caf50",
+          }}
+        >
+          ✓ Your resource has been published successfully! It will now appear in the discovery feed.
+        </div>
+      )}
 
       <form action="/" method="get" aria-label="Discovery filters">
         <label htmlFor="keyword">Keyword</label>
@@ -97,8 +123,8 @@ export default function HomePage({ searchParams }: HomePageProps) {
         <>
           <p>
             Showing {result.items.length} of {result.totalMatches} resource
-            {result.totalMatches === 1 ? "" : "s"} (page {result.page} of {result.totalPages}, {RESOURCES_PER_PAGE}{" "}
-            per page).
+            {result.totalMatches === 1 ? "" : "s"} (page {result.page} of {result.totalPages},{" "}
+            {RESOURCES_PER_PAGE} per page).
           </p>
 
           <section aria-label="Browse results">
@@ -107,11 +133,33 @@ export default function HomePage({ searchParams }: HomePageProps) {
                 <h2>{resource.title}</h2>
                 <p>{resource.description}</p>
                 <p>
-                  {resource.subject} · {resource.yearLevel} · Published {formatDate(resource.publishedAt)}
+                  {resource.subject} · {resource.yearLevel} · Published{" "}
+                  {formatDate(resource.publishedAt)}
                 </p>
+                {resource.ownerName && (
+                  <p>
+                    By{" "}
+                    {resource.ownerName ? (
+                      <Link
+                        href={`/teachers/${resource.ownerName.toLowerCase().replace(/\s+/g, "-")}`}
+                      >
+                        {resource.ownerName}
+                      </Link>
+                    ) : (
+                      "Unknown"
+                    )}
+                  </p>
+                )}
                 <p>
                   {resource.likes} likes · {resource.saves} saves
                 </p>
+                {resource.filePath && (
+                  <p>
+                    <Link href={resource.filePath} download>
+                      ↓ Download PDF
+                    </Link>
+                  </p>
+                )}
               </article>
             ))}
           </section>
@@ -134,7 +182,8 @@ export default function HomePage({ searchParams }: HomePageProps) {
 
       {hasAppliedFilters ? (
         <p>
-          Share this exact view by copying the URL in your browser, or <Link href="/">reset to default browse</Link>.
+          Share this exact view by copying the URL in your browser, or{" "}
+          <Link href="/">reset to default browse</Link>.
         </p>
       ) : null}
     </main>

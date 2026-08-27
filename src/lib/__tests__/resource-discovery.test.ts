@@ -10,20 +10,22 @@ describe("resource discovery", () => {
     const titleMatch = getDiscoveryResult(
       parseDiscoveryQuery({
         q: "Shakespeare",
-      }),
+      })
     );
     const descriptionMatch = getDiscoveryResult(
       parseDiscoveryQuery({
         q: "biodiversity",
-      }),
+      })
     );
 
     expect(titleMatch.totalMatches).toBeGreaterThan(0);
     expect(titleMatch.items.some((resource) => resource.title.includes("Shakespeare"))).toBe(true);
     expect(descriptionMatch.totalMatches).toBeGreaterThan(0);
-    expect(descriptionMatch.items.some((resource) => resource.description.toLowerCase().includes("biodiversity"))).toBe(
-      true,
-    );
+    expect(
+      descriptionMatch.items.some((resource) =>
+        resource.description.toLowerCase().includes("biodiversity")
+      )
+    ).toBe(true);
   });
 
   it("filters by subject and year level", () => {
@@ -31,13 +33,15 @@ describe("resource discovery", () => {
       parseDiscoveryQuery({
         subject: "Science",
         yearLevel: "Year 7",
-      }),
+      })
     );
 
     expect(result.totalMatches).toBeGreaterThan(0);
-    expect(result.items.every((resource) => resource.subject === "Science" && resource.yearLevel === "Year 7")).toBe(
-      true,
-    );
+    expect(
+      result.items.every(
+        (resource) => resource.subject === "Science" && resource.yearLevel === "Year 7"
+      )
+    ).toBe(true);
   });
 
   it("sorts by newest or most liked/saved", () => {
@@ -45,10 +49,10 @@ describe("resource discovery", () => {
     const mostLikedSaved = getDiscoveryResult(parseDiscoveryQuery({ sort: "most-liked-saved" }));
 
     expect(new Date(newest.items[0].publishedAt).getTime()).toBeGreaterThanOrEqual(
-      new Date(newest.items[1].publishedAt).getTime(),
+      new Date(newest.items[1].publishedAt).getTime()
     );
     expect(mostLikedSaved.items[0].likes + mostLikedSaved.items[0].saves).toBeGreaterThanOrEqual(
-      mostLikedSaved.items[1].likes + mostLikedSaved.items[1].saves,
+      mostLikedSaved.items[1].likes + mostLikedSaved.items[1].saves
     );
   });
 
