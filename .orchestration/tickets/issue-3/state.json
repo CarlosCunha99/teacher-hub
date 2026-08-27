@@ -6,7 +6,10 @@
     "repo": "CarlosCunha99/teacher-hub",
     "issue_number": 3,
     "title": "[MVP] Design PostgreSQL schema for users, resources, tags, boards, and interactions",
-    "labels": ["enhancement", "mvp"]
+    "labels": [
+      "enhancement",
+      "mvp"
+    ]
   },
   "branch": {
     "name": "issue-3-mvp-design-postgresql-schema-for-users-625b86",
@@ -15,14 +18,28 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:57:20Z",
-  "updated_at": "2026-08-27T20:57:20Z",
+  "updated_at": "2026-08-27T21:02:29Z",
   "gates": {
-    "gate_1_enrich": { "status": "pending" },
-    "gate_2_brainstorm": { "status": "pending" },
-    "gate_3_scope": { "status": "pending" },
-    "gate_4_handoff": { "status": "pending" },
-    "gate_4b_review": { "status": "pending" },
-    "gate_5_pr": { "status": "pending" }
+    "gate_1_enrich": {
+      "status": "passed",
+      "at": "2026-08-27T21:01:52Z"
+    },
+    "gate_2_brainstorm": {
+      "status": "passed",
+      "at": "2026-08-27T21:02:29Z"
+    },
+    "gate_3_scope": {
+      "status": "pending"
+    },
+    "gate_4_handoff": {
+      "status": "pending"
+    },
+    "gate_4b_review": {
+      "status": "pending"
+    },
+    "gate_5_pr": {
+      "status": "pending"
+    }
   },
   "implement": {
     "round": 0,

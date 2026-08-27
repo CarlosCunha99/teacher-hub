@@ -1,14 +1,19 @@
 # Branch Brief — issue-3
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T20:57:43Z at stage 00-intake (gate: none → pending)._
+_Last rendered: 2026-08-27T21:02:29Z at stage 00-intake (gate: gate_2_brainstorm → passed at 2026-08-27T21:02:29Z)._
 
 ## The work
-Problem statement not captured yet. Read `.orchestration/tickets/issue-3/ticket.md` once available.
+⚠️ **Inferred** (derived from issue #3 body plus the MVP issue set #4–#13; no data-model
+artefacts exist in the repo yet — `find . -name "*.prisma"` returns nothing and there is no
+`prisma/`, `db/`, or `migrations/` directory).
+Teacher Hub currently has no persistence layer at all. The repository contains only the
+Next.js application skeleton delivered by issue #1 (`src/app/`, `src/lib/health.ts`, a
+deliberately database-free `/api/health` route). `.env.example` documents `DATABASE_URL`
 
 ## Where we are
 - **Stage:** 00-intake  →  next: 01-enrich
-- **Last gate:** none → pending
+- **Last gate:** gate_2_brainstorm → passed at 2026-08-27T21:02:29Z
 - **Next gate:** gate_1_enrich → approve enriched ticket / changes / Q&A
 - **Escalated:** no
 
@@ -24,6 +29,7 @@ No decisions recorded yet.
 |---|---|
 | Product problem, ACs, edge cases | `.orchestration/tickets/issue-3/ticket.md` |
 | Raw intake context for enrichment | `.orchestration/tickets/issue-3/raw-context.md` |
+| Chosen approach (if brainstormed) | `.orchestration/tickets/issue-3/solution.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-3/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
