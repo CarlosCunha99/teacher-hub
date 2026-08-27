@@ -1,0 +1,55 @@
+{
+  "ticket_id": "issue-15",
+  "type": "feature",
+  "source": {
+    "kind": "github_issue",
+    "repo": "CarlosCunha99/teacher-hub",
+    "number": 15,
+    "url": "https://github.com/CarlosCunha99/teacher-hub/issues/15"
+  },
+  "branch": {
+    "name": "issue-15-phase-2-implement-premium-membership-to-b303b0",
+    "base": "main"
+  },
+  "stage": "00-intake",
+  "next": "01-enrich",
+  "started_at": "2026-08-27T20:58:17Z",
+  "updated_at": "2026-08-27T20:59:06Z",
+  "gates": {
+    "gate_1_enrich": {
+      "status": "pending"
+    },
+    "gate_2_brainstorm": {
+      "status": "pending"
+    },
+    "gate_3_scope": {
+      "status": "pending"
+    },
+    "gate_4_handoff": {
+      "status": "pending"
+    },
+    "gate_4b_review": {
+      "status": "pending"
+    },
+    "gate_5_pr": {
+      "status": "pending"
+    }
+  },
+  "implement": {
+    "round": 0,
+    "max_rounds": 5,
+    "spec_review_approved": false,
+    "last_diagnosis": null,
+    "escalated": false
+  },
+  "artifacts": {
+    "brief_md": ".orchestration/tickets/issue-15/BRIEF.md",
+    "raw_context_md": ".orchestration/tickets/issue-15/raw-context.md",
+    "ticket_md": ".orchestration/tickets/issue-15/ticket.md"
+  },
+  "models_used": {},
+  "independence_violations": [],
+  "human_interactions": [],
+  "pr_url": null,
+  "completed_at": null
+}
