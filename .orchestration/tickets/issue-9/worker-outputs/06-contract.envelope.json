@@ -1,0 +1,15 @@
+{
+  "todo_id": "issue-9-06-contract-r0",
+  "status": "done",
+  "summary": "Verified contract.md and impl-context.md already exist, fully populated, and internally consistent for issue-9's terms-acceptance-before-upload feature.",
+  "deliverable_path": ".orchestration/tickets/issue-9/contract.md",
+  "changed_files": [],
+  "verification": {
+    "commands_run": ["ls -la .orchestration/tickets/issue-9/", "cat .orchestration/tickets/issue-9/contract.md", "cat .orchestration/tickets/issue-9/impl-context.md"],
+    "all_passed": true,
+    "notes": "Both files present and non-empty (contract.md 34393 bytes, impl-context.md 9812 bytes); no edits required."
+  },
+  "follow_ups": [],
+  "open_questions": [],
+  "confidence": "high"
+}
