@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T20:59:59Z"
   },
-  "stage": "05-plan",
-  "next": "06-contract",
+  "stage": "06-contract",
+  "next": "07-implement",
   "started_at": "2026-08-27T20:59:22Z",
-  "updated_at": "2026-08-27T21:11:28Z",
+  "updated_at": "2026-08-27T21:14:58Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -55,7 +55,8 @@
     "distiller": "claude-sonnet-4.6",
     "impact_analyzer": "claude-sonnet-4.6",
     "planner": "gpt-5.4",
-    "test_planner": "claude-sonnet-4.6"
+    "test_planner": "claude-sonnet-4.6",
+    "contract_writer": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
