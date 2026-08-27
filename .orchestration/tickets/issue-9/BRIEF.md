@@ -1,7 +1,7 @@
 # Branch Brief — issue-9
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:40:06Z at stage 08-verify (gate: gate_3_scope → overridden at 2026-08-27T21:09:38Z)._
+_Last rendered: 2026-08-27T21:47:43Z at stage 09-agent-review (gate: gate_4_handoff → overridden at 2026-08-27T21:47:42Z)._
 
 ## The work
 Teachers on Teacher Hub can share classroom resources, but the platform has no mechanism to make them acknowledge the legal terms governing ownership and permitted use of the content they upload. Without a recorded acceptance, the platform cannot demonstrate that a contributing teacher agreed to the current terms of use at the time they published, which is a legal/compliance exposure for user-generated content.
@@ -9,9 +9,9 @@ This ticket introduces a compliance gate: before a teacher publishes their **fir
 > ❓ **Foundational dependency (Unverified):** The repository is currently only the Next.js skeleton (see `src/` — only a health-check route and home page exist). Authentication (#2), the PostgreSQL data model (#3), and the PDF upload workflow (#4) are all **open and unbuilt**. This feature cannot function end-to-end until at least those exist. Whether this ticket should (a) wait for them, (b) ship behind stubs, or (c) define only the terms-acceptance slice is a scoping decision for the human — see "Needs clarification".
 
 ## Where we are
-- **Stage:** 08-verify  →  next: 09-agent-review
+- **Stage:** 09-agent-review  →  next: 10-human-review
 - **Round:** 2 / 5
-- **Last gate:** gate_3_scope → overridden at 2026-08-27T21:09:38Z
+- **Last gate:** gate_4_handoff → overridden at 2026-08-27T21:47:42Z
 - **Next gate:** gate_4_handoff → hand off to human review
 - **Escalated:** no
 
@@ -19,8 +19,10 @@ This ticket introduces a compliance gate: before a teacher publishes their **fir
 - 2026-08-27T21:01:45Z — 01-enrich — question: Asked human to choose terms-version update behavior
 - 2026-08-27T21:03:29Z — 03-brainstorm — question: Asked human to accept distilled solution
 - 2026-08-27T21:09:38Z — 05-plan — question: Asked human to approve plan/test-plan scope
+- 2026-08-27T21:47:42Z — 09-agent-review — question: Asked human how to proceed after request-changes review
 
 ## Latest decisions
+- 2026-08-27T21:47:42Z — 09-agent-review — gate: No live human response; proceeded with skip-markers handoff
 - 2026-08-27T21:09:38Z — 05-plan — gate: No live human response; scope approved under autopilot
 - 2026-08-27T21:03:29Z — 03-brainstorm — gate: No live human response; accepted distilled solution under autopilot
 - 2026-08-27T21:01:45Z — 01-enrich — gate: No live human response; applied autopilot assumption: force re-acceptance on version bump
@@ -38,6 +40,7 @@ This ticket introduces a compliance gate: before a teacher publishes their **fir
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-9/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-9/impact.md` |
 | Current diagnostics (if in fix loop) | `.orchestration/tickets/issue-9/diagnosis/round-2.json` |
+| Code review verdict | `.orchestration/tickets/issue-9/code-review.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-9/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -45,7 +48,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/08-verify.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/09-agent-review.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails

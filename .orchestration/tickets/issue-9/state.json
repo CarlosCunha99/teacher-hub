@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T20:58:10Z"
   },
-  "stage": "08-verify",
-  "next": "09-agent-review",
+  "stage": "09-agent-review",
+  "next": "10-human-review",
   "started_at": "2026-08-27T20:57:49Z",
-  "updated_at": "2026-08-27T21:40:06Z",
+  "updated_at": "2026-08-27T21:47:43Z",
   "gates": {
     "gate_1_enrich": {
       "status": "overridden",
@@ -29,7 +29,8 @@
       "at": "2026-08-27T21:09:38Z"
     },
     "gate_4_handoff": {
-      "status": "pending"
+      "status": "overridden",
+      "at": "2026-08-27T21:47:42Z"
     },
     "gate_4b_review": {
       "status": "pending"
@@ -119,7 +120,8 @@
     "tester": "claude-sonnet-5",
     "spec_reviewer": "claude-opus-4.8",
     "diagnoser": "claude-opus-4.8",
-    "pre_pr_checker": "claude-sonnet-4.6"
+    "pre_pr_checker": "claude-sonnet-4.6",
+    "code_reviewer": "claude-opus-5"
   },
   "independence_violations": [
     {
@@ -164,6 +166,18 @@
       "kind": "gate",
       "summary": "No live human response; scope approved under autopilot",
       "at": "2026-08-27T21:09:38Z"
+    },
+    {
+      "stage": "09-agent-review",
+      "kind": "question",
+      "summary": "Asked human how to proceed after request-changes review",
+      "at": "2026-08-27T21:47:42Z"
+    },
+    {
+      "stage": "09-agent-review",
+      "kind": "gate",
+      "summary": "No live human response; proceeded with skip-markers handoff",
+      "at": "2026-08-27T21:47:42Z"
     }
   ],
   "pr_url": null,
