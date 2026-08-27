@@ -10,8 +10,8 @@
     "name": "issue-8-mvp-build-teacher-profile-pages-with-co-254520",
     "base": "main"
   },
-  "stage": "03-brainstorm",
-  "next": "04-impact",
+  "stage": "04-impact",
+  "next": "05-plan",
   "started_at": "2026-08-27T20:57:35Z",
   "updated_at": "2026-08-27T20:57:35Z",
   "gates": {
