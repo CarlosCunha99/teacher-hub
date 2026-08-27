@@ -11,17 +11,18 @@
     "base": "main",
     "created_at": "2026-08-27T20:59:24Z"
   },
-  "stage": "01-enrich",
-  "next": "03-brainstorm",
+  "stage": "03-brainstorm",
+  "next": "04-impact",
   "started_at": "2026-08-27T20:58:58Z",
-  "updated_at": "2026-08-27T21:04:07Z",
+  "updated_at": "2026-08-27T21:06:12Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
       "at": "2026-08-27T21:04:07Z"
     },
     "gate_2_brainstorm": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:06:11Z"
     },
     "gate_3_scope": {
       "status": "pending"
@@ -49,7 +50,8 @@
     "ticket_md": ".orchestration/tickets/issue-16/ticket.md"
   },
   "models_used": {
-    "enricher": "claude-opus-4.7"
+    "enricher": "claude-opus-4.7",
+    "distiller": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
@@ -58,6 +60,12 @@
       "kind": "gate",
       "summary": "Gate 1 passed in autopilot mode. Adopted enricher proposed answers: A2=soft-gate HTTP 402/403 with upgrade CTA, A3=calendar month UTC reset, A1=50/month default, A4=owner downloads fully exempt.",
       "at": "2026-08-27T21:04:07Z"
+    },
+    {
+      "stage": "03-brainstorm",
+      "kind": "gate",
+      "summary": "Gate 2 closed in autopilot. Solution: lazy-reset counter table, atomic check-and-increment, 402 soft-gate, calendar-month UTC, env-var config (50/month default).",
+      "at": "2026-08-27T21:06:11Z"
     }
   ],
   "pr_url": null,
