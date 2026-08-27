@@ -123,8 +123,10 @@ Swap `DATABASE_URL` in your deployment environment to a PostgreSQL connection st
 DATABASE_URL="postgresql://user:password@host:5432/teacher_hub?schema=public"
 ```
 
-No code changes are required — Prisma reads `DATABASE_URL` at runtime and the same
-migrations apply to PostgreSQL.
+**Important:** the `prisma/schema.prisma` currently uses `provider = "sqlite"`.
+Before deploying to PostgreSQL you must change the provider to `"postgresql"` and
+re-run `npx prisma migrate dev` to generate PostgreSQL-compatible migrations. The
+SQLite migrations in `prisma/migrations/` are not portable to PostgreSQL.
 
 ### Custom tags API (Phase 2)
 

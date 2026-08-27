@@ -14,7 +14,7 @@
   "stage": "08-verify",
   "next": "09-agent-review",
   "started_at": "2026-08-27T20:59:58Z",
-  "updated_at": "2026-08-27T21:35:27Z",
+  "updated_at": "2026-08-27T21:38:20Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -80,7 +80,8 @@
     "test_planner": "claude-sonnet-4.6",
     "contract_writer": "claude-sonnet-4.6",
     "spec_reviewer": "claude-opus-4.7",
-    "pre_pr_checker": "claude-sonnet-4.6"
+    "pre_pr_checker": "claude-sonnet-4.6",
+    "code_reviewer": "claude-opus-4.8"
   },
   "independence_violations": [
     {
