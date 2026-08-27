@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T20:59:16Z"
   },
-  "stage": "06-contract",
-  "next": "07-implement",
+  "stage": "07-implement",
+  "next": "08-verify",
   "started_at": "2026-08-27T20:58:28Z",
-  "updated_at": "2026-08-27T21:14:50Z",
+  "updated_at": "2026-08-27T21:28:20Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -39,11 +39,39 @@
     }
   },
   "implement": {
-    "round": 0,
+    "round": 2,
     "max_rounds": 5,
-    "spec_review_approved": false,
-    "last_diagnosis": null,
-    "escalated": false
+    "spec_review_approved": true,
+    "last_diagnosis": ".orchestration/tickets/issue-11/diagnosis/round-1.json",
+    "escalated": false,
+    "rounds": [
+      {
+        "n": 1,
+        "changed_files_code": [
+          "src/app/api/resources/[id]/download/route.ts",
+          "src/components/ResourceCard.tsx",
+          "src/components/StatsHeaderCard.tsx",
+          "src/app/teachers/[teacherId]/page.tsx",
+          "src/app/resources/[id]/page.tsx",
+          "src/lib/db.ts",
+          "prisma/schema.prisma"
+        ],
+        "changed_files_tests": [
+          "src/app/api/resources/[id]/download/__tests__/route.test.ts",
+          "src/components/__tests__/ResourceCard.test.tsx",
+          "src/components/__tests__/StatsHeaderCard.test.tsx",
+          "src/app/teachers/[teacherId]/__tests__/page.test.ts",
+          "src/app/resources/[id]/__tests__/page.test.ts"
+        ],
+        "failing_tests": [
+          "scripts.test.ts format:check",
+          "scripts.test.ts build",
+          "ResourceCard env_bug",
+          "StatsHeaderCard env_bug"
+        ],
+        "diagnosis_json": ".orchestration/tickets/issue-11/diagnosis/round-1.json"
+      }
+    ]
   },
   "artifacts": {
     "brief_md": ".orchestration/tickets/issue-11/BRIEF.md",
@@ -55,13 +83,18 @@
     "plan_md": ".orchestration/tickets/issue-11/plan.md",
     "test_plan_md": ".orchestration/tickets/issue-11/test-plan.md",
     "contract_md": ".orchestration/tickets/issue-11/contract.md",
-    "impl_context_md": ".orchestration/tickets/issue-11/impl-context.md"
+    "impl_context_md": ".orchestration/tickets/issue-11/impl-context.md",
+    "spec_review_json": ".orchestration/tickets/issue-11/spec-review.json"
   },
   "models_used": {
     "enricher": "claude-opus-4.7",
     "planner": "gpt-5.4",
     "test_planner": "claude-sonnet-4.6",
-    "contract_writer": "claude-sonnet-4.6"
+    "contract_writer": "claude-sonnet-4.6",
+    "coder": "gpt-5.3-codex",
+    "tester": "claude-sonnet-4.6",
+    "spec_reviewer": "claude-opus-4.7",
+    "diagnoser": "claude-opus-4.7"
   },
   "independence_violations": [],
   "human_interactions": [

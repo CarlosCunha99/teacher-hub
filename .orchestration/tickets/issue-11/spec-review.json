@@ -1,0 +1,153 @@
+{
+  "scope": "full",
+  "verdict": "approve",
+  "confidence": "medium",
+  "criteria_coverage": [
+    {
+      "criterion": "Resource files are downloadable through an HTTP endpoint for a published resource",
+      "covered": true,
+      "tests": ["route.test.ts: returns 200 and creates a Download row for a PUBLISHED resource"],
+      "notes": "200 success path asserted. Test asserts body.success===true but does NOT assert the contract-required `fileUrl` field is present in the JSON body."
+    },
+    {
+      "criterion": "Each successful download increments a persistent, per-resource counter exactly once",
+      "covered": true,
+      "tests": ["route.test.ts: 200 happy path"],
+      "notes": "Verifies db.download.create called exactly once with { data: { resourceId: '1', userId: null } }. Strong."
+    },
+    {
+      "criterion": "Failed / rejected download requests do NOT increment the counter",
+      "covered": true,
+      "tests": [
+        "route.test.ts: 404 for DRAFT resource — create NOT called",
+        "route.test.ts: 404 for missing resource — create NOT called",
+        "route.test.ts: 500 when findUnique throws — create NOT called"
+      ],
+      "notes": "Negative-path coverage is solid. No test for a 500 originating from download.create itself throwing (partial-failure branch of contract 500)."
+    },
+    {
+      "criterion": "Resource card displays download count for that resource",
+      "covered": true,
+      "tests": ["ResourceCard.test.tsx: renders 42; renders 0"],
+      "notes": "Rendering of downloadCount verified. Title rendering is NOT asserted, though contract requires title as visible text — a bug that omits/mangles title would slip through this suite."
+    },
+    {
+      "criterion": "Resource detail view displays download count",
+      "covered": true,
+      "tests": ["page.test.ts (resources/[id]): F4 renders title and '7'"],
+      "notes": "Happy path covered. No test for notFound() when resource is missing or DRAFT — contract invariant explicitly requires 404 for unpublished/missing resources on the detail page, and this is not asserted."
+    },
+    {
+      "criterion": "Resource owner can query the download count for each of their resources",
+      "covered": true,
+      "tests": ["teachers page.test.ts F1"],
+      "notes": "Per contract, owner reads counts via the same profile/detail UI — implicitly covered."
+    },
+    {
+      "criterion": "Teacher profile displays total likes summed across published resources",
+      "covered": true,
+      "tests": ["teachers page.test.ts F1, F2"],
+      "notes": "F1 asserts totalLikes value; F2 asserts where-clause includes authorId and status PUBLISHED."
+    },
+    {
+      "criterion": "Teacher profile displays total downloads summed across published resources",
+      "covered": true,
+      "tests": ["teachers page.test.ts F1, F2"],
+      "notes": "Symmetric to totalLikes."
+    },
+    {
+      "criterion": "DRAFT / unpublished / deleted resources excluded from aggregates",
+      "covered": true,
+      "tests": [
+        "teachers page.test.ts F2 (asserts status: 'PUBLISHED' in count where-clause)",
+        "route.test.ts DRAFT-returns-404"
+      ],
+      "notes": "Aggregate-side filter verified for like.count and download.count. Gap: F2 does NOT assert that resource.findMany is also filtered by status: 'PUBLISHED' (contract states DRAFT resources are never returned in the resources list). A bug that leaks DRAFT into the returned resources list would pass."
+    },
+    {
+      "criterion": "Teacher with zero published resources sees 0 for both totals",
+      "covered": true,
+      "tests": ["teachers page.test.ts F3"],
+      "notes": "Explicit zero-state assertion for totalLikes, totalDownloads, and empty resources array."
+    },
+    {
+      "criterion": "Aggregate totals reflect new likes/downloads on next profile page load via revalidatePath",
+      "covered": true,
+      "tests": ["route.test.ts: calls revalidatePath('/teachers/teacher-1')"],
+      "notes": "Verifies revalidatePath is invoked with the author's teacher path on success. Good."
+    },
+    {
+      "criterion": "Download endpoint is publicly accessible (no auth) for published resources (MVP)",
+      "covered": true,
+      "tests": ["route.test.ts happy path succeeds with no auth headers"],
+      "notes": "No auth-gate assertion is required; absence of any auth mock and success of the request implicitly covers this."
+    },
+    {
+      "criterion": "Profile stats always publicly visible",
+      "covered": true,
+      "tests": ["teachers page.test.ts F1"],
+      "notes": "No visibility gating exists in code under test; not a testable behavior beyond fetch succeeding."
+    },
+    {
+      "criterion": "TeacherProfilePage Server Component renders StatsHeaderCard + ResourceCard list (contract)",
+      "covered": false,
+      "tests": [],
+      "notes": "Only the fetchTeacherProfileData helper is tested. The default-export TeacherProfilePage (which the contract explicitly specifies must render StatsHeaderCard and a ResourceCard list) has no rendering test. A regression that swaps components or drops the stats block would not be caught."
+    },
+    {
+      "criterion": "Download response body shape { success: true, fileUrl: string | null }",
+      "covered": false,
+      "tests": [],
+      "notes": "Contract specifies fileUrl is part of the JSON body; no test asserts its presence or value. A bug that omits fileUrl (breaking any future client relying on it) would pass."
+    }
+  ],
+  "test_findings": [
+    {
+      "test": "route.test.ts happy path",
+      "severity": "info",
+      "issue": "Uses `params: Promise.resolve({ id: '1' })` while contract signature declares `params: { id: string }` (non-Promise). Tester chose the Next 15 async-params form. Not a spec violation but worth noting — coder must match the same shape."
+    },
+    {
+      "test": "route.test.ts",
+      "severity": "minor",
+      "issue": "Body assertion is `toMatchObject({ success: true })` — does not verify the `fileUrl` field from the contract's response body shape."
+    },
+    {
+      "test": "route.test.ts (500 branch)",
+      "severity": "minor",
+      "issue": "Only tests findUnique-throws → 500. Contract also allows 500 when download.create throws; no test for that branch. A subtle bug that swallows create-errors (returns 200 despite no row) would not be caught."
+    },
+    {
+      "test": "ResourceCard.test.tsx",
+      "severity": "minor",
+      "issue": "Only asserts downloadCount rendering. Contract requires `title` to be rendered as visible text; a bug that hides/omits the title passes."
+    },
+    {
+      "test": "resources/[id]/page.test.ts",
+      "severity": "medium",
+      "issue": "No test for the notFound() invariant when resource is missing or status !== 'PUBLISHED'. Contract explicitly requires this behavior on the resource detail page."
+    },
+    {
+      "test": "teachers/[teacherId]/page.test.ts F2",
+      "severity": "medium",
+      "issue": "Does not assert that `db.resource.findMany` is called with a `status: 'PUBLISHED'` filter. Contract states DRAFT resources are never returned in the `resources` array. A bug leaking DRAFT into the list would pass."
+    },
+    {
+      "test": "teachers/[teacherId]/page.test.ts",
+      "severity": "medium",
+      "issue": "No test for the default-export Server Component (TeacherProfilePage). Contract requires it renders StatsHeaderCard with the totals and a list of ResourceCard for each published resource; this composition is untested."
+    },
+    {
+      "test": "StatsHeaderCard.test.tsx",
+      "severity": "info",
+      "issue": "Uses getAllByText('0') with length>=2 for the zero case — acceptable but does not distinguish which value is which. Since props are trusted and pure presentational, this is fine."
+    }
+  ],
+  "unmapped_tests": [],
+  "unmapped_criteria": [
+    "TeacherProfilePage default-export composition (renders StatsHeaderCard + ResourceCard list) — contract-locked interface with no test.",
+    "ResourceDetailPage notFound() for missing or non-PUBLISHED resource — contract invariant with no test.",
+    "Download response body includes `fileUrl` field — contract-locked shape not asserted."
+  ],
+  "one_line_summary": "Test suite encodes the core acceptance criteria (download creation, exclusion of DRAFT/missing, per-resource counts, aggregate totals, zero state, revalidatePath); approve with medium confidence given missing coverage for the TeacherProfilePage composition, ResourceDetailPage notFound path, resource.findMany PUBLISHED filter, download.create-throws 500 branch, and the fileUrl response field."
+}

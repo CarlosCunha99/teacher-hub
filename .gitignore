@@ -12,6 +12,9 @@ coverage/
 # local environment files (never commit secrets)
 .env*.local
 
+# local sqlite database
+/dev.db*
+
 # debug logs
 npm-debug.log*
 yarn-debug.log*
