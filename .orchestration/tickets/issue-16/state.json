@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T20:59:24Z"
   },
-  "stage": "07-implement",
-  "next": "08-verify",
+  "stage": "08-verify",
+  "next": "09-agent-review",
   "started_at": "2026-08-27T20:58:58Z",
-  "updated_at": "2026-08-27T21:42:09Z",
+  "updated_at": "2026-08-27T21:44:16Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -85,7 +85,8 @@
     "coder": "gpt-5.3-codex",
     "tester": "claude-sonnet-4.6",
     "spec_reviewer": "claude-opus-4.8",
-    "diagnoser": "claude-opus-4.7"
+    "diagnoser": "claude-opus-4.7",
+    "pre_pr_checker": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
