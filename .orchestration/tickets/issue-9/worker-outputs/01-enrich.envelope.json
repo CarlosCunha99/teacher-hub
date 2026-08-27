@@ -1,0 +1,30 @@
+{
+  "todo_id": "issue-9-01-enrich-r0",
+  "status": "done",
+  "summary": "Enriched ticket.md for issue-9 (GitHub #12): reconciled invocation vs upstream ACs, expanded acceptance criteria, edge cases, scope, and clarifications; re-emitted result in the required worker envelope shape.",
+  "deliverable_path": ".orchestration/tickets/issue-9/ticket.md",
+  "changed_files": [
+    {"path": ".orchestration/tickets/issue-9/ticket.md", "action": "modified", "lines_added": 97, "lines_removed": 11},
+    {"path": ".orchestration/tickets/issue-9/worker-outputs/01-enrich.envelope.json", "action": "modified", "lines_added": 1, "lines_removed": 1}
+  ],
+  "verification": {
+    "commands_run": [
+      "git --no-pager diff --numstat HEAD -- .orchestration/tickets/issue-9/ticket.md",
+      "python3 -c \"import json,sys; json.load(open('.orchestration/tickets/issue-9/worker-outputs/01-enrich.envelope.json'))\""
+    ],
+    "all_passed": true,
+    "notes": "ticket.md content retained from prior enrichment pass (valid improvements kept); envelope JSON validated as parseable and conforming to the required worker-result shape with no extra top-level keys."
+  },
+  "follow_ups": [
+    "Confirm this pipeline (issue-9) targets GitHub issue #12, not the foundation issue #9/PR.",
+    "Decide scope given that auth (#2), DB schema (#3), and upload workflow (#4) are all still open/unbuilt.",
+    "Decide presentation: inline modal at first upload (invocation) vs standalone terms page linked from auth + upload flows (#12).",
+    "Decide where terms text/versions are stored (code/config vs database #3)."
+  ],
+  "open_questions": [
+    {"q": "On a terms version bump, must previously-accepted teachers re-accept before their next upload (block re-engages), or is it a non-blocking notification only?", "proposed_answer": "Forced re-acceptance before next upload, to best serve the legal-compliance goal.", "blocking": true},
+    {"q": "Should the acceptance UX be an inline blocking modal at first upload, or a standalone terms page linked from the auth and upload flows?", "proposed_answer": "Affirmative checkbox at point of first upload with the full terms viewable; modal-vs-page deferred to solution design.", "blocking": false},
+    {"q": "Does this ticket wait for auth (#2), DB (#3), and upload (#4), build against stubs, or deliver only the isolated acceptance-gate slice?", "proposed_answer": "Deliver the acceptance-gate slice with clearly stated dependencies; sequence after #2/#3/#4 land.", "blocking": false}
+  ],
+  "confidence": "low"
+}
