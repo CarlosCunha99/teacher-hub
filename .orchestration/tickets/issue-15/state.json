@@ -14,14 +14,15 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:58:17Z",
-  "updated_at": "2026-08-27T21:02:36Z",
+  "updated_at": "2026-08-27T21:04:10Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
       "at": "2026-08-27T21:02:36Z"
     },
     "gate_2_brainstorm": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:04:10Z"
     },
     "gate_3_scope": {
       "status": "pending"
@@ -49,7 +50,8 @@
     "ticket_md": ".orchestration/tickets/issue-15/ticket.md"
   },
   "models_used": {
-    "enricher": "claude-opus-4.8"
+    "enricher": "claude-opus-4.8",
+    "distiller": "claude-haiku-4.5"
   },
   "independence_violations": [],
   "human_interactions": [],

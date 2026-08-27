@@ -1,7 +1,7 @@
 # Branch Brief — issue-15
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:02:36Z at stage 00-intake (gate: gate_1_enrich → passed at 2026-08-27T21:02:36Z)._
+_Last rendered: 2026-08-27T21:04:10Z at stage 00-intake (gate: gate_2_brainstorm → passed at 2026-08-27T21:04:10Z)._
 
 ## The work
 *(❓ Unverified — no user, download, or billing code exists in the repo yet; problem framing is derived from the ticket text and sibling roadmap issues #16/#11, not from implemented behavior.)*
@@ -11,7 +11,7 @@ This ticket adds a **premium membership tier** so teachers who reach the free li
 
 ## Where we are
 - **Stage:** 00-intake  →  next: 01-enrich
-- **Last gate:** gate_1_enrich → passed at 2026-08-27T21:02:36Z
+- **Last gate:** gate_2_brainstorm → passed at 2026-08-27T21:04:10Z
 - **Next gate:** gate_1_enrich → approve enriched ticket / changes / Q&A
 - **Escalated:** no
 
@@ -27,6 +27,7 @@ No decisions recorded yet.
 |---|---|
 | Product problem, ACs, edge cases | `.orchestration/tickets/issue-15/ticket.md` |
 | Raw intake context for enrichment | `.orchestration/tickets/issue-15/raw-context.md` |
+| Chosen approach (if brainstormed) | `.orchestration/tickets/issue-15/solution.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-15/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
