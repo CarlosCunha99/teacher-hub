@@ -1,0 +1,41 @@
+{
+  "ticket_id": "issue-15",
+  "round": 3,
+  "delta_of": ".orchestration/tickets/issue-15/spec-review.json (round 2)",
+  "verdict": "accepted",
+  "prior_blocking_findings_recheck": [
+    {
+      "id": "settings-page-coverage",
+      "status": "resolved",
+      "evidence": "New src/app/settings/__tests__/page.test.tsx covers all four required behaviors: (1) loading state shown before and during in-flight fetch, asserting fetch called with '/api/billing/subscription' and 'Loading your subscription' text present both before and after effect runs while the fetch promise is unresolved; (2) free-tier flow (isPremium:false) renders 'Upgrade to premium' button, absence of 'Manage subscription', clicking POSTs '/api/billing/checkout' and redirects window.location.href to the returned url; (3) premium-tier flow (isPremium:true) renders 'Plan status: active', formatted currentPeriodEnd date, 'Manage subscription' button, absence of 'Upgrade to premium', clicking POSTs '/api/billing/portal' and redirects to returned url; (4) error state for both a rejected fetch and a non-2xx response, asserting an element with role='alert', a generic actionable message ('We couldn't load your subscription details. Please refresh to try again.'), no crash (render does not throw), and explicit assertions that raw details ('low-level network failure', 'Request failed with status 500') are NOT present in rendered text — directly matching the contract's 'never exposes raw error details' invariant."
+    },
+    {
+      "id": "webhook-currentPeriodEnd-propagation",
+      "status": "resolved",
+      "evidence": "webhook.test.ts now asserts currentPeriodEnd: new Date('2026-09-27T12:00:00.000Z') inside the expect.objectContaining block for both the customer.subscription.updated test (past_due mapping) and the customer.subscription.deleted test (canceled mapping), matching the current_period_end: toUnixSeconds('2026-09-27T12:00:00.000Z') set on the Stripe event fixtures. This exercises the exact unix-seconds-to-Date conversion and pass-through the ticket's period-end access semantics depend on (resolved ambiguity #5). A dropped, zeroed, or mis-converted currentPeriodEnd would now fail these tests."
+    }
+  ],
+  "acceptance_criteria_coverage_delta": [
+    {
+      "criterion": "Subscription status visible in account settings",
+      "covered": true,
+      "tests": ["page.test.tsx: loading/free-tier/premium-tier/error(reject)/error(non-2xx) — was 'false' in round 2, now fully covered"]
+    },
+    {
+      "criterion": "Downgrade/cancel reverts to free-tier at defined time (period-end semantics)",
+      "covered": true,
+      "tests": ["webhook.test.ts customer.subscription.deleted now asserts currentPeriodEnd propagation, closing the write-side gap; combined with entitlements.test.ts read-side coverage this criterion is now fully covered end-to-end"]
+    },
+    {
+      "criterion": "Billing/entitlement failures handled gracefully with actionable messages, no silent grant/revoke",
+      "covered": true,
+      "tests": ["page.test.tsx adds the previously-missing SettingsPage error-state coverage (actionable message, role=alert, no raw error leakage), completing this criterion alongside the already-strong checkout/portal/webhook/entitlements coverage from round 2"]
+    }
+  ],
+  "unchanged_findings_reference": "All other findings (test_quality_notes, acceptance_criteria_coverage for the four unaffected criteria, and overall assessment of subscriptions.test.ts, subscription.test.ts, checkout.test.ts, portal.test.ts, entitlements.test.ts) are unchanged from round 2 and remain valid — see delta_of file for full detail; those files were not touched in this round.",
+  "test_quality_notes_delta": [
+    "page.test.tsx uses a lightweight custom React-hook shim (manual useState/useEffect stand-ins) rather than @testing-library/react, but it faithfully drives the real component tree returned by SettingsPage() and correctly re-renders after state updates; the button-finding and text-collection helpers correctly traverse the JSX element tree including nested children. This is an unconventional but valid testing approach that exercises real component logic, not mocks of the component itself.",
+    "webhook.test.ts currentPeriodEnd assertions use exact Date equality (new Date(iso string)) inside expect.objectContaining, correctly isolating the currentPeriodEnd field without needing to restate the full upsert payload."
+  ],
+  "recommendation": "Accept. Both round-2 blocking gaps are resolved by the delta: SettingsPage now has thorough behavioral coverage (loading, free/premium button gating and redirect wiring, dual error-path handling with no raw-error leakage), and webhook tests now assert currentPeriodEnd propagation for both subscription.updated and subscription.deleted events. No new gaps introduced by the delta. No further blocking issues identified."
+}

@@ -14,7 +14,7 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:58:17Z",
-  "updated_at": "2026-08-27T21:12:15Z",
+  "updated_at": "2026-08-27T21:30:29Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -56,7 +56,11 @@
     "impact-analyzer": "claude-sonnet-4.6",
     "planner": "claude-opus-4.7",
     "test-planner": "claude-sonnet-5",
-    "contract-writer": "claude-sonnet-4.6"
+    "contract-writer": "claude-sonnet-4.6",
+    "coder": "claude-opus-4.8",
+    "tester": "gpt-5.4",
+    "spec-reviewer": "claude-sonnet-5",
+    "diagnoser": "claude-opus-4.7"
   },
   "independence_violations": [],
   "human_interactions": [],

@@ -1,7 +1,7 @@
 # Branch Brief — issue-15
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:12:15Z at stage 00-intake (gate: gate_3_scope → passed at 2026-08-27T21:09:38Z)._
+_Last rendered: 2026-08-27T21:30:30Z at stage 00-intake (gate: gate_3_scope → passed at 2026-08-27T21:09:38Z)._
 
 ## The work
 *(❓ Unverified — no user, download, or billing code exists in the repo yet; problem framing is derived from the ticket text and sibling roadmap issues #16/#11, not from implemented behavior.)*
