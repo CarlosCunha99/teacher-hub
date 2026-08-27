@@ -11,17 +11,18 @@
     "base": "main",
     "created_at": "2026-08-27T20:59:59Z"
   },
-  "stage": "01-enrich",
-  "next": "03-brainstorm",
+  "stage": "03-brainstorm",
+  "next": "04-impact",
   "started_at": "2026-08-27T20:59:22Z",
-  "updated_at": "2026-08-27T21:03:03Z",
+  "updated_at": "2026-08-27T21:04:38Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
       "at": "2026-08-27T21:03:02Z"
     },
     "gate_2_brainstorm": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:04:38Z"
     },
     "gate_3_scope": {
       "status": "pending"
@@ -49,7 +50,8 @@
     "ticket_md": ".orchestration/tickets/issue-11/ticket.md"
   },
   "models_used": {
-    "enricher": "claude-opus-4.7"
+    "enricher": "claude-opus-4.7",
+    "distiller": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
@@ -58,6 +60,12 @@
       "kind": "gate",
       "summary": "User unavailable — autonomous progression: enrichment captures all ACs, no blocking ambiguities",
       "at": "2026-08-27T21:03:03Z"
+    },
+    {
+      "stage": "03-brainstorm",
+      "kind": "gate",
+      "summary": "User unavailable — autonomous brainstorm closed, solution.md distilled",
+      "at": "2026-08-27T21:04:38Z"
     }
   ],
   "pr_url": null,
