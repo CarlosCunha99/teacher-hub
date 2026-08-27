@@ -1,7 +1,7 @@
 # Branch Brief — resource-tagging
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:15:07Z at stage 06-contract (gate: gate_3_scope → passed at 2026-08-27T21:11:58Z)._
+_Last rendered: 2026-08-27T21:32:27Z at stage 07-implement (gate: gate_3_scope → passed at 2026-08-27T21:11:58Z)._
 
 ## The work
 Teachers use Teacher Hub to share and discover classroom resources. The standard
@@ -12,9 +12,10 @@ adequately describe their resources with the fixed subject/year vocabulary alone
 As a result, valuable resources are either mis-tagged into the nearest standard
 
 ## Where we are
-- **Stage:** 06-contract  →  next: 07-implement
+- **Stage:** 07-implement  →  next: 08-verify
+- **Round:** 1 / 5
 - **Last gate:** gate_3_scope → passed at 2026-08-27T21:11:58Z
-- **Next gate:** gate_3_scope → approve plan and test-plan scope
+- **Next gate:** none scheduled
 - **Escalated:** no
 
 ## Open questions / ambiguities
@@ -44,7 +45,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/06-contract.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/07-implement.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails

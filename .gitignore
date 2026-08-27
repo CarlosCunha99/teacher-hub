@@ -21,6 +21,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# sqlite/prisma local db files
+*.db
+*.db-journal
+
 # os / editor
 .DS_Store
 *.pem

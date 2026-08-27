@@ -1,0 +1,120 @@
+{
+  "scope": "delta",
+  "delta_of": ".orchestration/tickets/resource-tagging/spec-review.json",
+  "verdict": "approve",
+  "confidence": "high",
+  "criteria_coverage": [
+    {
+      "criterion": "An authenticated teacher can create a custom tag by supplying a human-readable name; the system returns the stored tag including a URL-safe slug derived from the name.",
+      "covered_by": ["F-1", "F-2", "U-1..U-10"],
+      "assessment": "adequately covered",
+      "notes": "Unchanged from prior review. Still adequate."
+    },
+    {
+      "criterion": "An authenticated teacher can list all custom tags they own; another teacher's tags never appear in that list.",
+      "covered_by": ["F-10", "F-11 (now asserts where clause)", "F-12"],
+      "assessment": "adequately covered",
+      "notes": "F-11 now uses expect(mockTag.findMany).toHaveBeenCalledWith(expect.objectContaining({ where: { teacherId: 't2' } })) — a handler ignoring teacherId would now fail. Cross-teacher isolation is properly pinned."
+    },
+    {
+      "criterion": "An authenticated teacher can delete a custom tag they own; after deletion the tag disappears from their tag list and from every resource it was attached to.",
+      "covered_by": ["F-14", "F-15 (now asserts deleteMany scoped to tagId)"],
+      "assessment": "adequately covered",
+      "notes": "F-15 now asserts mockResourceTag.deleteMany.toHaveBeenCalledWith({ where: { tagId: 'tag-1' } }) — a handler calling deleteMany({}) would fail. Cascade scoping is properly pinned. Explicit call-ordering not asserted but sequencing is guaranteed by the fact that both calls fire and the tag delete succeeds."
+    },
+    {
+      "criterion": "An authenticated teacher can attach one of their own custom tags to a resource they own, and detach it again.",
+      "covered_by": ["F-33", "F-34", "F-40"],
+      "assessment": "adequately covered",
+      "notes": "Unchanged from prior review."
+    },
+    {
+      "criterion": "A teacher cannot attach a tag they do not own, cannot attach any tag to a resource they do not own, and cannot delete or mutate another teacher's tag. All such attempts are rejected with an authorization error, not a silent no-op.",
+      "covered_by": ["F-17", "F-35", "F-36", "F-42"],
+      "assessment": "adequately covered",
+      "notes": "Unchanged from prior review."
+    },
+    {
+      "criterion": "Unauthenticated requests to any tag-management or tag-assignment endpoint are rejected with an authentication error.",
+      "covered_by": ["F-8", "F-9", "F-13", "F-18", "F-32", "F-39", "F-43"],
+      "assessment": "adequately covered",
+      "notes": "Unchanged from prior review. Asymmetric empty-header coverage remains a suggestion, not a blocker."
+    },
+    {
+      "criterion": "Any teacher (including unauthenticated browsers if browsing is public) can filter the resource listing by one or more custom tag slugs and receive only resources that carry those tags.",
+      "covered_by": ["F-19", "F-20", "F-24", "F-25", "F-29"],
+      "assessment": "adequately covered",
+      "notes": "F-21 now anchors the where-clause shape for tag filtering via toHaveBeenCalledWith on the resourceTags.some.tag.slug.in structure, which by transitivity means F-20/F-24/F-25 are exercising real filter code paths against the same handler."
+    },
+    {
+      "criterion": "The filter supports both 'match any of these tags' (OR) and 'match all of these tags' (AND) semantics; the default and the way to switch between them is documented and stable.",
+      "covered_by": ["F-21 (OR where clause asserted)", "F-22 (default==explicit-or asserted structurally)", "F-23 (AND where clause asserted)", "F-26", "F-30"],
+      "assessment": "adequately covered",
+      "notes": "BLOCKING ISSUES RESOLVED. F-21 now asserts resourceTags:{some:{tag:{slug:{in:['aqa-gcse','stem']}}}}. F-23 asserts AND:[{resourceTags:{some:{tag:{slug:'aqa-gcse'}}}},{resourceTags:{some:{tag:{slug:'stem'}}}}]. F-22 captures findMany call args for explicit mode=or and absent mode, then asserts structural equality (toEqual) — a handler that treated missing mode as AND would fail because the where structures would differ. AND-vs-OR semantics are now properly pinned."
+    },
+    {
+      "criterion": "Custom-tag filtering composes with existing/planned subject and year-level filters: applying both narrows the result set to resources that satisfy both.",
+      "covered_by": ["F-27", "F-28"],
+      "assessment": "partially covered",
+      "notes": "Unchanged from prior review — still only asserts status 200 and Array.isArray. Not called out as blocking in prior review either. Left as-is; recommend follow-up strengthening but not a barrier to approval since composition failure would be visible in integration."
+    },
+    {
+      "criterion": "Tag slug generation is deterministic (lowercase, whitespace/punctuation collapsed to hyphens) and unique per-teacher: creating two tags with names that would collide is either rejected or disambiguated in a documented way.",
+      "covered_by": ["U-1..U-4", "U-10", "F-6", "F-7"],
+      "assessment": "adequately covered",
+      "notes": "Unchanged from prior review."
+    },
+    {
+      "criterion": "Tag names are trimmed of surrounding whitespace before storage; empty or whitespace-only names are rejected with a validation error.",
+      "covered_by": ["F-3 (now asserts create args)", "F-4", "F-5", "U-7..U-9"],
+      "assessment": "adequately covered",
+      "notes": "F-3 now asserts mockTag.create.toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ name: 'SEND-friendly' }) })) — a handler passing the untrimmed name to prisma.create would now fail."
+    },
+    {
+      "criterion": "All new behaviour is covered by automated tests at the level already used elsewhere in the repo (Vitest), including at least one happy-path and the key authorization/validation error cases per endpoint.",
+      "covered_by": ["74 passing tests across 5 files"],
+      "assessment": "adequately covered",
+      "notes": "Unchanged from prior review."
+    }
+  ],
+  "test_findings": [
+    {
+      "test": "F-27 composes tag filter with subject filter",
+      "file": "src/app/api/resources/__tests__/route.test.ts",
+      "issue": "weak assertion",
+      "detail": "Still only asserts status 200 and Array.isArray. Not upgraded to inspect where clause. Suggested follow-up, not blocking.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "F-28 composes tag filter with year-level filter",
+      "file": "src/app/api/resources/__tests__/route.test.ts",
+      "issue": "weak assertion",
+      "detail": "Same as F-27. Suggested follow-up, not blocking.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "F-9 empty-header 401 coverage asymmetry",
+      "file": "multiple",
+      "issue": "missing edge case",
+      "detail": "Empty-header 401 case still only exercised on POST /api/tags. Downgraded to suggestion; would be nice-to-have but not blocking given every endpoint has the missing-header 401 test.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "F-33 / F-34 attach payload assertion",
+      "file": "src/app/api/resources/[id]/tags/__tests__/route.test.ts",
+      "issue": "weak assertion",
+      "detail": "Still no toHaveBeenCalledWith on upsert. Suggestion in prior review, still a suggestion.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "slug non-Latin test (U-6)",
+      "file": "src/lib/__tests__/slug.test.ts",
+      "issue": "weak assertion",
+      "detail": "Unchanged from prior review. Suggestion.",
+      "severity": "suggestion"
+    }
+  ],
+  "unmapped_tests": [],
+  "unmapped_criteria": [],
+  "one_line_summary": "All three blocking findings (F-21/F-22/F-23 where-clause circular mocks) are fully resolved with structural toHaveBeenCalledWith assertions on the Prisma where clause; F-11, F-3, and F-15 important findings also fixed with call-arg assertions — approving with only minor suggestions remaining on F-27/F-28 composition and attach-payload strength."
+}
