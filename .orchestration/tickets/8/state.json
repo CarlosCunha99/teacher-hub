@@ -10,8 +10,8 @@
     "name": "issue-8-mvp-build-teacher-profile-pages-with-co-254520",
     "base": "main"
   },
-  "stage": "08-verify",
-  "next": "09-agent-review",
+  "stage": "09-agent-review",
+  "next": "10-human-review",
   "started_at": "2026-08-27T20:57:35Z",
   "updated_at": "2026-08-27T20:57:35Z",
   "gates": {
