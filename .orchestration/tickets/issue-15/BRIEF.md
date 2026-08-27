@@ -1,7 +1,7 @@
 # Branch Brief — issue-15
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:09:25Z at stage 00-intake (gate: gate_2_brainstorm → passed at 2026-08-27T21:04:10Z)._
+_Last rendered: 2026-08-27T21:12:15Z at stage 00-intake (gate: gate_3_scope → passed at 2026-08-27T21:09:38Z)._
 
 ## The work
 *(❓ Unverified — no user, download, or billing code exists in the repo yet; problem framing is derived from the ticket text and sibling roadmap issues #16/#11, not from implemented behavior.)*
@@ -11,7 +11,7 @@ This ticket adds a **premium membership tier** so teachers who reach the free li
 
 ## Where we are
 - **Stage:** 00-intake  →  next: 01-enrich
-- **Last gate:** gate_2_brainstorm → passed at 2026-08-27T21:04:10Z
+- **Last gate:** gate_3_scope → passed at 2026-08-27T21:09:38Z
 - **Next gate:** gate_1_enrich → approve enriched ticket / changes / Q&A
 - **Escalated:** no
 
@@ -30,6 +30,8 @@ No decisions recorded yet.
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-15/solution.md` |
 | Technical plan | `.orchestration/tickets/issue-15/plan.md` |
 | Test plan | `.orchestration/tickets/issue-15/test-plan.md` |
+| Interface lock (parallel-work contract) | `.orchestration/tickets/issue-15/contract.md` |
+| Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-15/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-15/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-15/state.json` |
 

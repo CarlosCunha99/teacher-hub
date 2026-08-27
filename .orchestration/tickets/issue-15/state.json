@@ -14,7 +14,7 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:58:17Z",
-  "updated_at": "2026-08-27T21:09:25Z",
+  "updated_at": "2026-08-27T21:12:15Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -25,7 +25,8 @@
       "at": "2026-08-27T21:04:10Z"
     },
     "gate_3_scope": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:09:38Z"
     },
     "gate_4_handoff": {
       "status": "pending"
@@ -54,7 +55,8 @@
     "distiller": "claude-haiku-4.5",
     "impact-analyzer": "claude-sonnet-4.6",
     "planner": "claude-opus-4.7",
-    "test-planner": "claude-sonnet-5"
+    "test-planner": "claude-sonnet-5",
+    "contract-writer": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [],
