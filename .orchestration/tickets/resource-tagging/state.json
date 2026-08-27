@@ -1,0 +1,55 @@
+{
+  "ticket_id": "resource-tagging",
+  "type": "feature",
+  "source": {
+    "kind": "text",
+    "ref": "session-description",
+    "description": "[Phase 2] Add resource tagging and filtering by custom categories"
+  },
+  "branch": {
+    "name": "issue-16-phase-2-add-resource-tagging-and-filter-c18b1e",
+    "base": "main",
+    "created_at": "2026-08-27T21:01:28Z"
+  },
+  "stage": "00-intake",
+  "next": "01-enrich",
+  "started_at": "2026-08-27T20:59:58Z",
+  "updated_at": "2026-08-27T21:01:28Z",
+  "gates": {
+    "gate_1_enrich": {
+      "status": "pending"
+    },
+    "gate_2_brainstorm": {
+      "status": "pending"
+    },
+    "gate_3_scope": {
+      "status": "pending"
+    },
+    "gate_4_handoff": {
+      "status": "pending"
+    },
+    "gate_4b_review": {
+      "status": "pending"
+    },
+    "gate_5_pr": {
+      "status": "pending"
+    }
+  },
+  "implement": {
+    "round": 0,
+    "max_rounds": 5,
+    "spec_review_approved": false,
+    "last_diagnosis": null,
+    "escalated": false
+  },
+  "artifacts": {
+    "brief_md": ".orchestration/tickets/resource-tagging/BRIEF.md",
+    "raw_context_md": ".orchestration/tickets/resource-tagging/raw-context.md",
+    "ticket_md": ".orchestration/tickets/resource-tagging/ticket.md"
+  },
+  "models_used": {},
+  "independence_violations": [],
+  "human_interactions": [],
+  "pr_url": null,
+  "completed_at": null
+}
