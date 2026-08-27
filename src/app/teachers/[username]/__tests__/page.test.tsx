@@ -79,10 +79,15 @@ describe("TeacherProfilePage", () => {
     expect(html).toContain(mockResources[0].title);
     expect(html).toContain(mockResources[1].title);
     expect(html).toContain(mockBoards[0].name);
-    // Count labels reflect array lengths (AC4).
-    expect(html).toContain("2");
-    expect(html).toContain("1");
+    // Count labels use unambiguous, contextualized text ("Resources (N)" /
+    // "Boards (N)") rather than bare digits, which also appear in IDs/dates
+    // and would otherwise let a wrong or missing count pass silently.
+    expect(html).toContain(`Resources (${mockResources.length})`);
+    expect(html).toContain(`Boards (${mockBoards.length})`);
     expect(mockNotFound).not.toHaveBeenCalled();
+    // The collection lookups must be scoped to the *found* teacher's id.
+    expect(mockGetPublishedResourcesByTeacher).toHaveBeenCalledWith(mockTeacher.id);
+    expect(mockGetShareableBoardsByTeacher).toHaveBeenCalledWith(mockTeacher.id);
   });
 
   it("calls notFound() for an unknown username and does not render teacher markup", async () => {
@@ -104,10 +109,13 @@ describe("TeacherProfilePage", () => {
     const html = await renderPage("newteacher");
 
     expect(html).toContain(mockTeacher.name);
-    expect(html).toContain("0");
-    // Empty-state messaging is not prescribed verbatim by the contract; assert
-    // that no resource/board titles leak through and the page renders without
-    // throwing (already implied by a successful renderToStaticMarkup call).
+    // Distinct, unambiguous zero-count labels for each collection — a single
+    // occurrence of "0" cannot satisfy both.
+    expect(html).toContain("Resources (0)");
+    expect(html).toContain("Boards (0)");
+    // Distinct empty-state messages for each collection.
+    expect(html).toContain("No published resources yet.");
+    expect(html).toContain("No shareable boards yet.");
     expect(html).not.toContain(mockResources[0].title);
     expect(html).not.toContain(mockBoards[0].name);
   });
@@ -119,7 +127,9 @@ describe("TeacherProfilePage", () => {
 
     const html = await renderPage("alice");
 
-    expect(html).toContain(String(mockResources.length));
-    expect(html).toContain(String(mockBoards.length));
+    expect(html).toContain(`Resources (${mockResources.length})`);
+    expect(html).toContain(`Boards (${mockBoards.length})`);
+    expect(mockGetPublishedResourcesByTeacher).toHaveBeenCalledWith(mockTeacher.id);
+    expect(mockGetShareableBoardsByTeacher).toHaveBeenCalledWith(mockTeacher.id);
   });
 });

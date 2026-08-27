@@ -40,7 +40,7 @@
     }
   },
   "implement": {
-    "round": 1,
+    "round": 2,
     "max_rounds": 5,
     "spec_review_approved": false,
     "last_diagnosis": null,
