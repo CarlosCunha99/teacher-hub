@@ -20,7 +20,7 @@ export const FREE_TIER_MONTHLY_DOWNLOAD_LIMIT = parseMonthlyLimit(
 const DOWNLOAD_UPGRADE_URL = process.env.DOWNLOAD_UPGRADE_URL || "/upgrade";
 
 export type QuotaStatus =
-  | { tier: "free"; used: number; limit: number; reset_at: string }
+  | { tier: "free"; used: number; limit: number; reset_at: string; upgrade_url: string }
   | { tier: "premium"; unlimited: true };
 
 export type QuotaExceededBody = {
@@ -93,7 +93,7 @@ export async function checkAndIncrementQuota(
 
   const used = Number(result.rows[0]?.count ?? 0);
 
-  if (used >= FREE_TIER_MONTHLY_DOWNLOAD_LIMIT) {
+  if (used > FREE_TIER_MONTHLY_DOWNLOAD_LIMIT) {
     throw new QuotaExceededError(FREE_TIER_MONTHLY_DOWNLOAD_LIMIT, reset_at, DOWNLOAD_UPGRADE_URL);
   }
 
@@ -107,7 +107,7 @@ export async function checkAndIncrementQuota(
 export async function getQuotaUsage(
   userId: string,
   db: DbClient
-): Promise<{ used: number; limit: number; reset_at: string }> {
+): Promise<{ used: number; limit: number; reset_at: string; upgrade_url: string }> {
   const { year, month } = getCurrentMonth();
   const reset_at = getMonthResetAt();
 
@@ -127,5 +127,6 @@ export async function getQuotaUsage(
     used,
     limit: FREE_TIER_MONTHLY_DOWNLOAD_LIMIT,
     reset_at,
+    upgrade_url: DOWNLOAD_UPGRADE_URL,
   };
 }

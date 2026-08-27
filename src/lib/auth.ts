@@ -14,5 +14,6 @@ export const NOT_IMPLEMENTED_ERROR = new Error(
 );
 
 export async function getSession(_request: Request): Promise<Session | null> {
-  throw NOT_IMPLEMENTED_ERROR;
+  // TODO: Implement authentication — see issue #2
+  return null;
 }

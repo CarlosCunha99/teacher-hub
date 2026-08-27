@@ -99,15 +99,21 @@ describe("checkAndIncrementQuota", () => {
     expect((db.query as ReturnType<typeof vi.fn>).mock.calls).toHaveLength(1);
   });
 
-  it("throws QuotaExceededError when count equals the limit (boundary)", async () => {
-    const db = makeDb(LIMIT); // count returned == limit
+  it("allows download when post-increment count equals limit (boundary: 50th download succeeds)", async () => {
+    const db = makeDb(LIMIT); // post-increment count == limit: still allowed (AC2)
+    const result = await checkAndIncrementQuota("user-1", "free", "owner-99", db);
+    expect((result as { used: number }).used).toBe(LIMIT);
+  });
+
+  it("throws QuotaExceededError when count exceeds limit (51st download blocked)", async () => {
+    const db = makeDb(LIMIT + 1); // post-increment count > limit: blocked
     await expect(checkAndIncrementQuota("user-1", "free", "owner-99", db)).rejects.toBeInstanceOf(
       QuotaExceededError
     );
   });
 
   it("QuotaExceededError carries limit, reset_at, and upgrade_url", async () => {
-    const db = makeDb(LIMIT);
+    const db = makeDb(LIMIT + 1);
     try {
       await checkAndIncrementQuota("user-1", "free", "owner-99", db);
       expect.fail("Expected QuotaExceededError to be thrown");
@@ -184,16 +190,16 @@ describe("checkAndIncrementQuota", () => {
     expect((result as { reset_at: string }).reset_at).toBe("2026-01-01T00:00:00Z");
   });
 
-  it("second concurrent call with used >= limit throws QuotaExceededError", async () => {
-    // Simulate two concurrent requests: the first succeeds (count = LIMIT - 1 → LIMIT),
-    // the second sees count = LIMIT (already exhausted) and must throw.
-    const dbFirst = makeDb(LIMIT - 1); // first call: below limit, succeeds
-    const dbSecond = makeDb(LIMIT); // second call: at limit, must throw
+  it("second concurrent call that exceeds limit throws QuotaExceededError", async () => {
+    // Simulate two concurrent requests: the 50th download succeeds (count = LIMIT),
+    // the 51st exceeds the limit and must throw.
+    const dbFirst = makeDb(LIMIT); // first call: at limit, still allowed (50th download)
+    const dbSecond = makeDb(LIMIT + 1); // second call: over limit, must throw
 
     const first = checkAndIncrementQuota("user-1", "free", "owner-99", dbFirst);
     const second = checkAndIncrementQuota("user-1", "free", "owner-99", dbSecond);
 
-    await expect(first).resolves.toMatchObject({ used: LIMIT - 1 });
+    await expect(first).resolves.toMatchObject({ used: LIMIT });
     await expect(second).rejects.toBeInstanceOf(QuotaExceededError);
   });
 });

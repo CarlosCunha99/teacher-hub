@@ -1,7 +1,7 @@
 # Branch Brief — issue-16
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:44:16Z at stage 08-verify (gate: gate_3_scope → passed at 2026-08-27T21:12:49Z)._
+_Last rendered: 2026-08-27T21:48:18Z at stage 09-agent-review (gate: gate_3_scope → passed at 2026-08-27T21:12:49Z)._
 
 ## The work
 Free-tier teachers on Teacher Hub currently have unlimited downloads of shared
@@ -12,7 +12,7 @@ limit, there is no product-level incentive to purchase premium, and Teacher Hub
 cannot monetize its most active users.
 
 ## Where we are
-- **Stage:** 08-verify  →  next: 09-agent-review
+- **Stage:** 09-agent-review  →  next: 10-human-review
 - **Round:** 1 / 5
 - **Last gate:** gate_3_scope → passed at 2026-08-27T21:12:49Z
 - **Next gate:** gate_4_handoff → hand off to human review
@@ -39,6 +39,7 @@ None open.
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-16/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-16/impact.md` |
 | Current diagnostics (if in fix loop) | `.orchestration/tickets/issue-16/diagnosis/round-1.json` |
+| Code review verdict | `.orchestration/tickets/issue-16/code-review.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-16/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -46,7 +47,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/08-verify.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/09-agent-review.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails

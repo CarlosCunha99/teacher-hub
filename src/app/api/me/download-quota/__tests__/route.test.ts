@@ -59,6 +59,7 @@ describe("GET /api/me/download-quota", () => {
       used: 12,
       limit: 50,
       reset_at: "2025-02-01T00:00:00.000Z",
+      upgrade_url: "/upgrade",
     });
 
     const response = await GET(makeRequest());
@@ -83,6 +84,7 @@ describe("GET /api/me/download-quota", () => {
       used: 50,
       limit: 50,
       reset_at: "2025-02-01T00:00:00.000Z",
+      upgrade_url: "/upgrade",
     });
 
     const response = await GET(makeRequest());
@@ -128,6 +130,7 @@ describe("GET /api/me/download-quota", () => {
       used: 5,
       limit: 50,
       reset_at: "2025-02-01T00:00:00.000Z",
+      upgrade_url: "/upgrade",
     });
 
     const response = await GET(makeRequest());

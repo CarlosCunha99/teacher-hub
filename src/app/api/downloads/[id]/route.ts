@@ -55,9 +55,20 @@ export async function GET(
     return new Response(null, { status: 404 });
   }
 
+  // Verify the upstream resource is accessible before consuming quota (AC8: failed
+  // downloads must not count against the user's monthly allowance).
+  const upstream = await fetch(resource.file_url);
+  if (!upstream.ok || !upstream.body) {
+    return Response.json({ error: "Failed to fetch download content" }, { status: 502 });
+  }
+  const upstreamBody = upstream.body;
+
   try {
     await checkAndIncrementQuota(session.user.id, session.user.tier, resource.owner_id, db);
   } catch (error) {
+    // Cancel the pending upstream body before returning to avoid a resource leak.
+    upstreamBody.cancel().catch(() => {});
+
     if (error instanceof QuotaExceededError) {
       const body: QuotaExceededBody = {
         code: error.code,
@@ -72,16 +83,11 @@ export async function GET(
     throw error;
   }
 
-  const upstream = await fetch(resource.file_url);
-  if (!upstream.ok || !upstream.body) {
-    return Response.json({ error: "Failed to fetch download content" }, { status: 502 });
-  }
-
   const headers = new Headers();
   headers.set("content-type", resource.mime_type || "application/octet-stream");
   headers.set("content-disposition", buildContentDisposition(resource.file_name));
 
-  return new Response(upstream.body, {
+  return new Response(upstreamBody, {
     status: 200,
     headers,
   });

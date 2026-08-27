@@ -38,7 +38,13 @@ describe("DownloadQuotaIndicator", () => {
   // Remaining count (limit - used)
   // -------------------------------------------------------------------------
   it("displays remaining count as limit minus used for a free user", async () => {
-    mockFetch({ tier: "free", used: 12, limit: 50, reset_at: "2025-02-01T00:00:00Z" });
+    mockFetch({
+      tier: "free",
+      used: 12,
+      limit: 50,
+      reset_at: "2025-02-01T00:00:00Z",
+      upgrade_url: "/upgrade",
+    });
 
     render(<DownloadQuotaIndicator />);
 
@@ -48,7 +54,13 @@ describe("DownloadQuotaIndicator", () => {
   });
 
   it("displays 0 remaining when used equals limit", async () => {
-    mockFetch({ tier: "free", used: 50, limit: 50, reset_at: "2025-02-01T00:00:00Z" });
+    mockFetch({
+      tier: "free",
+      used: 50,
+      limit: 50,
+      reset_at: "2025-02-01T00:00:00Z",
+      upgrade_url: "/upgrade",
+    });
 
     render(<DownloadQuotaIndicator />);
 
@@ -61,7 +73,13 @@ describe("DownloadQuotaIndicator", () => {
   // Upgrade CTA — shown only when used === limit
   // -------------------------------------------------------------------------
   it("shows upgrade CTA when free user has reached the limit (used === limit)", async () => {
-    mockFetch({ tier: "free", used: 50, limit: 50, reset_at: "2025-02-01T00:00:00Z" });
+    mockFetch({
+      tier: "free",
+      used: 50,
+      limit: 50,
+      reset_at: "2025-02-01T00:00:00Z",
+      upgrade_url: "/upgrade",
+    });
 
     render(<DownloadQuotaIndicator />);
 
@@ -71,7 +89,13 @@ describe("DownloadQuotaIndicator", () => {
   });
 
   it("does not show upgrade CTA when free user is below the limit", async () => {
-    mockFetch({ tier: "free", used: 10, limit: 50, reset_at: "2025-02-01T00:00:00Z" });
+    mockFetch({
+      tier: "free",
+      used: 10,
+      limit: 50,
+      reset_at: "2025-02-01T00:00:00Z",
+      upgrade_url: "/upgrade",
+    });
 
     render(<DownloadQuotaIndicator />);
 
@@ -151,7 +175,13 @@ describe("DownloadQuotaIndicator", () => {
   // Accessibility — non-color-only text
   // -------------------------------------------------------------------------
   it("exposes remaining count as accessible text (aria-live region)", async () => {
-    mockFetch({ tier: "free", used: 5, limit: 50, reset_at: "2025-02-01T00:00:00Z" });
+    mockFetch({
+      tier: "free",
+      used: 5,
+      limit: 50,
+      reset_at: "2025-02-01T00:00:00Z",
+      upgrade_url: "/upgrade",
+    });
 
     render(<DownloadQuotaIndicator />);
 
@@ -163,7 +193,13 @@ describe("DownloadQuotaIndicator", () => {
   });
 
   it("upgrade CTA has an accessible label for screen readers", async () => {
-    mockFetch({ tier: "free", used: 50, limit: 50, reset_at: "2025-02-01T00:00:00Z" });
+    mockFetch({
+      tier: "free",
+      used: 50,
+      limit: 50,
+      reset_at: "2025-02-01T00:00:00Z",
+      upgrade_url: "/upgrade",
+    });
 
     render(<DownloadQuotaIndicator />);
 
@@ -179,7 +215,13 @@ describe("DownloadQuotaIndicator", () => {
   // reset_at visible in text
   // -------------------------------------------------------------------------
   it("includes reset_at timestamp in the rendered text", async () => {
-    mockFetch({ tier: "free", used: 3, limit: 50, reset_at: "2025-02-01T00:00:00Z" });
+    mockFetch({
+      tier: "free",
+      used: 3,
+      limit: 50,
+      reset_at: "2025-02-01T00:00:00Z",
+      upgrade_url: "/upgrade",
+    });
 
     render(<DownloadQuotaIndicator />);
 

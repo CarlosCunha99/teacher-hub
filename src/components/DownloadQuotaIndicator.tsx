@@ -3,8 +3,6 @@
 import { useEffect, useState, type ReactElement } from "react";
 import type { QuotaStatus } from "@/lib/download-quota";
 
-const UPGRADE_URL = "/upgrade";
-
 type LoadState = QuotaStatus | "hidden";
 
 export default function DownloadQuotaIndicator(): ReactElement | null {
@@ -62,7 +60,7 @@ export default function DownloadQuotaIndicator(): ReactElement | null {
         {remaining} downloads remaining this month. Resets at {status.reset_at} (UTC).
       </p>
       {remaining === 0 ? (
-        <a href={UPGRADE_URL} aria-label="Upgrade to premium for unlimited downloads">
+        <a href={status.upgrade_url} aria-label="Upgrade to premium for unlimited downloads">
           Upgrade to premium
         </a>
       ) : null}

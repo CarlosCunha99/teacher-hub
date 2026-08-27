@@ -21,6 +21,7 @@ export async function GET(request: Request): Promise<Response> {
     used: quota.used,
     limit: quota.limit,
     reset_at: quota.reset_at,
+    upgrade_url: quota.upgrade_url,
   };
 
   return NextResponse.json(payload, { status: 200 });
