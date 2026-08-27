@@ -1,0 +1,66 @@
+{
+  "envelope_version": "1.0",
+  "worker_id": "08-verify-checker",
+  "ticket_id": "issue-9",
+  "stage": "08-verify",
+  "generated_at": "2026-08-27T22:38:00Z",
+  "status": "pass",
+  "artifacts": [
+    {
+      "kind": "verify_report",
+      "path": ".orchestration/tickets/issue-9/verify.md"
+    }
+  ],
+  "checks": [
+    {
+      "id": "review-markers",
+      "label": "REVIEW markers absent",
+      "status": "pass",
+      "detail": "No // REVIEW: markers found in diff"
+    },
+    {
+      "id": "debug-artifacts",
+      "label": "Debug artifacts absent",
+      "status": "pass",
+      "detail": "No console.log/debug/warn/error or debugger statements in production diff"
+    },
+    {
+      "id": "secrets-scan",
+      "label": "Committed secrets scan",
+      "status": "pass",
+      "detail": "No hardcoded credentials found; DATABASE_URL uses redacted placeholder"
+    },
+    {
+      "id": "files-match-impact",
+      "label": "Files touched match impact.md",
+      "status": "pass",
+      "detail": "All 14 impact-listed source files and 5 new test files present; 5 additional test/utility files are justified by impact warnings and tester_slices",
+      "notes": [
+        "src/lib/auth.ts added as auth stub (impact.md warned auth was unbuilt dependency)",
+        "src/lib/__tests__/test-utils/mockSession.ts added as test utility",
+        "src/app/upload/__tests__/page.test.tsx, src/app/settings/__tests__/page.test.tsx, src/app/terms/__tests__/page.test.tsx added (covered by tester_slices in state.json)"
+      ]
+    },
+    {
+      "id": "docs-updated",
+      "label": "Docs updated per impact.md requirements",
+      "status": "pass",
+      "detail": "DATABASE_URL documented in README.md and .env.example as required"
+    },
+    {
+      "id": "no-todo-fixme",
+      "label": "No new TODO/FIXME",
+      "status": "pass",
+      "detail": "No new TODO or FIXME markers introduced in src/ or migrations/"
+    },
+    {
+      "id": "diff-size-sanity",
+      "label": "Diff size sanity",
+      "status": "pass",
+      "detail": "52 files changed total (28 are orchestration JSON), 24 code/docs files — within impact.md estimate of ~19 files (slight overage explained by additional page tests and auth stub)"
+    }
+  ],
+  "findings_requiring_action": [],
+  "overall_verdict": "pass",
+  "recommendation": "Branch is clean. Proceed to gate_4_handoff and PR creation."
+}
