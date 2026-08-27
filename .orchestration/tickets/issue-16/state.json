@@ -11,13 +11,14 @@
     "base": "main",
     "created_at": "2026-08-27T20:59:24Z"
   },
-  "stage": "00-intake",
-  "next": "01-enrich",
+  "stage": "01-enrich",
+  "next": "03-brainstorm",
   "started_at": "2026-08-27T20:58:58Z",
-  "updated_at": "2026-08-27T20:59:24Z",
+  "updated_at": "2026-08-27T21:04:07Z",
   "gates": {
     "gate_1_enrich": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:04:07Z"
     },
     "gate_2_brainstorm": {
       "status": "pending"
@@ -47,9 +48,18 @@
     "raw_context_md": ".orchestration/tickets/issue-16/raw-context.md",
     "ticket_md": ".orchestration/tickets/issue-16/ticket.md"
   },
-  "models_used": {},
+  "models_used": {
+    "enricher": "claude-opus-4.7"
+  },
   "independence_violations": [],
-  "human_interactions": [],
+  "human_interactions": [
+    {
+      "stage": "01-enrich",
+      "kind": "gate",
+      "summary": "Gate 1 passed in autopilot mode. Adopted enricher proposed answers: A2=soft-gate HTTP 402/403 with upgrade CTA, A3=calendar month UTC reset, A1=50/month default, A4=owner downloads fully exempt.",
+      "at": "2026-08-27T21:04:07Z"
+    }
+  ],
   "pr_url": null,
   "completed_at": null
 }

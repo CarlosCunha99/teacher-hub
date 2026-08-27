@@ -1,0 +1,35 @@
+{
+  "role": "enricher",
+  "ticket_id": "issue-16",
+  "stage": "01-enrich",
+  "deliverable_path": ".orchestration/tickets/issue-16/ticket.md",
+  "summary": "Rewrote ticket into 9 acceptance criteria + 8 edge cases + explicit out-of-scope list; surfaced 4 ambiguities (2 blocking), documented Phase 2 prerequisite chain (#3, #11, #15), and added confidence markers on every section.",
+  "confidence": "medium",
+  "blocking_ambiguities": 2,
+  "follow_ups": [
+    "Repo is a Next.js skeleton with no auth, DB, download endpoint, or user model. This ticket is not implementable until #3 (schema), #11 (download endpoint + counter), authentication, and #15 (premium membership) land.",
+    "Confirm the UI surface for the remaining-downloads indicator before brainstorming AC6."
+  ],
+  "open_questions": [
+    {
+      "q": "A1 — What is the default configurable monthly download allowance for free users?",
+      "proposed_answer": "50 downloads per calendar month, configurable via env var (e.g., FREE_TIER_MONTHLY_DOWNLOAD_LIMIT).",
+      "blocking": false
+    },
+    {
+      "q": "A2 — When a free user hits the monthly limit, should the download endpoint hard-block with a generic error, or soft-gate with a specific 'limit reached' response that the UI renders as an upgrade CTA linking to premium (#15)?",
+      "proposed_answer": "Soft-gate: server returns a distinguishable 'limit reached' response (e.g., HTTP 402 or 403 with an upgrade code); UI renders an upgrade CTA. This matches the product goal of driving conversions to premium.",
+      "blocking": true
+    },
+    {
+      "q": "A3 — Does 'monthly' mean fixed calendar month in UTC (global reset at 00:00 UTC on the 1st) or a per-user 30-day rolling window keyed to signup/subscription date?",
+      "proposed_answer": "Calendar month, UTC. Free users have no subscription anchor, and calendar reset is simpler to communicate and implement.",
+      "blocking": true
+    },
+    {
+      "q": "A4 — When a resource owner downloads their own resource, does that download count against the owner's own monthly free-tier allowance, or is it fully exempt?",
+      "proposed_answer": "Fully exempt — owner downloads bypass the check and do not decrement the owner's remaining allowance.",
+      "blocking": false
+    }
+  ]
+}

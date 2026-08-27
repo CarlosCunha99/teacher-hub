@@ -1,18 +1,19 @@
 # Branch Brief — issue-16
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T20:59:24Z at stage 00-intake (gate: none → pending)._
+_Last rendered: 2026-08-27T21:04:07Z at stage 01-enrich (gate: gate_1_enrich → passed at 2026-08-27T21:04:07Z)._
 
 ## The work
-Free-tier teachers currently have no download limit enforced on Teacher Hub. As a Phase 2
-billing feature, the platform needs to cap how many resource downloads a free user can
-perform per calendar month to drive conversions to premium membership (issue #15). Without
-this gate, there is no incentive to upgrade, and the platform cannot differentiate its
-tiers.
+Free-tier teachers on Teacher Hub currently have unlimited downloads of shared
+classroom resources. As Teacher Hub introduces a paid premium membership (#15), the
+free tier needs a monthly cap on downloads so that heavy users are guided toward
+upgrading and the two tiers are meaningfully differentiated. Without an enforced
+limit, there is no product-level incentive to purchase premium, and Teacher Hub
+cannot monetize its most active users.
 
 ## Where we are
-- **Stage:** 00-intake  →  next: 01-enrich
-- **Last gate:** none → pending
+- **Stage:** 01-enrich  →  next: 03-brainstorm
+- **Last gate:** gate_1_enrich → passed at 2026-08-27T21:04:07Z
 - **Next gate:** gate_1_enrich → approve enriched ticket / changes / Q&A
 - **Escalated:** no
 
@@ -20,7 +21,7 @@ tiers.
 None open.
 
 ## Latest decisions
-No decisions recorded yet.
+- 2026-08-27T21:04:07Z — 01-enrich — gate: Gate 1 passed in autopilot mode. Adopted enricher proposed answers: A2=soft-gate HTTP 402/403 with upgrade CTA, A3=calendar month UTC reset, A1=50/month default, A4=owner downloads fully exempt.
 
 ## Sources of truth (read these, not this file)
 
@@ -35,7 +36,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/00-intake.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/01-enrich.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails
