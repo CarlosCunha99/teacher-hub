@@ -14,7 +14,7 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:58:17Z",
-  "updated_at": "2026-08-27T21:04:10Z",
+  "updated_at": "2026-08-27T21:06:34Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -51,7 +51,8 @@
   },
   "models_used": {
     "enricher": "claude-opus-4.8",
-    "distiller": "claude-haiku-4.5"
+    "distiller": "claude-haiku-4.5",
+    "impact-analyzer": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [],
