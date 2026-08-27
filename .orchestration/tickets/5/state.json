@@ -9,12 +9,12 @@
     "name": "issue-5-mvp-implement-subject-and-year-level-ta-509c1c",
     "base": "main"
   },
-  "stage": "00-intake",
-  "next": "01-enrich",
+  "stage": "01-enrich",
+  "next": "03-brainstorm",
   "started_at": "2026-08-27T20:57:29Z",
   "updated_at": "2026-08-27T21:57:09Z",
   "gates": {
-    "gate_1_enrich": { "status": "pending" },
+    "gate_1_enrich": { "status": "passed", "resolved_at": "2026-08-27T21:57:09Z" },
     "gate_2_brainstorm": { "status": "pending" },
     "gate_3_scope": { "status": "pending" },
     "gate_4_handoff": { "status": "pending" },
@@ -33,9 +33,18 @@
     "raw_context_md": ".orchestration/tickets/5/raw-context.md",
     "ticket_md": ".orchestration/tickets/5/ticket.md"
   },
-  "models_used": {},
+  "models_used": {
+    "01-enrich": "claude-opus-4.8"
+  },
   "independence_violations": [],
-  "human_interactions": [],
+  "human_interactions": [
+    {
+      "gate": "gate_1_enrich",
+      "decision": "autonomously_approved",
+      "timestamp": "2026-08-27T21:57:09Z",
+      "rationale": "Enrichment produced medium-confidence ticket with 3 non-blocking ambiguities. Proposed defaults align with original issue and MVP principles."
+    }
+  ],
   "pr_url": null,
   "completed_at": null
 }
