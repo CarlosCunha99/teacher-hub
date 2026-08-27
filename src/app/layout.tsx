@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import DownloadQuotaIndicator from "@/components/DownloadQuotaIndicator";
 
 export const metadata: Metadata = {
   title: "Teacher Hub",
@@ -8,7 +9,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <DownloadQuotaIndicator />
+        {children}
+      </body>
     </html>
   );
 }

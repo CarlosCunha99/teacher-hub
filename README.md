@@ -88,6 +88,18 @@ Real variables for the database and authentication arrive in issues #2 (auth) an
 (PostgreSQL schema). The health-check route is intentionally database-free so the app runs
 before those are provisioned.
 
+### Download quota configuration
+
+- `FREE_TIER_MONTHLY_DOWNLOAD_LIMIT` (default: `50`) controls how many downloads a
+  free-tier user can make per UTC calendar month.
+
+### Download quota rules
+
+- Free-tier users consume quota only when downloading resources they do not own.
+- Resource owners are exempt from quota checks for their own resources.
+- Premium users are unlimited and never consume quota.
+- Quota resets at the start of each new UTC calendar month (`00:00:00Z`).
+
 ## License
 
 Private — internal MVP foundation.

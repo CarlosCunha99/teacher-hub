@@ -1,0 +1,137 @@
+{
+  "scope": "full",
+  "delta_of": null,
+  "verdict": "request_changes",
+  "confidence": "medium",
+  "criteria_coverage": [
+    {
+      "criterion": "AC1 — Configurable allowance. The monthly free-tier download allowance is read from a single configuration source (env var or config file), not hard-coded in call sites. Changing the value and restarting the service applies the new limit to subsequent downloads.",
+      "covered_by": [
+        "FREE_TIER_MONTHLY_DOWNLOAD_LIMIT > defaults to 50 when env var is absent",
+        "FREE_TIER_MONTHLY_DOWNLOAD_LIMIT > reads numeric value from process.env.FREE_TIER_MONTHLY_DOWNLOAD_LIMIT"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Both branches (default fallback of 50, and env-supplied value of 10) are exercised via vi.resetModules() + dynamic import, correctly proving the value is read at module load rather than hard-coded. Consistent with the contract constant FREE_TIER_MONTHLY_DOWNLOAD_LIMIT."
+    },
+    {
+      "criterion": "AC2 — Enforcement below the limit. A free user whose current-month download count is strictly less than the allowance can complete a download successfully, and the count increments by exactly one on success.",
+      "covered_by": [
+        "checkAndIncrementQuota > allows download and returns QuotaCheckResult when below limit",
+        "checkAndIncrementQuota > increments count by exactly one per authorized download",
+        "GET /api/downloads/[id] > returns 200 and increments quota for free non-owner user below limit"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Below-limit success returns { used, limit, reset_at } and the route returns 200 while calling checkAndIncrementQuota exactly once with contract args (userId, 'free', ownerId, db). The 'increments by exactly one' assertion is weaker than it reads: the returned count is supplied by the DbClient mock, so the test proves the DB is queried once but does not verify the SQL actually performs count+1. See test_findings."
+    },
+    {
+      "criterion": "AC3 — Enforcement at/above the limit. A free user whose current-month download count equals or exceeds the allowance is prevented from completing a download of a resource they do not own. The response communicates that the monthly limit has been reached and references the upgrade path to premium.",
+      "covered_by": [
+        "checkAndIncrementQuota > throws QuotaExceededError when count equals the limit (boundary)",
+        "checkAndIncrementQuota > throws QuotaExceededError when count exceeds limit (lowered mid-month)",
+        "checkAndIncrementQuota > QuotaExceededError carries limit, reset_at, and upgrade_url",
+        "GET /api/downloads/[id] > returns 402 with QuotaExceededBody when quota is exceeded"
+      ],
+      "assessment": "adequately covered",
+      "notes": "Strong. Boundary (count === limit) and over-limit (count 55 vs limit 50) both throw. The route test asserts HTTP 402 AND the structured body: code === 'QUOTA_EXCEEDED', numeric limit, reset_at ISO shape, and upgrade_url.length > 0 (the reference to the upgrade path). Matches the soft-gate resolution (A2) and QuotaExceededBody contract exactly."
+    },
+    {
+      "criterion": "AC4 — Owner exemption. A user downloading a resource they own is never blocked by the limit, and that download does not count against the owner's monthly allowance. The exemption rule is written into user-facing help or in-product copy.",
+      "covered_by": [
+        "checkAndIncrementQuota > owner bypass: returns { ownerBypass: true } without calling DB",
+        "GET /api/downloads/[id] > returns 200 for resource owner (checkAndIncrementQuota returns ownerBypass)"
+      ],
+      "assessment": "adequately covered",
+      "notes": "The lib test proves the download succeeds (ownerBypass:true) AND the counter is not incremented — it asserts db.query.mock.calls length is 0, which is the correct 'not counted' assertion. The route test confirms 200 and that both userId and resourceOwnerId are the owner id. The documentation half of AC4 ('exemption rule written into help copy') is not testable at unit level and is not covered — see unmapped_criteria."
+    },
+    {
+      "criterion": "AC5 — Automatic monthly reset. At the start of each new month, every free user's effective remaining allowance returns to the full configured value without any manual admin action. A user who was blocked in month N can download again in month N+1.",
+      "covered_by": [
+        "checkAndIncrementQuota > lazy month reset: prior-month row does not affect current month (returns used: 1)",
+        "checkAndIncrementQuota > reset_at is the first moment of next UTC month — January → February (no year rollover)",
+        "checkAndIncrementQuota > reset_at is the first moment of next UTC month — December → January (year rolls over)"
+      ],
+      "assessment": "partially covered",
+      "notes": "The reset mechanism (keying the upsert on the current UTC (year, month) bucket) is verified: the test asserts the DB params contain the current UTC year and 1-based month, and the reset_at rollover is checked for both same-year and year-boundary cases. However there is no end-to-end assertion of the ticket's explicit statement 'a user blocked in month N can download again in month N+1' — the lazy-reset test relies on the mock returning count 1 rather than demonstrating that a stale month-N row is excluded by the query keying. The mechanism is checked; the stated behavioral outcome is inferred, not directly asserted."
+    },
+    {
+      "criterion": "AC6 — Remaining-downloads UI. Free users can see, in the app, how many downloads they have remaining in the current month. This indicator updates after a successful download and is visible during normal browsing.",
+      "covered_by": [
+        "GET /api/me/download-quota > returns 200 with QuotaStatus for authenticated free user",
+        "GET /api/me/download-quota > returns 200 with used === limit when free user has reached quota",
+        "GET /api/me/download-quota > returns 200 with unlimited indicator for premium user"
+      ],
+      "assessment": "partially covered",
+      "notes": "Only the data source (the /api/me/download-quota endpoint) is tested — it returns tier/used/limit/reset_at for free and tier/unlimited for premium. The actual UI indicator defined in the contract (DownloadQuotaIndicator.tsx) has NO test at all: nothing verifies it renders 'N downloads remaining' text, renders the upgrade CTA when used === limit, shows the premium/unlimited label, renders null on 401/fetch failure, or exposes the count as non-color-only accessible text. The remaining-count computation (limit - used) and the a11y requirement are entirely unverified. This is the primary gap driving the verdict."
+    },
+    {
+      "criterion": "AC7 — Premium bypass. A premium user is never blocked by the free-tier limit, and the remaining-downloads indicator either does not apply to them or clearly indicates unlimited/premium status.",
+      "covered_by": [
+        "checkAndIncrementQuota > premium bypass: returns { premiumBypass: true } without calling DB",
+        "GET /api/downloads/[id] > returns 200 for premium user (checkAndIncrementQuota returns premiumBypass)",
+        "GET /api/me/download-quota > returns 200 with unlimited indicator for premium user"
+      ],
+      "assessment": "adequately covered",
+      "notes": "The lib test asserts premium returns { premiumBypass: true } AND that db.query was never called (bypass without DB interaction) — exactly the 'bypass without DB' requirement from the dispatch. The me-route test asserts premium yields tier:'premium'/unlimited:true and that getQuotaUsage is NOT called. Download route confirms 200 for premium."
+    },
+    {
+      "criterion": "AC8 — Failed downloads do not count. A download attempt that fails (network error, file missing, unauthorized) does not decrement the user's remaining allowance. Only successful deliveries count.",
+      "covered_by": [
+        "GET /api/downloads/[id] > returns 401 for unauthenticated request",
+        "GET /api/downloads/[id] > returns 404 for nonexistent resource without calling checkAndIncrementQuota"
+      ],
+      "assessment": "partially covered",
+      "notes": "Pre-stream failures (401 unauthorized, 404 file missing) are correctly shown to never call checkAndIncrementQuota, which matches the contract that quota runs only after auth + existence checks. Two gaps: (1) the 'network error' / stream-failure-after-quota-check case is not tested — and per the contract that path WOULD have already incremented, so if AC8 intends stream failures not to count, there is no test guarding it; (2) the lib test 'counter is not incremented when checkAndIncrementQuota is never called' is circular/vacuous — it creates a mock and asserts 0 calls without invoking anything, so it can never fail and encodes no requirement. See test_findings."
+    },
+    {
+      "criterion": "AC9 — Rule documentation. The owner-exemption rule and the definition of 'month' are documented in a place the product/support team can point users to.",
+      "covered_by": [],
+      "assessment": "missing",
+      "notes": "Documentation criterion; not unit-testable and not covered by any of the three test files. Flagged for completeness — reasonable to satisfy outside the test suite, but no test encodes it."
+    }
+  ],
+  "test_findings": [
+    {
+      "test": "counter is not incremented when checkAndIncrementQuota is never called",
+      "file": "src/lib/__tests__/download-quota.test.ts",
+      "issue": "circular mock",
+      "detail": "The test builds a fresh DbClient mock and asserts db.query.mock.calls has length 0 without ever invoking checkAndIncrementQuota (the comment even says 'We intentionally do NOT call'). It is tautological — a brand-new mock always has zero calls — so it can never fail and encodes no requirement. Replace with a real AC8 scenario, e.g. drive a 404/401 through the route (already partly done) or assert a stream failure after the quota call.",
+      "severity": "important"
+    },
+    {
+      "test": "increments count by exactly one per authorized download",
+      "file": "src/lib/__tests__/download-quota.test.ts",
+      "issue": "weak assertion",
+      "detail": "The 'increment by exactly one' guarantee is entirely supplied by the DbClient mock's returned row (count: 3). The test only asserts used === 3 and that query was called once, which does not prove the emitted SQL performs an atomic count + 1. Strengthen by asserting the upsert SQL contains an increment expression (e.g. /count\\s*\\+\\s*1/ and ON CONFLICT), mirroring the getQuotaUsage test that already inspects the SQL string.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "lazy month reset: prior-month row does not affect current month (returns used: 1)",
+      "file": "src/lib/__tests__/download-quota.test.ts",
+      "issue": "missing edge case",
+      "detail": "This is the only AC5 reset-behavior test and it proves the mechanism (params include current UTC year/month) but not the ticket's stated outcome that a user blocked in month N can download in month N+1. Consider a case that first exhausts the quota under a month-N clock, then advances the fake clock to month N+1 and asserts a fresh below-limit result, so a regression in the (year, month) keying is caught.",
+      "severity": "suggestion"
+    },
+    {
+      "test": "(no test) concurrent quota exhaustion",
+      "file": "src/lib/__tests__/download-quota.test.ts",
+      "issue": "missing edge case",
+      "detail": "The dispatch and the ticket's 'Concurrent downloads' edge case require that a user with 1 remaining firing two concurrent requests has at most one succeed and the counter never overshoots the limit. No test exercises concurrency or the atomic upsert invariant under contention. Because the DbClient is mocked, a true race cannot be reproduced here, but a test that fires two checkAndIncrementQuota calls whose mocked upsert returns limit then limit+1 could assert the second throws QuotaExceededError, guarding the boundary logic.",
+      "severity": "important"
+    },
+    {
+      "test": "(no test) DownloadQuotaIndicator component",
+      "file": "src/components/DownloadQuotaIndicator.tsx (untested)",
+      "issue": "missing edge case",
+      "detail": "No test file exists for the DownloadQuotaIndicator contract interface. AC6's user-visible behavior — remaining count text (limit - used), upgrade CTA rendered only when used === limit with a non-empty href, premium 'Unlimited' label, null render on 401/fetch failure, and non-color-only accessible text — is completely unverified. A subtly broken indicator (e.g. off-by-one remaining count, or CTA shown/hidden at the wrong threshold) would not be caught.",
+      "severity": "blocking"
+    }
+  ],
+  "unmapped_tests": [],
+  "unmapped_criteria": [
+    "AC6 UI rendering — DownloadQuotaIndicator component (remaining-count text, upgrade CTA at limit, premium label, null on 401, a11y) has no test.",
+    "AC9 — documentation of owner-exemption rule and definition of 'month' (not unit-testable).",
+    "AC4 documentation half — the exemption rule 'written into user-facing help / in-product copy' is not covered by any test.",
+    "Concurrency edge case — 'at most one succeeds; counter must not overshoot the limit via race conditions' is untested."
+  ],
+  "one_line_summary": "Core enforcement ACs (1,2,3,4,7) are well specified by the lib and route tests including the 402 body and no-DB bypass assertions, but AC6's UI indicator has zero coverage (blocking), AC8 relies on a circular/vacuous test, and the concurrency invariant is untested — request changes."
+}

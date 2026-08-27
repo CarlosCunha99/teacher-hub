@@ -1,7 +1,7 @@
 # Branch Brief — issue-16
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:17:26Z at stage 07-implement (gate: gate_3_scope → passed at 2026-08-27T21:12:49Z)._
+_Last rendered: 2026-08-27T21:42:09Z at stage 07-implement (gate: gate_3_scope → passed at 2026-08-27T21:12:49Z)._
 
 ## The work
 Free-tier teachers on Teacher Hub currently have unlimited downloads of shared
@@ -38,6 +38,7 @@ None open.
 | Interface lock (parallel-work contract) | `.orchestration/tickets/issue-16/contract.md` |
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-16/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-16/impact.md` |
+| Current diagnostics (if in fix loop) | `.orchestration/tickets/issue-16/diagnosis/round-1.json` |
 | Full state / audit trail | `.orchestration/tickets/issue-16/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
