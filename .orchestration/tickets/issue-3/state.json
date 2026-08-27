@@ -1,0 +1,49 @@
+{
+  "ticket_id": "issue-3",
+  "repo_full_name": "CarlosCunha99/teacher-hub",
+  "title": "[MVP] Design PostgreSQL schema for users, resources, tags, boards, and interactions",
+  "stage": "13-retrospective",
+  "pr_number": 24,
+  "pr_url": "https://github.com/CarlosCunha99/teacher-hub/pull/24",
+  "gate_history": {
+    "gate_1_enrich": "passed",
+    "gate_2_brainstorm": "passed",
+    "gate_3_scope": "passed",
+    "gate_4_handoff": "passed",
+    "gate_5_pr": "passed"
+  },
+  "implement": {
+    "rounds": [
+      {
+        "round": 1,
+        "diagnoser_verdict": "test_bug",
+        "bugs_found": [
+          {
+            "type": "test_bug",
+            "location": "prisma/__tests__/schema.unit.test.ts:182",
+            "issue": "Field-level @unique asserted via model.uniqueFields (incorrect API)",
+            "fix": "Use field.isUnique instead of model.uniqueFields"
+          }
+        ]
+      },
+      {
+        "round": 2,
+        "diagnoser_verdict": "passed",
+        "summary": "All 91 tests pass (70 passed, 21 skipped)"
+      }
+    ]
+  },
+  "models_used": {
+    "enricher": "claude-opus-4.8",
+    "planner": "claude-opus-4.7",
+    "coder": "gpt-5.6-terra",
+    "tester": "claude-sonnet-5",
+    "spec_reviewer": "claude-opus-4.8",
+    "diagnoser": "gpt-5.4",
+    "code_reviewer": "gpt-5.6-luna"
+  },
+  "independence_violations": [],
+  "compactions": [],
+  "created_at": "2025-01-15T20:00:00Z",
+  "completed_at": "2025-01-15T21:45:00Z"
+}
