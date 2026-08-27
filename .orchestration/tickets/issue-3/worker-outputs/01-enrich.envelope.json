@@ -1,0 +1,12 @@
+{
+  "role": "enricher",
+  "ticket": "issue-3",
+  "round": 1,
+  "status": "done",
+  "confidence": "high",
+  "deliverable_path": ".orchestration/tickets/issue-3/ticket.md",
+  "summary": "Enriched into comprehensive product ticket: 20 acceptance criteria across entities, integrity, query performance and developer workflow; 10 edge cases; confidence markers; 3 blocking ambiguities resolved per orchestrator at gate 1.",
+  "follow_ups": [],
+  "open_questions": [],
+  "verification": ["Read raw-context.md (empty template)", "Searched related issues #1-2 (merged/open)", "Read issue #4-#8, #11-#13 for data requirements", "No pre-existing schema in repo"]
+}
