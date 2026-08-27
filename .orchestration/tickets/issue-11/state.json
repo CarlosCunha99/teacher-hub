@@ -14,7 +14,7 @@
   "stage": "08-verify",
   "next": "09-agent-review",
   "started_at": "2026-08-27T20:59:22Z",
-  "updated_at": "2026-08-27T21:40:53Z",
+  "updated_at": "2026-08-27T21:46:50Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -94,7 +94,8 @@
     "test_planner": "claude-sonnet-4.6",
     "contract_writer": "claude-sonnet-4.6",
     "spec_reviewer": "claude-opus-4.7",
-    "diagnoser": "claude-opus-4.7"
+    "diagnoser": "claude-opus-4.7",
+    "code_reviewer": "claude-opus-4.8"
   },
   "independence_violations": [],
   "human_interactions": [
@@ -115,6 +116,12 @@
       "kind": "gate",
       "summary": "User unavailable — autonomous approval of scope: 6 steps, 11 new files, 29 tests, no DB dependency",
       "at": "2026-08-27T21:11:28Z"
+    },
+    {
+      "stage": "09-agent-review",
+      "kind": "other",
+      "summary": "Code reviewer verdict request-changes (B1: stream counter race, I1: unicode filenames, I2: cancel race, I3: missing sample PDF). Autonomous decision: fix before proceeding — B1 violates AC.",
+      "at": "2026-08-27T21:46:50Z"
     }
   ],
   "pr_url": null,

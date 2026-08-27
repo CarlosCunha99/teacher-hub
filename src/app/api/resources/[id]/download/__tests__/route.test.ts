@@ -8,6 +8,23 @@ import {
   writeFakePdf,
 } from "@/lib/store/__tests__/helpers";
 
+async function waitForDownloadCount(resourceId: string, expectedCount: number): Promise<void> {
+  const timeoutAt = Date.now() + 2000;
+
+  while (Date.now() < timeoutAt) {
+    const resource = await getResourceById(resourceId);
+
+    if (resource?.downloadCount === expectedCount) {
+      return;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 25));
+  }
+
+  const latest = await getResourceById(resourceId);
+  expect(latest?.downloadCount).toBe(expectedCount);
+}
+
 describe("GET /api/resources/:id/download", () => {
   let dataDir: string;
   let uploadsDir: string;
@@ -69,6 +86,7 @@ describe("GET /api/resources/:id/download", () => {
 
     const body = await response.arrayBuffer();
     expect(body.byteLength).toBeGreaterThan(0);
+    await waitForDownloadCount("r1", 1);
   });
 
   it("returns 401 with JSON error body for unauthenticated request", async () => {
@@ -186,7 +204,6 @@ describe("GET /api/resources/:id/download", () => {
     expect(res1.status).toBe(200);
     expect(res2.status).toBe(200);
 
-    const resource = await getResourceById("r1");
-    expect(resource?.downloadCount).toBe(2);
+    await waitForDownloadCount("r1", 2);
   });
 });

@@ -1,7 +1,7 @@
 # Branch Brief — issue-11
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:40:53Z at stage 08-verify (gate: gate_3_scope → passed at 2026-08-27T21:11:28Z)._
+_Last rendered: 2026-08-27T21:46:50Z at stage 08-verify (gate: gate_3_scope → passed at 2026-08-27T21:11:28Z)._
 
 ## The work
 Teachers use Teacher Hub to share PDF classroom resources with other teachers. Today
@@ -38,6 +38,7 @@ None open.
 | Interface lock (parallel-work contract) | `.orchestration/tickets/issue-11/contract.md` |
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-11/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-11/impact.md` |
+| Code review verdict | `.orchestration/tickets/issue-11/code-review.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-11/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._

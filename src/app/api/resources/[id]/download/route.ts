@@ -31,42 +31,56 @@ export async function GET(
     }
 
     const baseStream = createReadStream(absolutePath);
-    const trackedStream = new ReadableStream<Uint8Array>({
-      async start(controller) {
-        const reader = baseStream.getReader();
+    const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
+    const reader = baseStream.getReader();
+    const writer = writable.getWriter();
+    let fullyWritten = false;
 
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
+    const abortWriter = () => {
+      void writer.abort().catch(() => undefined);
+    };
 
-            if (done) {
-              await incrementDownload(resource.id, user.id);
-              controller.close();
-              return;
-            }
+    request.signal.addEventListener("abort", abortWriter, { once: true });
 
-            if (value) {
-              controller.enqueue(value);
-            }
+    void (async () => {
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+
+          if (done) {
+            await writer.close();
+            fullyWritten = true;
+            break;
           }
-        } catch (error) {
-          controller.error(error);
-        } finally {
-          reader.releaseLock();
+
+          if (value) {
+            await writer.write(value);
+          }
         }
-      },
-      async cancel(reason) {
-        await baseStream.cancel(reason);
-      },
-    });
+      } catch (error) {
+        await writer.abort(error).catch(() => undefined);
+      } finally {
+        request.signal.removeEventListener("abort", abortWriter);
+        reader.releaseLock();
 
-    const fileName = `${sanitiseFilename(resource.name)}.pdf`;
+        if (fullyWritten && !request.signal.aborted) {
+          try {
+            await incrementDownload(resource.id, user.id);
+          } catch {
+            // Intentionally swallow to avoid unhandled background rejection.
+          }
+        }
+      }
+    })();
 
-    return new Response(trackedStream, {
+    const asciiName = `${sanitiseFilename(resource.name)}.pdf`;
+    const encodedName = encodeURIComponent(`${resource.name}.pdf`);
+
+    return new Response(readable, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename=\"${fileName}\"`,
+        "Content-Disposition": `attachment; filename="${asciiName}"; filename*=UTF-8''${encodedName}`,
       },
     });
   } catch {

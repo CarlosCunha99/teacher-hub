@@ -24,7 +24,7 @@ export async function getSessionUser(request: Request): Promise<User | null> {
   try {
     const testUserId = process.env.TEST_USER_ID?.trim();
 
-    if (testUserId) {
+    if (process.env.NODE_ENV !== "production" && testUserId) {
       return { id: testUserId };
     }
 
