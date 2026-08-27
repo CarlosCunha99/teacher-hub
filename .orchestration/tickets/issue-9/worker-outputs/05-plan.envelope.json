@@ -1,0 +1,32 @@
+{
+  "todo_id": "issue-9-05-plan-r0",
+  "status": "done",
+  "summary": "Recorded the completed implementation plan for issue #9 without modifying the plan document.",
+  "deliverable_path": ".orchestration/tickets/issue-9/plan.md",
+  "changed_files": [
+    {
+      "path": ".orchestration/tickets/issue-9/worker-outputs/05-plan.envelope.json",
+      "action": "modified",
+      "lines_added": 20,
+      "lines_removed": 6
+    }
+  ],
+  "verification": {
+    "commands_run": [
+      "python3 - <<'PY' # wrote and validated 05-plan.envelope.json while checking plan.md SHA-256 before/after"
+    ],
+    "all_passed": true,
+    "notes": "plan.md SHA-256 matched before and after the write, and the worker output file contains valid JSON matching the returned envelope."
+  },
+  "follow_ups": [
+    "Execute the planned implementation steps in dependency order, starting with shared terms, DB, and auth boundary helpers."
+  ],
+  "open_questions": [
+    {
+      "q": "What current-user/session mechanism should src/lib/auth.ts wrap until the real authentication system lands?",
+      "proposed_answer": "Provide a narrow adapter around the existing session/user lookup and keep its interface easy to replace in issue #2.",
+      "blocking": false
+    }
+  ],
+  "confidence": "high"
+}

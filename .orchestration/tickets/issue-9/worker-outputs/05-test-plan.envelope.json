@@ -1,0 +1,33 @@
+{
+  "todo_id": "issue-9-05-test-plan-r0",
+  "status": "done",
+  "summary": "Test plan for issue-9 defines 21 unit and 12 integration tests across terms config, acceptance helpers, two new API routes, the acceptance modal, upload/settings/terms pages; DB and auth are mocked since #2/#3 are unbuilt, and version-bump forced re-acceptance is covered via an independent test axis per behavior.",
+  "deliverable_path": ".orchestration/tickets/issue-9/test-plan.md",
+  "changed_files": [
+    {"path": ".orchestration/tickets/issue-9/test-plan.md", "action": "created", "lines_added": 180, "lines_removed": 0},
+    {"path": ".orchestration/tickets/issue-9/worker-outputs/05-test-plan.envelope.json", "action": "created", "lines_added": 26, "lines_removed": 0}
+  ],
+  "verification": {
+    "commands_run": ["wc -l .orchestration/tickets/issue-9/test-plan.md"],
+    "all_passed": true,
+    "notes": "Plan-only deliverable; no tests were written or executed. Verified test-plan.md was created and every acceptance criterion in ticket.md maps to a test or an explicit 'not tested' reason."
+  },
+  "follow_ups": [
+    "Add real-DB integration tests against a live terms_acceptances table once issue #3 (Postgres schema) ships",
+    "Add automated accessibility assertions (e.g. axe) for TermsAcceptanceModal once a11y tooling is introduced to the repo",
+    "Replace mocked session identity test helper with real auth-flow tests once issue #2 (authentication) ships"
+  ],
+  "open_questions": [
+    {
+      "q": "What exact shape will the stubbed session-identity accessor take before auth (#2) ships, so route/page tests mock the right interface?",
+      "proposed_answer": "A shared test helper mocking a single function (e.g. getCurrentTeacherId()) returning a fixed teacher id, to be swapped for the real session call once #2 lands",
+      "blocking": false
+    },
+    {
+      "q": "Should the upload-route 'accepted' test assert a specific stub success response, given issue #4 (upload workflow) is unbuilt?",
+      "proposed_answer": "Assert only that the terms gate does not fire (no 403 terms_not_accepted body), not a full upload-success contract, until #4 defines the real response shape",
+      "blocking": false
+    }
+  ],
+  "confidence": "medium"
+}

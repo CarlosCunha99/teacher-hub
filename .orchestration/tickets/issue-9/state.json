@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T20:58:10Z"
   },
-  "stage": "04-impact",
-  "next": "05-plan",
+  "stage": "05-plan",
+  "next": "06-contract",
   "started_at": "2026-08-27T20:57:49Z",
-  "updated_at": "2026-08-27T21:06:27Z",
+  "updated_at": "2026-08-27T21:09:39Z",
   "gates": {
     "gate_1_enrich": {
       "status": "overridden",
@@ -25,7 +25,8 @@
       "at": "2026-08-27T21:03:29Z"
     },
     "gate_3_scope": {
-      "status": "pending"
+      "status": "overridden",
+      "at": "2026-08-27T21:09:38Z"
     },
     "gate_4_handoff": {
       "status": "pending"
@@ -52,7 +53,9 @@
   "models_used": {
     "enricher": "claude-opus-4.8",
     "distiller": "claude-sonnet-4.6",
-    "impact_analyzer": "claude-sonnet-4.6"
+    "impact_analyzer": "claude-sonnet-4.6",
+    "planner": "gpt-5.4",
+    "test_planner": "claude-sonnet-5"
   },
   "independence_violations": [],
   "human_interactions": [
@@ -79,6 +82,18 @@
       "kind": "gate",
       "summary": "No live human response; accepted distilled solution under autopilot",
       "at": "2026-08-27T21:03:29Z"
+    },
+    {
+      "stage": "05-plan",
+      "kind": "question",
+      "summary": "Asked human to approve plan/test-plan scope",
+      "at": "2026-08-27T21:09:38Z"
+    },
+    {
+      "stage": "05-plan",
+      "kind": "gate",
+      "summary": "No live human response; scope approved under autopilot",
+      "at": "2026-08-27T21:09:38Z"
     }
   ],
   "pr_url": null,
