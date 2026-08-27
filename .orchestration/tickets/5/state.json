@@ -9,13 +9,13 @@
     "name": "issue-5-mvp-implement-subject-and-year-level-ta-509c1c",
     "base": "main"
   },
-  "stage": "01-enrich",
-  "next": "03-brainstorm",
+  "stage": "03-brainstorm",
+  "next": "04-impact",
   "started_at": "2026-08-27T20:57:29Z",
   "updated_at": "2026-08-27T21:57:09Z",
   "gates": {
     "gate_1_enrich": { "status": "passed", "resolved_at": "2026-08-27T21:57:09Z" },
-    "gate_2_brainstorm": { "status": "pending" },
+    "gate_2_brainstorm": { "status": "passed", "resolved_at": "2026-08-27T21:57:09Z" },
     "gate_3_scope": { "status": "pending" },
     "gate_4_handoff": { "status": "pending" },
     "gate_4b_review": { "status": "pending" },
@@ -31,10 +31,13 @@
   "artifacts": {
     "brief_md": ".orchestration/tickets/5/BRIEF.md",
     "raw_context_md": ".orchestration/tickets/5/raw-context.md",
-    "ticket_md": ".orchestration/tickets/5/ticket.md"
+    "ticket_md": ".orchestration/tickets/5/ticket.md",
+    "brainstorm_md": ".orchestration/tickets/5/brainstorm.md",
+    "solution_md": ".orchestration/tickets/5/solution.md"
   },
   "models_used": {
-    "01-enrich": "claude-opus-4.8"
+    "01-enrich": "claude-opus-4.8",
+    "03-distill": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
@@ -43,6 +46,12 @@
       "decision": "autonomously_approved",
       "timestamp": "2026-08-27T21:57:09Z",
       "rationale": "Enrichment produced medium-confidence ticket with 3 non-blocking ambiguities. Proposed defaults align with original issue and MVP principles."
+    },
+    {
+      "gate": "gate_2_brainstorm",
+      "decision": "autonomously_approved",
+      "timestamp": "2026-08-27T21:57:09Z",
+      "rationale": "Brainstorm resolved all 3 ambiguities with clear, defensible direction: seeded taxonomy, many-to-many tagging, service-layer validation, read-only API, OR/AND filtering."
     }
   ],
   "pr_url": null,
