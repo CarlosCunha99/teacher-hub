@@ -4,66 +4,155 @@
 **Source:** https://github.com/CarlosCunha99/teacher-hub/issues/11
 
 ## Problem
-Teachers share PDF resources on Teacher Hub, but there is currently no way for users to
-download those resources, and no mechanism to track how many times a resource has been
-downloaded. Without a download endpoint, resources are not useful even when viewable.
-Without download tracking, teachers have no visibility into the impact of what they share.
+Teachers use Teacher Hub to share PDF classroom resources with other teachers. Today
+the platform has no way for a user to actually download those PDFs, so even resources
+that exist in the system cannot be consumed. In parallel, teachers who contribute
+resources have no signal about which of their materials are useful, because nothing is
+counting downloads.
+
+Two product gaps flow from this: (1) resources are effectively "look but don't touch,"
+which defeats the point of a sharing platform, and (2) contributors and (later)
+platform operators have no visibility into resource usage, blocking downstream features
+like teacher-profile stats (#13) and phase-2 monetisation (#15, #16).
 
 ## Impact
-- Users affected: all teachers and anyone viewing resources (all MVP users)
-- Severity: high — resources cannot be consumed without a download mechanism
-- Frequency: always — applies to every resource interaction
+- Users affected: all MVP users (both consumers of resources and contributing teachers).
+- Severity: **high** — resources are unusable end-to-end without a download path; this
+  blocks the core "share and discover" MVP loop and is a prerequisite for #13.
+- Frequency: **always** — every meaningful resource interaction ends in a download
+  attempt.
 
 ## Success criteria
-- A teacher can click "Download" on a resource detail page and receive the PDF file with correct headers.
-- Each successful download increments a persistent download counter on the resource.
-- The download count is visible on the resource detail view (and resource cards).
-- Download is gated behind authentication — unauthenticated users cannot download.
-- Logs record who downloaded what and when.
+- A signed-in teacher viewing a resource can trigger a download and receive the correct
+  PDF file in their browser.
+- The system records a persistent, per-resource download count that increases by
+  exactly one for each successful delivery of the file.
+- The current download count is visible to users wherever resources are surfaced
+  (resource card, resource detail view).
+- Unauthenticated users cannot download resources.
+- Each download is auditable: the system records who downloaded which resource and
+  when.
 
 ## Acceptance criteria
-- [ ] Authenticated teachers can download PDF resources they can see.
-- [ ] Download endpoint logs each download with user and timestamp.
-- [ ] Resource detail page displays total download count.
-- [ ] Download counts are accurate and persist across sessions.
-- [ ] Download is only allowed for authenticated users.
-- [ ] The file name and content-type headers are set correctly for browser downloads (`Content-Type: application/pdf`, `Content-Disposition: attachment; filename="<resource-name>.pdf"`).
-- [ ] Resource files are downloadable through a secure endpoint.
-- [ ] Each successful download increments a persistent counter.
-- [ ] Download count appears on resource card and detail view.
-- [ ] Download counting avoids duplicate increments from failed requests.
-- [ ] Download metrics can be queried by resource owner and admin flows.
+- [ ] An authenticated user requesting a valid resource receives HTTP 200 with the PDF
+      bytes, `Content-Type: application/pdf`, and
+      `Content-Disposition: attachment; filename="<resource-name>.pdf"` where the
+      filename reflects the resource's user-facing name.
+- [ ] An unauthenticated request to the download endpoint returns HTTP 401 with a JSON
+      error body and does not deliver any file bytes.
+- [ ] A request for a non-existent resource returns HTTP 404 with a JSON error body.
+- [ ] A request for a resource whose metadata exists but whose file is missing from
+      storage returns HTTP 5xx with a JSON error body and does **not** increment the
+      counter.
+- [ ] On every successful (200) file delivery, the resource's download counter is
+      incremented by exactly one and the increment persists across process restarts.
+- [ ] Failed downloads (4xx, 5xx, aborted before delivery) do not increment the
+      counter.
+- [ ] Two concurrent successful downloads of the same resource result in the counter
+      increasing by two (no lost updates).
+- [ ] Each successful download creates an audit record capturing at minimum: resource
+      identifier, downloading user identifier, and a timestamp.
+- [ ] The resource detail view displays the current total download count for that
+      resource.
+- [ ] The resource card (list/grid view) displays the current total download count for
+      that resource.
+- [ ] A resource owner can retrieve download metrics for resources they own (count, and
+      enough detail to power the profile totals in #13).
+- [ ] An admin flow can retrieve download metrics across resources.
+- [ ] The download URL does not expose internal storage paths (e.g. absolute file
+      paths, raw bucket keys) to the client.
 
 ## Edge cases & non-functional
-- Counter increments only on successful (200) file delivery, not on auth failures or missing files.
-- Concurrent download requests should not result in lost increments (atomic counter updates).
-- Resource not found → 404 with JSON error body.
-- Unauthenticated request → 401 with JSON error body.
-- File missing from storage (record exists but file gone) → 500 with JSON error body; do not increment counter.
-- Large PDF files should be streamed, not buffered entirely in memory.
-- The download URL should not expose internal storage paths directly.
+- **Concurrency:** counter increments under concurrent successful downloads must not
+  be lost (see AC above).
+- **Streaming:** PDF payloads may be multi-MB; the file should be streamed to the
+  client rather than fully buffered in memory, so a large resource does not blow
+  memory or hold the event loop.
+- **Partial / aborted downloads:** if a client disconnects mid-transfer, the counter
+  behaviour must be well-defined and consistent with the "successful delivery only"
+  rule. See ambiguity below on exactly when "success" is committed.
+- **Filename safety:** the resource name is teacher-supplied; the `Content-Disposition`
+  filename must be sanitised so it cannot inject header content or produce a
+  browser-unfriendly filename.
+- **Error bodies:** 401 / 404 / 5xx responses return JSON, not HTML, so the client and
+  future rate-limit/quota flows (#16) can react to them uniformly.
+- **Backwards compatibility:** none required — this is net-new functionality on a
+  greenfield MVP.
+- **Security:** authorisation is required; whether *any* authenticated user can
+  download *any* resource, or whether visibility rules apply, is called out as an
+  ambiguity below.
 
 ## Out of scope
-- Rate limiting / download quotas (see issue #16 — phase 2).
-- Premium membership download limits (see issue #15 — phase 2).
-- Support for file formats other than PDF (see issue #18 — phase 2).
-- Download analytics dashboards (basic count display is in scope; full analytics are not).
+- Rate limiting and per-user download quotas — deferred to phase 2 (#16).
+- Premium-membership download tiers — deferred to phase 2 (#15).
+- Formats other than PDF — deferred to phase 2 (#18).
+- Full analytics dashboards over download data — only the count display (card + detail)
+  and basic owner/admin metric queries are in scope; richer dashboards are not.
+- The teacher-profile totals surface that consumes these counts — tracked in #13.
+- Any new authentication implementation — this feature consumes the auth story owned
+  by #2 / #14; it must not re-solve auth.
 
 ## References
-- https://github.com/CarlosCunha99/teacher-hub/issues/11
-- Related: issue #4 (PDF resource upload and sharing workflow — source of resource files)
-- Related: issue #2 (social auth and session management — source of authentication)
-- Related: issue #13 (surface likes/downloads on teacher profile — consumes download counts)
-- Related: issue #16 (phase 2: monthly free-tier download limits)
+- Original issue: https://github.com/CarlosCunha99/teacher-hub/issues/11
+- #4 — PDF resource upload and sharing workflow (produces the files this endpoint
+  serves).
+- #2 — Social authentication and session management (still OPEN; owns auth primitives).
+- #14 — Support social login providers, Google and Microsoft (CLOSED; landed social
+  login work — but see ambiguity: no auth code is visible in the current scoped view).
+- #3 — PostgreSQL schema for users, resources, tags, boards, interactions (owns the
+  resource / user tables this feature will read and write).
+- #13 — Surface total likes and total downloads on teacher profile (consumer of the
+  metrics this ticket produces).
+- #16 — Phase 2, monthly free-tier download limits (future consumer of this endpoint).
+- README.md — documents the current foundation-stage Next.js scaffold (App Router,
+  Vitest, no DB or storage yet).
 
 ## Raw context used
-- None provided beyond the issue body.
+- `raw-context.md` in this ticket workspace is empty (only the intake template). No
+  additional Slack, docs, or customer notes were provided.
+- Product context inferred from: the linked GitHub issue body, sibling MVP issues
+  #2/#3/#4/#13, phase-2 issues #15/#16/#18, and `README.md` (foundation-stage scaffold
+  with only a `/api/health` route).
 
 ## Enrichment notes
-- ⚠️ **Inferred**: No database or storage layer is implemented yet (project is at foundation stage). Implementation will need to establish patterns for resource metadata storage and file storage. This is a blocker-adjacent concern; the plan must address storage scaffolding.
-- ⚠️ **Inferred**: Authentication is not yet implemented (issue #2 open). The download endpoint must include auth checks but may rely on a session/middleware stub that will be replaced when #2 lands.
-- **Ambiguity:** Where are resource files stored (local disk, S3, Cloudflare R2)? Proposed: local filesystem for MVP (consistent with the scaffold stage); blocking: no (planner can pick MVP-appropriate default).
-- **Ambiguity:** Is there an existing resource record/model? Proposed: no — the plan must introduce a minimal resource type; blocking: no.
+- **Inferred (repo state):** The codebase is at foundation stage. The only API route
+  is `src/app/api/health/route.ts`, `src/lib/` contains only `health.ts`, and
+  `package.json` has no database, storage, or auth dependencies. Downstream stages
+  will therefore need to introduce resource metadata storage, file storage, and an
+  auth check — but *how* is a solutioning concern, deliberately not answered here.
+- **Inferred (auth availability):** Issue #14 (social login) is CLOSED, but no auth
+  module is visible in the scoped read-list for this stage. The ticket assumes the
+  download endpoint must gate on an authenticated session; whether that session
+  mechanism already exists in-repo is a solution-level question for the planner.
+- **Ambiguity:** "Metrics can be queried by resource owner and admin flows" — is
+  scope in this ticket a **UI surface**, an **API**, or just an internal query
+  capability that #13 and future admin work consume? Proposed reading: an internal
+  query capability plus the two user-visible surfaces already listed (card + detail);
+  no new admin UI in this ticket. Alternatives rejected: building an admin dashboard
+  here (belongs to a future admin ticket). Blocking: **no** — planner may pick, but
+  should be explicit.
+- **Ambiguity:** Access control granularity — can *any* authenticated user download
+  *any* resource, or are there visibility rules (e.g. resource owner + shared-with
+  set, public/private flag)? Proposed reading: all authenticated users can download
+  all resources for MVP (consistent with the "share and discover" framing and with
+  #4's public sharing workflow). Alternatives rejected: per-resource ACLs (not
+  mentioned anywhere in #4 or #11). Blocking: **no**, but if wrong it changes several
+  ACs (401 vs 403 behaviour, audit fields).
+- **Ambiguity:** Definition of "successful delivery" for counter increment — increment
+  when headers + first byte are sent, or only after the full body has been streamed
+  and the client has ack'd? Proposed reading: increment when the server has committed
+  to a 200 response and finished writing the body without error (i.e. no counter for
+  client aborts mid-stream). Alternatives rejected: increment on request accept (over-
+  counts failed transfers). Blocking: **no**, but the planner must pick and document.
+- **Ambiguity:** Where the PDF bytes live (local disk, S3, R2, other). No storage
+  choice exists in-repo yet. Proposed reading: MVP-appropriate default chosen by the
+  planner (local filesystem is consistent with foundation stage); the ticket only
+  requires that internal paths not leak to the client. Blocking: **no**.
+- **Ambiguity:** Where the download counter and audit records persist. No DB exists
+  yet and #3 is still open. Proposed reading: whatever persistence layer the planner
+  introduces or stubs must satisfy the "persists across sessions" and "no lost
+  updates under concurrency" ACs. Blocking: **no** at the product level; may become
+  blocking at plan time.
 
 ---
 ## Original
