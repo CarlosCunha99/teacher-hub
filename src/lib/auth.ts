@@ -37,8 +37,12 @@ export async function getCurrentUser(request: Request): Promise<CurrentUser | nu
       if (isCurrentUser(parsed)) {
         return parsed;
       }
+
+      // Invalid test override shape — fail closed (return null, not fallback user)
+      return null;
     } catch {
-      // Ignore malformed test overrides and fall back to the default dev user.
+      // Malformed JSON in test override — fail closed (return null, not fallback user)
+      return null;
     }
   }
 
