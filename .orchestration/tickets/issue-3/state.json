@@ -18,7 +18,7 @@
   "stage": "00-intake",
   "next": "01-enrich",
   "started_at": "2026-08-27T20:57:20Z",
-  "updated_at": "2026-08-27T21:08:04Z",
+  "updated_at": "2026-08-27T21:13:23Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -29,7 +29,8 @@
       "at": "2026-08-27T21:02:29Z"
     },
     "gate_3_scope": {
-      "status": "pending"
+      "status": "passed",
+      "at": "2026-08-27T21:08:17Z"
     },
     "gate_4_handoff": {
       "status": "pending"
@@ -55,7 +56,8 @@
   },
   "models_used": {
     "planner": "claude-opus-5",
-    "test-planner": "claude-sonnet-5"
+    "test-planner": "claude-sonnet-5",
+    "contract-writer": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [],

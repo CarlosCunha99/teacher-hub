@@ -1,0 +1,9 @@
+{
+  "role": "contract-writer",
+  "ticket": "issue-3",
+  "status": "done",
+  "confidence": "high",
+  "deliverable_path": ".orchestration/tickets/issue-3/contract.md",
+  "summary": "Locked 9 interfaces: schema.prisma, src/lib/db.ts, package.json scripts, env, seed, testDb helper, migrations, DAL patterns, prettierignore. Resolved 5 R-ambiguities.",
+  "verification": ["Mapped all plan steps to contract interfaces", "Verified test-plan assertions align with contract", "Resolved plan/test-plan disagreements"]
+}
