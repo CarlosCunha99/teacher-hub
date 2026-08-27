@@ -1,7 +1,7 @@
 # Branch Brief — issue-2
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T20:25:16Z at stage 06-contract (gate: gate_3_scope → overridden at 2026-08-27T20:25:15Z)._
+_Last rendered: 2026-08-27T21:46:40Z at stage 06-contract (gate: gate_3_scope → overridden at 2026-08-27T20:25:15Z)._
 
 ## The work
 ✅ **Verified** (repo has no auth surface: `src/app/page.tsx` renders a static "Teacher Hub" main, the only API route is the database-free health check in `src/app/api/health/route.ts`, and `.env.example` notes auth variables "arrive in issues #2 and #3").
@@ -31,6 +31,8 @@ None open.
 | Chosen approach (if brainstormed) | `.orchestration/tickets/issue-2/solution.md` |
 | Technical plan | `.orchestration/tickets/issue-2/plan.md` |
 | Test plan | `.orchestration/tickets/issue-2/test-plan.md` |
+| Interface lock (parallel-work contract) | `.orchestration/tickets/issue-2/contract.md` |
+| Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-2/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-2/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/issue-2/state.json` |
 

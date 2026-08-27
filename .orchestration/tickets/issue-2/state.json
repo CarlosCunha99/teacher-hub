@@ -14,7 +14,7 @@
   "stage": "06-contract",
   "next": "07-implement",
   "started_at": "2026-08-27T20:13:10Z",
-  "updated_at": "2026-08-27T20:25:16Z",
+  "updated_at": "2026-08-27T21:46:40Z",
   "gates": {
     "gate_1_enrich": {
       "status": "overridden",
@@ -59,7 +59,8 @@
     "distiller": "claude-sonnet-4.6",
     "impact_analyzer": "claude-sonnet-4.6",
     "planner": "gpt-5.4",
-    "test_planner": "claude-sonnet-4.6"
+    "test_planner": "claude-sonnet-4.6",
+    "contract_writer": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
