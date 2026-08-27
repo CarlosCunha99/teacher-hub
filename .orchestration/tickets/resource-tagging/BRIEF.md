@@ -1,7 +1,7 @@
 # Branch Brief — resource-tagging
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:11:59Z at stage 05-plan (gate: gate_3_scope → passed at 2026-08-27T21:11:58Z)._
+_Last rendered: 2026-08-27T21:15:07Z at stage 06-contract (gate: gate_3_scope → passed at 2026-08-27T21:11:58Z)._
 
 ## The work
 Teachers use Teacher Hub to share and discover classroom resources. The standard
@@ -12,7 +12,7 @@ adequately describe their resources with the fixed subject/year vocabulary alone
 As a result, valuable resources are either mis-tagged into the nearest standard
 
 ## Where we are
-- **Stage:** 05-plan  →  next: 06-contract
+- **Stage:** 06-contract  →  next: 07-implement
 - **Last gate:** gate_3_scope → passed at 2026-08-27T21:11:58Z
 - **Next gate:** gate_3_scope → approve plan and test-plan scope
 - **Escalated:** no
@@ -34,6 +34,8 @@ None open.
 | Chosen approach (if brainstormed) | `.orchestration/tickets/resource-tagging/solution.md` |
 | Technical plan | `.orchestration/tickets/resource-tagging/plan.md` |
 | Test plan | `.orchestration/tickets/resource-tagging/test-plan.md` |
+| Interface lock (parallel-work contract) | `.orchestration/tickets/resource-tagging/contract.md` |
+| Subagent onboarding (patterns, utilities) | `.orchestration/tickets/resource-tagging/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/resource-tagging/impact.md` |
 | Full state / audit trail | `.orchestration/tickets/resource-tagging/state.json` |
 
@@ -42,7 +44,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/05-plan.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/06-contract.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails
