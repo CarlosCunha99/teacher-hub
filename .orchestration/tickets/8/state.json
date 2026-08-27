@@ -10,8 +10,8 @@
     "name": "issue-8-mvp-build-teacher-profile-pages-with-co-254520",
     "base": "main"
   },
-  "stage": "07-implement",
-  "next": "07-implement",
+  "stage": "08-verify",
+  "next": "09-agent-review",
   "started_at": "2026-08-27T20:57:35Z",
   "updated_at": "2026-08-27T20:57:35Z",
   "gates": {
@@ -42,7 +42,7 @@
   "implement": {
     "round": 2,
     "max_rounds": 5,
-    "spec_review_approved": false,
+    "spec_review_approved": true,
     "last_diagnosis": null,
     "escalated": false
   },

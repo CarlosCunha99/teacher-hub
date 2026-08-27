@@ -3,10 +3,13 @@
 ## Direct changes
 
 - `src/app/teachers/[username]/page.tsx` *(new)* — App Router Server Component for the public teacher profile page. Fetches teacher identity, published resources, and shareable boards server-side; calls `notFound()` for unknown usernames.
-- `src/lib/teachers.ts` *(new, or `src/lib/db/teachers.ts` depending on DAL convention chosen in #3)* — data-access functions: `getTeacherByUsername`, `getPublishedResourcesByTeacher`, `getShareableBoardsByTeacher`. Encapsulates SQL/ORM queries and visibility filters (published-only, shareable-only).
-- `src/app/teachers/[username]/__tests__/page.test.tsx` *(new)* — Vitest unit/integration tests covering: profile renders with valid teacher, empty resource/board states, resource/board counts match displayed items, `notFound()` triggered for unknown username.
-- `README.md` *(modify)* — Folder structure table needs a row for `src/app/teachers/` to document the new route segment.
-- `.env.example` *(modify)* — `DATABASE_URL` must be present (profile page is the first route that requires a live DB; the health route is intentionally DB-free). If `DATABASE_URL` was already added by #3, no additional change needed.
+- `src/app/teachers/[username]/not-found.tsx` *(new)* — Not-found UI page boundary for the profile route.
+- `src/lib/teachers.ts` *(new)* — data-access module: exports `getTeacherByUsername`, `getPublishedResourcesByTeacher`, `getShareableBoardsByTeacher` functions and `Teacher`, `Resource`, `Board` TypeScript types. Encapsulates visibility filters (published-only, shareable-only).
+- `src/lib/teachers-data.ts` *(new)* — swappable in-memory data source / fixture seam. Seeds test data and maps from store format (snake_case rows) to domain types (camelCase). Will be replaced when #3's real DB client is available; the DAL contract remains stable.
+- `src/lib/__tests__/teachers.test.ts` *(new)* — Vitest unit tests for DAL query functions: filtering logic (published vs draft, shareable vs private, owned vs other-teacher), case-insensitive username lookup, not-found semantics, exact returned IDs.
+- `src/app/teachers/[username]/__tests__/page.test.tsx` *(new)* — Vitest integration tests for Server Component: renders identity and collections for valid teacher, empty-state messages and zero counts, collection lookups receive correct `teacherId`, `notFound()` handling for unknown username.
+- `README.md` *(modify)* — Folder structure table: added row for `src/app/teachers/` to document the new route segment.
+- `.env.example` *(modify)* — noted that `DATABASE_URL` is required for the profile route (first DB-backed route in the skeleton).
 
 ## Indirect: callers & consumers
 
