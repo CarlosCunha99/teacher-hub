@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T20:59:16Z"
   },
-  "stage": "05-plan",
-  "next": "06-contract",
+  "stage": "06-contract",
+  "next": "07-implement",
   "started_at": "2026-08-27T20:58:28Z",
-  "updated_at": "2026-08-27T21:11:47Z",
+  "updated_at": "2026-08-27T21:14:50Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -53,12 +53,15 @@
     "brainstorm_md": ".orchestration/tickets/issue-11/brainstorm.md",
     "impact_md": ".orchestration/tickets/issue-11/impact.md",
     "plan_md": ".orchestration/tickets/issue-11/plan.md",
-    "test_plan_md": ".orchestration/tickets/issue-11/test-plan.md"
+    "test_plan_md": ".orchestration/tickets/issue-11/test-plan.md",
+    "contract_md": ".orchestration/tickets/issue-11/contract.md",
+    "impl_context_md": ".orchestration/tickets/issue-11/impl-context.md"
   },
   "models_used": {
     "enricher": "claude-opus-4.7",
     "planner": "gpt-5.4",
-    "test_planner": "claude-sonnet-4.6"
+    "test_planner": "claude-sonnet-4.6",
+    "contract_writer": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
