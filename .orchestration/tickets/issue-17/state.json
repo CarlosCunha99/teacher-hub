@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T21:00:23Z"
   },
-  "stage": "03-brainstorm",
-  "next": "04-impact",
+  "stage": "04-impact",
+  "next": "05-plan",
   "started_at": "2026-08-27T20:59:03Z",
-  "updated_at": "2026-08-27T21:06:34Z",
+  "updated_at": "2026-08-27T21:06:45Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
