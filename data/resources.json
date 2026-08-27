@@ -1,0 +1,20 @@
+{
+  "resources": [
+    {
+      "id": "resource-1",
+      "name": "Classroom Management Basics",
+      "ownerId": "teacher-1",
+      "filePath": "sample.pdf",
+      "downloadCount": 0,
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "resource-2",
+      "name": "Math Warmup Pack",
+      "ownerId": "teacher-2",
+      "filePath": "math-warmups.pdf",
+      "downloadCount": 3,
+      "createdAt": "2026-01-02T00:00:00.000Z"
+    }
+  ]
+}

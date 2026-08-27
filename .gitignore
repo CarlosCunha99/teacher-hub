@@ -26,3 +26,5 @@ next-env.d.ts
 *.pem
 .vscode/
 .idea/
+data/resources-runtime.json
+data/audit-runtime.json

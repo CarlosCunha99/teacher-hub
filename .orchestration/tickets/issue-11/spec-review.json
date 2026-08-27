@@ -1,0 +1,171 @@
+{
+  "scope": "full",
+  "verdict": "request_changes",
+  "confidence": "high",
+  "criteria_coverage": [
+    {
+      "criterion": "AC1: Authenticated request returns 200 with PDF bytes, Content-Type application/pdf, and Content-Disposition attachment with filename reflecting resource name",
+      "tests": [
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: returns 200 with PDF content-type and content-disposition when resource and file exist"
+      ],
+      "adequate": true,
+      "notes": "Test asserts 200, Content-Type contains application/pdf, Content-Disposition contains 'attachment' and the resource name ('Lesson Plan'), and body byteLength > 0. Gap (non-blocking): does not explicitly assert the filename carries a .pdf extension (contract says filename=\"<name>.pdf\"), and does not assert filename is enclosed in quotes. A subtly buggy implementation that emitted 'attachment; Lesson Plan' or omitted .pdf would still pass."
+    },
+    {
+      "criterion": "AC2: Unauthenticated download returns 401 with JSON error body and delivers no bytes",
+      "tests": [
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: returns 401 with JSON error body for unauthenticated request",
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: does not increment download count on 401"
+      ],
+      "adequate": true,
+      "notes": "401 status, JSON content-type, and body.error asserted. 'No file bytes' is only implied by the 401 body being JSON — not explicitly asserted that no application/pdf bytes are sent. Minor."
+    },
+    {
+      "criterion": "AC3: Non-existent resource returns 404 with JSON error body",
+      "tests": [
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: returns 404 with JSON error body for non-existent resource",
+        "src/app/api/resources/[id]/__tests__/route.test.ts :: returns 404 with JSON error body for unknown resource"
+      ],
+      "adequate": true,
+      "notes": "Both the download and metadata routes cover 404 + JSON."
+    },
+    {
+      "criterion": "AC4: Resource exists but file missing → 5xx JSON error body, counter NOT incremented",
+      "tests": [
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: returns 5xx with JSON error body when file is missing from uploads dir",
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: does not increment download count when file is missing (5xx)"
+      ],
+      "adequate": true,
+      "notes": "Status >= 500, JSON content-type, error body asserted; counter re-read to verify no increment."
+    },
+    {
+      "criterion": "AC5: Successful 200 delivery increments counter by exactly 1 and persists",
+      "tests": [
+        "src/lib/store/__tests__/resource-store.test.ts :: incrementDownload increments downloadCount by exactly 1",
+        "src/lib/store/__tests__/resource-store.test.ts :: subsequent calls each increment by 1",
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: increments counter by 2 under two concurrent successful requests"
+      ],
+      "adequate": true,
+      "notes": "Store-level and route-level increments are verified. Persistence is exercised indirectly: writes go to JSON on disk and a subsequent getResourceById round-trips through the file. There is no explicit single-request-through-route → count==1 assertion (only the concurrent case), but the store test + concurrent route test collectively cover the requirement."
+    },
+    {
+      "criterion": "AC6: Failed downloads (4xx, 5xx, aborted) do not increment counter",
+      "tests": [
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: does not increment download count on 401",
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: does not increment download count when file is missing (5xx)"
+      ],
+      "adequate": true,
+      "notes": "401 and 5xx paths are covered. 404-path no-increment is NOT explicitly asserted (a bug that always incremented after getResourceById returned null would slip past). Client-abort mid-stream also not tested, but that is called out as an edge case not a hard AC. Non-blocking: recommend adding a 404 no-increment assertion."
+    },
+    {
+      "criterion": "AC7: Two concurrent successful downloads → counter increases by exactly 2 (no lost updates)",
+      "tests": [
+        "src/lib/store/__tests__/resource-store.test.ts :: two concurrent increments both apply — final count === 2",
+        "src/app/api/resources/[id]/download/__tests__/route.test.ts :: increments counter by 2 under two concurrent successful requests"
+      ],
+      "adequate": true,
+      "notes": "Store and route both exercise Promise.all concurrency and assert final count == 2."
+    },
+    {
+      "criterion": "AC8: Each successful download creates an audit record with resourceId, userId, timestamp",
+      "tests": [
+        "src/lib/store/__tests__/resource-store.test.ts :: writes an audit record with matching resourceId, userId, and timestamp"
+      ],
+      "adequate": true,
+      "notes": "Reads audit.json, asserts length 1 and all three required fields present with correct values. Timestamp is only asserted as non-empty string (not ISO 8601 parseable), but contract only requires 'non-empty'. Fine."
+    },
+    {
+      "criterion": "AC9: Resource detail view displays the current total download count",
+      "tests": [],
+      "adequate": false,
+      "notes": "BLOCKING: No test targets the resource detail view (src/app/resources/[id]/page.tsx or equivalent). Only the metadata API (GET /api/resources/[id]) is tested — it returns the count, but there is no test that the detail UI actually renders it. A page that fetched the resource and then failed to render downloadCount would pass the current suite."
+    },
+    {
+      "criterion": "AC10: Resource card (list/grid view) displays the current total download count",
+      "tests": [
+        "src/components/__tests__/ResourceCard.test.tsx :: renders the download count",
+        "src/components/__tests__/ResourceCard.test.tsx :: renders both name and count without error"
+      ],
+      "adequate": true,
+      "notes": "ResourceCard rendered with downloadCount=42; asserts '42' appears in output. Adequate."
+    },
+    {
+      "criterion": "AC11: Resource owner can retrieve download metrics for resources they own",
+      "tests": [
+        "src/app/api/resources/metrics/__tests__/route.test.ts :: returns 200 with only the authenticated owner's resources",
+        "src/app/api/resources/metrics/__tests__/route.test.ts :: returns 401 with JSON error body for unauthenticated request",
+        "src/lib/store/__tests__/resource-store.test.ts :: getResourcesByOwner returns only resources matching the given ownerId"
+      ],
+      "adequate": true,
+      "notes": "Verifies filtering by authenticated user's id, exclusion of other owners' resources, and 401 gating. downloadCount is present in returned resources."
+    },
+    {
+      "criterion": "AC12: Admin flow can retrieve download metrics across resources",
+      "tests": [],
+      "adequate": false,
+      "notes": "No test for an admin cross-owner metrics view. Note: contract.md explicitly defers admin cross-owner view ('Not in contract: admin cross-owner view (deferred)'). Interpreting this as a scope carve-out by the contract-writer, not a testing failure — flagging as non-blocking but leaving it as an unmapped criterion for visibility."
+    },
+    {
+      "criterion": "AC13: Download URL and responses do not expose internal storage paths",
+      "tests": [
+        "src/app/api/resources/[id]/__tests__/route.test.ts :: does not expose filePath in the response body",
+        "src/app/api/resources/metrics/__tests__/route.test.ts :: does not include filePath in any returned resource"
+      ],
+      "adequate": true,
+      "notes": "Both surfaces (metadata + metrics) assert filePath is undefined AND that the literal secret path substring is absent from the serialised JSON. Download URL itself (/api/resources/[id]/download) uses the resource id, not a path — structurally satisfies the AC."
+    }
+  ],
+  "test_findings": [
+    {
+      "file": "src/app/api/resources/[id]/download/__tests__/route.test.ts",
+      "test": "returns 200 with PDF content-type and content-disposition when resource and file exist",
+      "severity": "suggestion",
+      "issue": "Content-Disposition assertions only check that the header contains 'attachment' and the resource name substring. They do not assert the filename has a .pdf extension (contract: filename=\"<sanitisedName>.pdf\"), that the filename is quoted, or that sanitisation actually ran end-to-end (e.g., a resource named 'bad\";filename=evil' should not produce two filename params). Recommend adding one route-level test with a resource name containing a quote/semicolon to prove sanitisation is wired into the route, not just the utility."
+    },
+    {
+      "file": "src/app/api/resources/[id]/download/__tests__/route.test.ts",
+      "test": "no test for 404 no-increment",
+      "severity": "suggestion",
+      "issue": "AC6 says failed 4xx downloads must not increment. 401 no-increment is covered but 404 no-increment is not. A bug that ordered incrementDownload before the not-found check would pass the current suite (it would throw on unknown id, which happens to protect us, but the intent is not asserted)."
+    },
+    {
+      "file": "src/lib/auth/__tests__/get-session-user.test.ts",
+      "test": "no test for __session cookie branch",
+      "severity": "suggestion",
+      "issue": "Contract specifies three branches: TEST_USER_ID → cookie → null. Only branches 1 and 3 are tested. If a coder omitted the cookie branch entirely, tests would still pass. Since the download route depends on getSessionUser and there is a fallback env-based path used in tests, this is not blocking, but it is a spec-fidelity gap."
+    },
+    {
+      "file": "src/app/api/resources/[id]/download/__tests__/route.test.ts",
+      "test": "returns 401 ...",
+      "severity": "suggestion",
+      "issue": "Does not explicitly assert that no PDF bytes are delivered on 401 (only that status is 401 and content-type is JSON). Adequate but strengthenable by asserting body.error is present AND response body is not application/pdf."
+    },
+    {
+      "file": "src/lib/store/__tests__/resource-store.test.ts",
+      "test": "writes an audit record ...",
+      "severity": "suggestion",
+      "issue": "Timestamp only asserted as non-empty string. Ticket edge cases and contract intent imply ISO 8601. Consider asserting Number.isFinite(Date.parse(audit[0].timestamp)) to catch a bug where a Date object is stringified as '[object Object]' or an epoch number is written."
+    }
+  ],
+  "unmapped_tests": [
+    {
+      "test": "src/lib/download/__tests__/sanitise-filename.test.ts (entire file)",
+      "notes": "Maps to AC1 (filename in Content-Disposition) via the sanitisation edge cases in ticket 'Filename safety'. Not a criterion of its own but supporting coverage — legitimate."
+    },
+    {
+      "test": "src/app/api/resources/[id]/__tests__/route.test.ts :: returns 200 with resource data and download count",
+      "notes": "Not tied to a specific AC — supports the detail view (AC9) as a data source but does not itself prove AC9. Legitimate as a contract-level test."
+    }
+  ],
+  "unmapped_criteria": [
+    {
+      "criterion": "AC9: Resource detail view displays the current total download count",
+      "reason": "No test exists for the detail-view UI. Only the API that would feed it is tested. BLOCKING for this round."
+    },
+    {
+      "criterion": "AC12: Admin flow can retrieve download metrics across resources",
+      "reason": "Contract.md explicitly defers 'admin cross-owner view'. If this deferral is intentional (i.e., ticket AC12 is being pushed to a follow-up), the plan/contract should say so explicitly and the AC checkbox should be reflected accordingly. Non-blocking here because it is a documented contract-level scope decision, but flagged so it is not silently dropped."
+    }
+  ],
+  "one_line_summary": "Solid coverage for auth, 401/404/5xx paths, counter atomicity, audit, filePath leak prevention, and ResourceCard; blocking gap on AC9 (no test for resource detail view rendering the download count), plus a documented scope carve-out on AC12 (admin metrics) that should be surfaced explicitly."
+}

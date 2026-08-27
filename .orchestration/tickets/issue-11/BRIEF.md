@@ -1,7 +1,7 @@
 # Branch Brief — issue-11
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:14:58Z at stage 06-contract (gate: gate_3_scope → passed at 2026-08-27T21:11:28Z)._
+_Last rendered: 2026-08-27T21:27:03Z at stage 06-contract (gate: gate_3_scope → passed at 2026-08-27T21:11:28Z)._
 
 ## The work
 Teachers use Teacher Hub to share PDF classroom resources with other teachers. Today
@@ -13,6 +13,7 @@ Two product gaps flow from this: (1) resources are effectively "look but don't t
 
 ## Where we are
 - **Stage:** 06-contract  →  next: 07-implement
+- **Round:** 1 / 5
 - **Last gate:** gate_3_scope → passed at 2026-08-27T21:11:28Z
 - **Next gate:** gate_3_scope → approve plan and test-plan scope
 - **Escalated:** no
@@ -37,6 +38,7 @@ None open.
 | Interface lock (parallel-work contract) | `.orchestration/tickets/issue-11/contract.md` |
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/issue-11/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/issue-11/impact.md` |
+| Current diagnostics (if in fix loop) | `.orchestration/tickets/issue-11/diagnosis/round-1.json` |
 | Full state / audit trail | `.orchestration/tickets/issue-11/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._

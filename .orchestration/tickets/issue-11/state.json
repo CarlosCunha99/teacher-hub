@@ -14,7 +14,7 @@
   "stage": "06-contract",
   "next": "07-implement",
   "started_at": "2026-08-27T20:59:22Z",
-  "updated_at": "2026-08-27T21:14:58Z",
+  "updated_at": "2026-08-27T21:27:03Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
@@ -39,11 +39,47 @@
     }
   },
   "implement": {
-    "round": 0,
+    "round": 1,
     "max_rounds": 5,
     "spec_review_approved": false,
     "last_diagnosis": null,
-    "escalated": false
+    "escalated": false,
+    "rounds": [
+      {
+        "n": 1,
+        "changed_files_code": [
+          "src/lib/store/resource-store.ts",
+          "src/lib/auth/get-session-user.ts",
+          "src/lib/file-storage.ts",
+          "src/lib/types.ts",
+          "src/lib/download/sanitise-filename.ts",
+          "src/app/api/resources/[id]/route.ts",
+          "src/app/api/resources/metrics/route.ts",
+          "src/app/api/resources/[id]/download/route.ts",
+          "src/components/ResourceCard.tsx",
+          "src/app/resources/[id]/page.tsx"
+        ],
+        "changed_files_tests": [
+          "src/lib/store/__tests__/resource-store.test.ts",
+          "src/lib/auth/__tests__/get-session-user.test.ts",
+          "src/components/__tests__/ResourceCard.test.tsx",
+          "src/app/api/resources/[id]/__tests__/route.test.ts",
+          "src/app/api/resources/metrics/__tests__/route.test.ts",
+          "src/app/api/resources/[id]/download/__tests__/route.test.ts",
+          "src/lib/download/__tests__/sanitise-filename.test.ts"
+        ],
+        "failing_tests": [
+          "resource-store > getResourceById",
+          "resource-store > getResourcesByOwner",
+          "resource-store > incrementDownload",
+          "ResourceCard > renders the resource name",
+          "GET /api/resources/:id > returns 200",
+          "GET /api/resources/metrics > returns 200",
+          "GET /api/resources/:id/download > returns 200"
+        ],
+        "diagnosis_json": ".orchestration/tickets/issue-11/diagnosis/round-1.json"
+      }
+    ]
   },
   "artifacts": {
     "brief_md": ".orchestration/tickets/issue-11/BRIEF.md",
@@ -56,7 +92,9 @@
     "impact_analyzer": "claude-sonnet-4.6",
     "planner": "gpt-5.4",
     "test_planner": "claude-sonnet-4.6",
-    "contract_writer": "claude-sonnet-4.6"
+    "contract_writer": "claude-sonnet-4.6",
+    "spec_reviewer": "claude-opus-4.7",
+    "diagnoser": "claude-opus-4.7"
   },
   "independence_violations": [],
   "human_interactions": [
