@@ -1,7 +1,7 @@
 # Branch Brief — resource-tagging
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T21:38:55Z at stage 09-agent-review (gate: gate_4_handoff → passed at 2026-08-27T21:38:54Z)._
+_Last rendered: 2026-08-27T21:39:12Z at stage 10-human-review (gate: gate_4_handoff → passed at 2026-08-27T21:38:54Z)._
 
 ## The work
 Teachers use Teacher Hub to share and discover classroom resources. The standard
@@ -12,10 +12,10 @@ adequately describe their resources with the fixed subject/year vocabulary alone
 As a result, valuable resources are either mis-tagged into the nearest standard
 
 ## Where we are
-- **Stage:** 09-agent-review  →  next: 10-human-review
+- **Stage:** 10-human-review  →  next: 12-open-pr
 - **Round:** 1 / 5
 - **Last gate:** gate_4_handoff → passed at 2026-08-27T21:38:54Z
-- **Next gate:** gate_4_handoff → hand off to human review
+- **Next gate:** gate_5_pr → approve PR body and open PR
 - **Escalated:** no
 
 ## Open questions / ambiguities
@@ -40,6 +40,7 @@ None open.
 | Subagent onboarding (patterns, utilities) | `.orchestration/tickets/resource-tagging/impl-context.md` |
 | Impact scan (files, blast radius) | `.orchestration/tickets/resource-tagging/impact.md` |
 | Code review verdict | `.orchestration/tickets/resource-tagging/code-review.md` |
+| Human review marker scan | `.orchestration/tickets/resource-tagging/review-summary.md` |
 | Full state / audit trail | `.orchestration/tickets/resource-tagging/state.json` |
 
 _Only files that currently exist are listed. Others are omitted from the rendered brief._
@@ -47,7 +48,7 @@ _Only files that currently exist are listed. Others are omitted from the rendere
 ## What to do next
 
 - If you are a **NEW SUBAGENT**: read your role's declared inputs in `roles/<your-role>.md` plus the files above that your role is allowed to read. Do not read outside your allow-list.
-- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/09-agent-review.md` and continue from where you left off.
+- If you are RESUMING as the **ORCHESTRATOR**: read `state.json`, then open `stages/10-human-review.md` and continue from where you left off.
 - If you are a **HUMAN OPERATOR**: read this brief, then the file matching the last gate's context.
 
 ## Guardrails

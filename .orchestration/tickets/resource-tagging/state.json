@@ -11,10 +11,10 @@
     "base": "main",
     "created_at": "2026-08-27T21:01:28Z"
   },
-  "stage": "09-agent-review",
-  "next": "10-human-review",
+  "stage": "10-human-review",
+  "next": "12-open-pr",
   "started_at": "2026-08-27T20:59:58Z",
-  "updated_at": "2026-08-27T21:38:55Z",
+  "updated_at": "2026-08-27T21:39:12Z",
   "gates": {
     "gate_1_enrich": {
       "status": "passed",
