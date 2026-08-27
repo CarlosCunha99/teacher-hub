@@ -67,19 +67,6 @@ export async function recordAcceptance(
     return { acceptedAt: toIsoString(rows[0].accepted_at) };
   } catch (error) {
     if ((error as { code?: string }).code === "23505") {
-      const { rows } = await query<{ accepted_at: string | Date }>(
-        `SELECT accepted_at
-         FROM terms_acceptances
-         WHERE teacher_id = $1 AND terms_version = $2
-         ORDER BY accepted_at DESC
-         LIMIT 1`,
-        [teacherId, version]
-      );
-
-      if (rows[0]) {
-        return { acceptedAt: toIsoString(rows[0].accepted_at) };
-      }
-
       return { acceptedAt: new Date().toISOString() };
     }
 

@@ -14,7 +14,7 @@
   "stage": "06-contract",
   "next": "07-implement",
   "started_at": "2026-08-27T20:57:49Z",
-  "updated_at": "2026-08-27T21:35:08Z",
+  "updated_at": "2026-08-27T21:37:18Z",
   "gates": {
     "gate_1_enrich": {
       "status": "overridden",
@@ -39,10 +39,10 @@
     }
   },
   "implement": {
-    "round": 1,
+    "round": 2,
     "max_rounds": 5,
     "spec_review_approved": true,
-    "last_diagnosis": ".orchestration/tickets/issue-9/diagnosis/round-1.json",
+    "last_diagnosis": ".orchestration/tickets/issue-9/diagnosis/round-2.json",
     "escalated": false,
     "tester_slices": [
       {
@@ -91,6 +91,15 @@
           "recordAcceptance > handles a duplicate-acceptance race without throwing an unhandled error"
         ],
         "diagnosis_json": ".orchestration/tickets/issue-9/diagnosis/round-1.json"
+      },
+      {
+        "n": 2,
+        "changed_files_code": [
+          "src/lib/terms-acceptance.ts"
+        ],
+        "changed_files_tests": [],
+        "failing_tests": [],
+        "diagnosis_json": ".orchestration/tickets/issue-9/diagnosis/round-2.json"
       }
     ]
   },
@@ -108,9 +117,16 @@
     "contract_writer": "claude-sonnet-5",
     "coder": "gpt-5.3-codex",
     "tester": "claude-sonnet-5",
-    "spec_reviewer": "claude-opus-4.8"
+    "spec_reviewer": "claude-opus-4.8",
+    "diagnoser": "claude-opus-4.8"
   },
-  "independence_violations": [],
+  "independence_violations": [
+    {
+      "role": "coder",
+      "detail": "fix mode round 2: allowed failing-test context crossing for src/lib/__tests__/terms-acceptance.test.ts",
+      "at": "2026-08-27T21:37:17Z"
+    }
+  ],
   "human_interactions": [
     {
       "stage": "01-enrich",
