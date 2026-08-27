@@ -9,8 +9,8 @@
     "name": "issue-5-mvp-implement-subject-and-year-level-ta-509c1c",
     "base": "main"
   },
-  "stage": "05-plan",
-  "next": "06-contract",
+  "stage": "06-contract",
+  "next": "07-implement",
   "started_at": "2026-08-27T20:57:29Z",
   "updated_at": "2026-08-27T21:57:09Z",
   "gates": {
@@ -36,14 +36,17 @@
     "solution_md": ".orchestration/tickets/5/solution.md",
     "impact_md": ".orchestration/tickets/5/impact.md",
     "plan_md": ".orchestration/tickets/5/plan.md",
-    "test_plan_md": ".orchestration/tickets/5/test-plan.md"
+    "test_plan_md": ".orchestration/tickets/5/test-plan.md",
+    "contract_md": ".orchestration/tickets/5/contract.md",
+    "impl_context_md": ".orchestration/tickets/5/impl-context.md"
   },
   "models_used": {
     "01-enrich": "claude-opus-4.8",
     "03-distill": "claude-sonnet-4.6",
     "04-impact": "claude-sonnet-4.6",
     "05-plan": "claude-opus-4.8",
-    "05-test-plan": "claude-sonnet-4.6"
+    "05-test-plan": "claude-sonnet-4.6",
+    "06-contract": "claude-sonnet-4.6"
   },
   "independence_violations": [],
   "human_interactions": [
