@@ -1,0 +1,19 @@
+{
+  "todo_id": "issue-15-01-enrich",
+  "status": "done",
+  "summary": "Enriched issue-15 premium-membership ticket with product-level problem/impact/success/acceptance framing, confidence indicators, dependency mapping to #2/#3/#11/#16, and surfaced 3 blocking + 2 non-blocking ambiguities.",
+  "deliverable_path": ".orchestration/tickets/issue-15/ticket.md",
+  "changed_files": [".orchestration/tickets/issue-15/ticket.md"],
+  "verification": {"commands_run": [], "all_passed": null, "notes": "Research worker"},
+  "follow_ups": [
+    "Repo is a bare Next.js skeleton (only /api/health); premium membership depends on unimplemented issues #2 (auth), #3 (schema), #11 (download endpoint), and #16 (free-tier limits). Most requirements are Unverified against code as expected for an early roadmap ticket.",
+    "Confirm whether 'extended storage' and 'exclusive features' perks belong in this ticket or should be filed separately."
+  ],
+  "open_questions": [
+    {"q": "Which payment/billing provider will back premium subscriptions (e.g. Stripe or other)?", "proposed_answer": "Assume a third-party provider like Stripe; determines what 'billing failures handled gracefully' asserts.", "blocking": true},
+    {"q": "Does 'higher download limits' mean a larger fixed monthly cap or unlimited downloads for premium users?", "proposed_answer": "Unquantified; changes the pass/fail of the 'bypass free-tier limits' criterion.", "blocking": true},
+    {"q": "On cancel/downgrade, does reversion to free tier happen immediately or at end of paid period, and how is over-cap current-month usage handled?", "proposed_answer": "Undefined; typical SaaS keeps access until period end, but must be confirmed.", "blocking": true},
+    {"q": "Pricing model — monthly vs annual, price points, trials, proration?", "proposed_answer": "Likely a product decision; affects renewal/proration criteria but not core flow.", "blocking": false}
+  ],
+  "confidence": "low"
+}

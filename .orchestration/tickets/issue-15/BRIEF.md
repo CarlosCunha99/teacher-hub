@@ -1,14 +1,17 @@
 # Branch Brief — issue-15
 
 _Auto-generated. Do not edit. Regenerated at every state write, stage transition, and gate close._
-_Last rendered: 2026-08-27T20:59:06Z at stage 00-intake (gate: none → pending)._
+_Last rendered: 2026-08-27T21:02:36Z at stage 00-intake (gate: gate_1_enrich → passed at 2026-08-27T21:02:36Z)._
 
 ## The work
-Problem statement not captured yet. Read `.orchestration/tickets/issue-15/ticket.md` once available.
+*(❓ Unverified — no user, download, or billing code exists in the repo yet; problem framing is derived from the ticket text and sibling roadmap issues #16/#11, not from implemented behavior.)*
+Teachers use Teacher Hub to download classroom resources shared by others. Phase 2 introduces a monthly free-tier download cap (tracked separately in issue #16). Once a teacher hits that cap, they are blocked from downloading more resources until the next billing month — even if they need materials immediately. There is currently no way for a motivated teacher to pay to remove that friction.
+This ticket adds a **premium membership tier** so teachers who reach the free limit can upgrade and continue downloading (with higher or unlimited limits), plus the associated perks the ticket lists (extended storage, exclusive features). The goal is to give power users an escape hatch from the free-tier cap and to establish the platform's first paid revenue path.
+**Ambiguity:** The ticket also mentions "extended storage" and "exclusive features" as premium perks. The title and user story scope this ticket to **download limits** only. See Enrichment notes.
 
 ## Where we are
 - **Stage:** 00-intake  →  next: 01-enrich
-- **Last gate:** none → pending
+- **Last gate:** gate_1_enrich → passed at 2026-08-27T21:02:36Z
 - **Next gate:** gate_1_enrich → approve enriched ticket / changes / Q&A
 - **Escalated:** no
 
