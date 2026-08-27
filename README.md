@@ -88,6 +88,21 @@ Real variables for the database and authentication arrive in issues #2 (auth) an
 (PostgreSQL schema). The health-check route is intentionally database-free so the app runs
 before those are provisioned.
 
+### Resource download feature (issue #11)
+
+The download feature introduces three optional env vars for local development:
+
+| Variable       | Default         | Purpose                                                                                        |
+| -------------- | --------------- | ---------------------------------------------------------------------------------------------- |
+| `DATA_DIR`     | `data/`         | Directory for `resources.json` and `audit.json`.                                               |
+| `UPLOADS_DIR`  | `data/uploads/` | Directory for uploaded PDF files.                                                              |
+| `TEST_USER_ID` | _(unset)_       | Auth stub: sets the authenticated user ID without a real session. **Never set in production.** |
+
+Seed data lives in `data/resources.json`. To test a download locally, place a PDF at
+`data/uploads/<filePath>` matching the `filePath` field of a resource in `resources.json`,
+then set `TEST_USER_ID=dev-user-1` in `.env.local` and visit
+`/api/resources/<id>/download`.
+
 ## License
 
 Private — internal MVP foundation.

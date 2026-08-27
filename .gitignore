@@ -26,5 +26,7 @@ next-env.d.ts
 *.pem
 .vscode/
 .idea/
-data/resources-runtime.json
-data/audit-runtime.json
+# Resource data (seed files are committed; runtime writes go to the same files.
+# Use `git checkout data/` to reset to seed state after local testing.)
+# Test isolation temp dirs (created/cleaned by test helpers)
+test-data/
